@@ -1,0 +1,45 @@
+/* =========================
+   Stars
+   ========================= */
+.stars{ display: inline-flex; gap: 6px; align-items: center; }
+.stars--spaced{ margin-top: 10px; }
+.star-btn{
+  width: 24px;
+  height: 24px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0,246,255,0.20);
+  background: rgba(0,0,0,0.18);
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+.star-btn::before{
+  content:"★";
+  color: rgba(255,255,255,0.28);
+  font-size: 14px;
+}
+.star-btn.is-on{
+  border-color: rgba(255,216,77,0.42);
+  box-shadow: 0 0 12px rgba(255,216,77,0.18);
+}
+.star-btn.is-on::before{
+  color: rgba(255,216,77,0.95);
+  text-shadow: 0 0 10px rgba(255,216,77,0.35);
+}
+
+@media (max-width: 768px){
+  .stars{
+    gap: 4px;
+  }
+  
+  .star-btn{
+    width: 20px;
+    height: 20px;
+  }
+  
+  .star-btn::before{
+    font-size: 12px;
+  }
+}

@@ -1,5 +1,6 @@
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import { Button } from './Button';
+import './Topbar.css';
 
 export function Topbar() {
   const { reset, activeRound } = useApp();
@@ -18,7 +19,7 @@ export function Topbar() {
           Round {activeRound}: {activeRound === 1 ? 'rate 1–3 stars or eliminate. Click a game for details.' : 'continue selection'}
         </div>
       </div>
-      <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+      <div className="topbar__actions">
         <Button variant="danger" onClick={handleReset}>
           Reset
         </Button>

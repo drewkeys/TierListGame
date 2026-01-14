@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import { youtubeToEmbed } from '../utils/youtube';
 import { Button } from './Button';
+import './GameModal.css';
 
 export function GameModal() {
   const { modalGameId, setModalGameId, gameIndex, getGameState, setGameStars, toggleGameEliminated, activeRound } =
@@ -72,9 +73,9 @@ export function GameModal() {
                 <p className="detail-paragraph">{game.description || ''}</p>
               </div>
 
-              <div className="detail-block" style={{ marginTop: '12px' }}>
+              <div className="detail-block detail-block--spaced">
                 <div className="detail-label">Rating</div>
-                <div className="stars" style={{ marginTop: '10px' }}>
+                <div className="stars stars--spaced">
                   {[1, 2, 3].map((i) => (
                     <div
                       key={i}
@@ -112,7 +113,7 @@ export function GameModal() {
                 </div>
 
                 {isReadOnly && (
-                  <div className="modal__hint" style={{ marginTop: '8px' }}>
+                  <div className="modal__hint modal__hint--spaced">
                     This panel is read-only in Rounds 2–4. Return to Round 1 to change ratings.
                   </div>
                 )}

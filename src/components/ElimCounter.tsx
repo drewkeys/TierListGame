@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import { ASSET_PATHS } from '../utils/paths';
+import './ElimCounter.css';
 
 export function ElimCounter() {
   const { gameIndex, getGameState, activeRound, shootMode, setShootMode } = useApp();

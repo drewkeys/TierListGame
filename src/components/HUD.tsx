@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import { Button } from './Button';
+import './HUD.css';
 
 export function HUD() {
-  const { gameIndex, getGameState, activeRound, shootMode, setActiveRound } = useApp();
+  const { gameIndex, getGameState, activeRound, shootMode, nextRound } = useApp();
 
   const stats = useMemo(() => {
     let total = 0,
@@ -68,11 +69,9 @@ export function HUD() {
           <div className="hud__value">{stats.remaining}</div>
         </div>
 
-        {activeRound === 1 && (
-          <Button className="hud__btn hud__btn--next" onClick={() => setActiveRound(2)}>
-            NEXT →
-          </Button>
-        )}
+        <Button className="hud__btn hud__btn--next" onClick={() => nextRound()}>
+          NEXT →
+        </Button>
 
         <div className="hud__hint">{hint}</div>
       </div>

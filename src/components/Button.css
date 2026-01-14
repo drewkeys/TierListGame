@@ -1,0 +1,49 @@
+/* =========================
+   Buttons
+   ========================= */
+.btn{
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(8,12,26,0.75);
+  color: rgba(255,255,255,0.9);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px){
+  .btn{
+    padding: 8px 10px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 480px){
+  .btn{
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+}
+
+.btn:hover{
+  border-color: rgba(0,246,255,0.32);
+  box-shadow: 0 0 12px rgba(0,246,255,0.14);
+}
+
+.btn--danger{
+  border-color: rgba(255,55,95,0.40);
+  box-shadow: 0 0 10px rgba(255,55,95,0.14);
+}
+
+.btn--magenta{
+  border-color: rgba(255,43,214,0.40);
+  box-shadow: 0 0 10px rgba(255,43,214,0.12);
+}
+
+.btn--ghost{
+  background: rgba(0,0,0,0.14);
+}

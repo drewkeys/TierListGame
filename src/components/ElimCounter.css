@@ -1,0 +1,124 @@
+/* =========================
+   Elim overlay (Round 1 only)
+   ========================= */
+.overlay-counter{
+  position: fixed;
+  right: 14px;
+  top: 86px;
+  z-index: 300;
+  pointer-events: auto;
+}
+
+/* Hide elim/gun overlay outside Round 1 */
+body.round-2 .overlay-counter,
+body.round-3 .overlay-counter{
+  display: none !important;
+}
+
+.panel{
+  text-align: center;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(12,18,41,.86), rgba(8,11,25,.82));
+  border: 1px solid rgba(0,246,255,0.20);
+  box-shadow: var(--shadow-deep);
+  pointer-events: auto;
+}
+
+.panel--mini{
+  min-width: 112px;
+  padding: 10px 10px 10px;
+}
+
+.panel__title{
+  font-weight: 900;
+  letter-spacing: .18em;
+  font-size: 10px;
+  opacity: 0.92;
+}
+
+.panel__value{
+  margin-top: 6px;
+  font-weight: 900;
+  font-size: 26px;
+  color: rgba(255,233,239,.96);
+  text-shadow: 0 0 12px rgba(255,55,95,.18), 0 0 18px rgba(0,246,255,.08);
+}
+
+.gun-icon{
+  margin-top: 8px;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  border-radius: 10px;
+}
+
+.gun-icon img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255,43,214,0.18));
+}
+
+.gun-icon.is-on{
+  background: rgba(28, 28, 34, 0.82);
+  border: 1px solid rgba(120, 120, 130, 0.65);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35);
+}
+
+.gun-icon.is-on img{
+  filter:
+    drop-shadow(0 0 12px rgba(0,246,255,0.22))
+    drop-shadow(0 0 6px rgba(0,0,0,0.35));
+}
+
+/* Keep eliminated panel compact on mobile */
+@media (max-width: 680px){
+  .panel--mini{
+    min-width: 90px;
+    width: 100px;
+    padding: 8px;
+  }
+  
+  .panel__title{
+    font-size: 9px;
+  }
+  
+  .panel__value{
+    font-size: 22px;
+    margin-top: 4px;
+  }
+  
+  .gun-icon{
+    height: 40px;
+    margin-top: 6px;
+  }
+
+  .overlay-counter{
+    top: 6px;
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px){
+  .panel--mini{
+    min-width: 80px;
+    width: 90px;
+    padding: 6px;
+  }
+  
+  .panel__title{
+    font-size: 8px;
+  }
+  
+  .panel__value{
+    font-size: 20px;
+  }
+  
+  .gun-icon{
+    height: 35px;
+  }
+}

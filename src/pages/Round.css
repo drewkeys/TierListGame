@@ -1,0 +1,1157 @@
+/* =========================
+   Board (Round 1)
+   ========================= */
+.board__grid{
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  width: 100%;
+}
+
+@media (min-width: 681px){
+  .board__grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap);
+  }
+}
+
+@media (min-width: 1200px){
+  .board__grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.loading-card{
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: rgba(8,12,26,0.78);
+  border: 1px solid rgba(0,246,255,0.22);
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+/* =========================
+   Console window (Round 1)
+   ========================= */
+.console-window{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+
+  position: relative;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.035), rgba(255,255,255,0.00) 32%),
+    var(--bg-panel);
+
+  border: 1px solid rgba(255,255,255,0.10);
+  border-color: color-mix(in srgb, var(--console-neon, var(--laser-cyan)) 55%, rgba(255,255,255,0.10));
+  border-radius: var(--radius);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.03),
+    0 0 18px color-mix(in srgb, var(--console-neon, var(--laser-cyan)) 25%, transparent),
+    var(--shadow-deep);
+
+  overflow: hidden;
+}
+
+.console-window__header--banner{
+  padding: 0;
+  background: rgba(0,0,0,0.28);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.console-window__banner{
+  display: block;
+  width: 100%;
+  height: 64px;
+  object-fit: contain;
+  padding: 10px 14px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.86), rgba(0,0,0,0.30));
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--console-neon, var(--laser-cyan)) 45%, transparent));
+}
+
+.console-window__body{
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+@media (max-width: 479px){
+  .console-window__body{
+    padding: 8px;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 639px){
+  .console-window__body{
+    padding: 10px;
+  }
+}
+
+@media (min-width: 1024px){
+  .console-window__body{
+    padding: 14px;
+  }
+}
+
+/* =========================
+   Game grid (Round 1)
+   ========================= */
+.game-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  width: 100%;
+  align-items: start;
+}
+
+/* Small mobile: 2 columns minimum */
+@media (min-width: 320px){
+  .game-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+/* Medium mobile: 2-3 columns */
+@media (min-width: 480px){
+  .game-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Tablet: 3 columns */
+@media (min-width: 640px){
+  .game-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Desktop: 3-4 columns depending on container */
+@media (min-width: 1024px){
+  .game-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+/* Large desktop: 4 columns for wider screens */
+@media (min-width: 1400px){
+  .game-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+/* =========================
+   View slider (Round 1/2/3/4)
+   ========================= */
+.view-viewport{
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+.view-slider{
+  display: flex;
+  width: 100%;
+  transform: translateX(0%);
+  transition: transform 360ms ease;
+  will-change: transform;
+  flex-shrink: 0;
+}
+
+.view-slider.is-round2{ transform: translateX(-25%); }
+.view-slider.is-round3{ transform: translateX(-50%); }
+.view-slider.is-round4{ transform: translateX(-75%); }
+
+.view{
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 0;
+}
+
+/* =========================
+   Round 2 styles (screen-fit)
+   ========================= */
+.view--round2{
+  position: relative;
+  overflow: hidden; /* enforce no scrolling */
+}
+
+/* Make the Round 2 grid fit inside the visible view area and leave room for HUD+nav */
+#round2Grid{
+  overflow: visible;            /* allow glow/outline to render */
+  padding-bottom: 18px;         /* breathing room at the bottom */
+  box-sizing: border-box;
+}
+
+/* Ensure individual slots don't clip outlines */
+.round2-slot{
+  overflow: visible;
+}
+
+/* Round 2 view locks to the remaining viewport (below topbar) */
+body.round-2 .view--round2{
+  height: calc(100vh - var(--topbar-h));
+  overflow: visible;
+}
+
+body.round-2 .round2-wrap{
+  height: calc(100vh - var(--topbar-h));
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 768px){
+  body.round-2 .round2-wrap{
+    padding: 8px;
+  }
+}
+
+body.round-2 .round2-head{
+  flex: 0 0 auto;
+  margin: 0 0 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: rgba(8,12,26,0.78);
+  border: 1px solid rgba(0,246,255,0.18);
+}
+
+.round2-title{
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.round2-sub{
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* Grid: 3 portrait columns on large screens */
+.round2-grid{
+  flex: 1 1 auto;
+  min-height: 0;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+  width: 100%;
+  padding-bottom: 18px;
+  overflow: visible;
+}
+
+/* Each slot stays the same width; empty slots keep spacing */
+.round2-slot{
+  min-height: 0;
+}
+
+/* Portrait card */
+.r2-card{
+  border-radius: var(--radius);
+  overflow: visible;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.00) 36%),
+    rgba(0,0,0,0.18);
+
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow:
+    0 16px 44px rgba(0,0,0,0.55);
+
+  cursor: pointer;
+}
+
+/* Round 2: unselected = neon red, selected = neon green */
+body.round-2 .r2-card{
+  border-color: rgba(255, 70, 90, 0.55);
+  box-shadow:
+    0 0 18px rgba(255, 70, 90, 0.12),
+    0 16px 44px rgba(0,0,0,0.55);
+}
+
+body.round-2 .r2-card:hover{
+  box-shadow:
+    0 0 0 1px rgba(255, 70, 90, 0.22),
+    0 0 22px rgba(255, 70, 90, 0.16),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+body.round-2 .r2-card.is-selected{
+  border-color: rgba(0, 255, 154, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0,255,154,0.28),
+    0 0 22px rgba(0,255,154,0.18),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+body.round-2 .r2-card{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.r2-top{
+  flex: 0 0 auto;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.30);
+}
+
+.r2-top iframe{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+.r2-body{
+  flex: 1 1 auto;
+  min-height: 0;
+
+  padding: 12px 12px 14px;
+  background: rgba(8,12,26,0.65);
+}
+
+.r2-name{
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(220,235,255,0.95);
+  line-height: 1.2;
+}
+
+.r2-console{
+  margin-top: 6px;
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.r2-desc{
+  margin-top: 10px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.84);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.r2-hint{
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-2);
+}
+
+/* Empty placeholder slots so layout remains consistent */
+.r2-empty{
+  border-radius: var(--radius);
+  border: 1px dashed rgba(255,255,255,0.16);
+  background: rgba(0,0,0,0.10);
+  min-height: 0;
+}
+
+/* Small screens: 1 column, 3 rows, cover + left-aligned text */
+@media (max-width: 900px){
+  body.round-2 .round2-grid{
+    padding-bottom: calc(var(--r2-controls-h) + 12px);
+    box-sizing: border-box;
+  }
+
+  body.round-2 .r2-card{
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 10px;
+    padding: 10px;
+    height: auto;
+  }
+
+  .r2-top{
+    border-bottom: none;
+    background: transparent;
+  }
+
+  .r2-top iframe{
+    display: none;
+  }
+
+  .r2-cover{
+    width: 88px;
+    height: 88px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+  }
+
+  .r2-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .r2-body{
+    padding: 0;
+    background: transparent;
+    text-align: left;
+  }
+
+  .r2-name,
+  .r2-console,
+  .r2-hint{
+    text-align: left;
+  }
+
+  .r2-desc{
+    display: none;
+  }
+
+  .r2-hint{
+    margin-top: 6px;
+  }
+
+  .r2-empty{
+    min-height: 110px;
+  }
+}
+
+@media (max-width: 480px){
+  body.round-2 .r2-card{
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    padding: 8px;
+  }
+  
+  .r2-cover{
+    width: 70px;
+    height: 70px;
+  }
+  
+  .r2-name{
+    font-size: 12px;
+  }
+  
+  .r2-console{
+    font-size: 10px;
+  }
+  
+  .round2-title{
+    font-size: 12px;
+  }
+  
+  .round2-sub{
+    font-size: 11px;
+  }
+}
+
+/* Remove old spacer in screen-fit mode */
+body.round-2 .round2-bottom-spacer{
+  display: none;
+}
+
+/* Round 2 bottom nav pinned above the fixed HUD */
+.round2-nav{
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  /* pin it near the bottom of the Round 2 view */
+  bottom: 12px;
+
+  z-index: 200;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+
+  pointer-events: auto;
+}
+
+@media (max-width: 768px){
+  .round2-nav{
+    bottom: 8px;
+    padding: 0 8px;
+    gap: 8px;
+  }
+  
+  .round2-nav .btn{
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+.round2-nav .btn{
+  min-width: 120px;
+  border-color: rgba(0,246,255,0.28);
+  box-shadow: 0 0 18px rgba(0,246,255,0.12);
+}
+
+.round2-nav .btn[disabled]{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Round 3 (two-panel details view)
+   ========================= */
+
+body.round-3 .view--round3{
+  height: calc(100vh - var(--topbar-h));
+  overflow: hidden;
+  position: relative;
+}
+
+body.round-3 .round2-wrap{
+  height: calc(100vh - var(--topbar-h));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 768px){
+  body.round-3 .round2-wrap{
+    padding: 8px;
+  }
+}
+
+/* Two halves */
+.round3-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 14px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (max-width: 860px){
+  .round3-grid{
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px){
+  .round3-grid{
+    padding: 8px;
+    gap: 8px;
+  }
+  
+  .r3-title{
+    font-size: 13px;
+  }
+  
+  .r3-console{
+    font-size: 10px;
+  }
+  
+  .r3-desc{
+    font-size: 12px;
+  }
+  
+  .r3-cover{
+    width: 70px;
+    height: 70px;
+  }
+  
+  .r3-headrow{
+    grid-template-columns: 70px 1fr;
+    gap: 10px;
+  }
+}
+
+.r3-panel{
+  min-height: 0;
+  display: flex;
+}
+
+.r3-empty{
+  width: 100%;
+  border-radius: var(--radius);
+  border: 1px dashed rgba(255,255,255,0.16);
+  background: rgba(0,0,0,0.10);
+}
+
+/* Card */
+.r3-card{
+  width: 100%;
+  min-height: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.00) 36%),
+    rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+/* Unselected default = red glow, selected = green glow (match your Round 2 language) */
+body.round-3 .r3-card{
+  border-color: rgba(255, 70, 90, 0.55);
+  box-shadow:
+    0 0 18px rgba(255, 70, 90, 0.12),
+    0 16px 44px rgba(0,0,0,0.55);
+}
+
+body.round-3 .r3-card:hover{
+  box-shadow:
+    0 0 0 1px rgba(255, 70, 90, 0.22),
+    0 0 22px rgba(255, 70, 90, 0.16),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+body.round-3 .r3-card.is-selected{
+  border-color: rgba(0, 255, 154, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0,255,154,0.28),
+    0 0 22px rgba(0,255,154,0.18),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+.r3-top{
+  flex: 0 0 auto;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.30);
+}
+
+.r3-top iframe{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+.r3-hero{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.r3-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 12px 12px 14px;
+  background: rgba(8,12,26,0.65);
+  overflow: auto;
+}
+
+.r3-headrow{
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.r3-cover{
+  width: 84px;
+  height: 84px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  object-fit: cover;
+  display: block;
+}
+
+.r3-meta{
+  min-width: 0;
+}
+
+.r3-title{
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 900;
+  color: rgba(220,235,255,0.95);
+  line-height: 1.2;
+}
+
+.r3-console{
+  margin-top: 6px;
+  color: var(--muted-2);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.r3-stars{
+  margin-top: 10px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.r3-stars img{
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 8px rgba(255,216,77,0.10));
+}
+
+.r3-stars img.off{
+  opacity: 0.25;
+  filter: none;
+}
+
+.r3-desc{
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.86);
+  white-space: pre-wrap;
+}
+
+/* =========================
+   Round 4 styles (tier list)
+   ========================= */
+
+body.round-4 .view--round4{
+  height: calc(100vh - var(--topbar-h));
+  overflow: hidden;
+}
+
+body.round-4 .round4-wrap{
+  height: calc(100vh - var(--topbar-h));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 14px;
+  width: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 768px){
+  body.round-4 .round4-wrap{
+    padding: 10px;
+  }
+}
+
+.round4-head{
+  padding: 8px 10px 10px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px){
+  .round4-head{
+    padding: 6px 8px 8px;
+  }
+}
+
+.tier-board{
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.tier-row{
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  gap: 10px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+@media (max-width: 768px){
+  .tier-row{
+    grid-template-columns: 50px 1fr;
+    gap: 8px;
+  }
+  
+  .tier-label{
+    font-size: 12px;
+    padding: 8px;
+  }
+  
+  .tier-drop{
+    padding: 8px;
+    gap: 6px;
+  }
+  
+  .tier-icon{
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px){
+  .tier-row{
+    grid-template-columns: 45px 1fr;
+    gap: 6px;
+  }
+  
+  .tier-label{
+    font-size: 11px;
+    padding: 6px;
+  }
+  
+  .tier-drop{
+    padding: 6px;
+    gap: 4px;
+  }
+  
+  .tier-icon{
+    width: 40px;
+    height: 40px;
+  }
+  
+  .tier-pool-title{
+    font-size: 11px;
+  }
+}
+
+.tier-label{
+  border: 1px solid rgba(120,210,255,0.25);
+  background: rgba(8,12,26,0.55);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: rgba(220,235,255,0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 12px rgba(0,246,255,0.28);
+}
+
+.tier-drop{
+  border: 1px dashed rgba(120,210,255,0.35);
+  background: rgba(8,12,26,0.35);
+  border-radius: 16px;
+  padding: 10px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+}
+
+.tier-drop.is-over{
+  border-color: rgba(255,43,214,0.65);
+  box-shadow: 0 0 0 2px rgba(255,43,214,0.15), 0 0 26px rgba(255,43,214,0.18);
+}
+
+.tier-pool-wrap{
+  max-width: 1200px;
+  width: 100%;
+  margin: 10px auto 0;
+}
+
+.tier-pool-title{
+  font-family: var(--mono);
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  color: rgba(220,235,255,0.92);
+  margin: 4px 2px 8px;
+  text-shadow: 0 0 12px rgba(0,246,255,0.24);
+}
+
+.tier-pool{
+  border: 1px dashed rgba(120,210,255,0.35);
+  background: rgba(8,12,26,0.35);
+  border-radius: 16px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 84px;
+  overflow: auto;
+}
+
+.tier-icon{
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid rgba(120,210,255,0.24);
+  background: rgba(8,12,26,0.6);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.38);
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+}
+
+.tier-icon:active{ cursor: grabbing; }
+
+.tier-icon img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.tier-icon::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(0,246,255,0.14);
+  pointer-events: none;
+}
+
+.round4-nav{
+  max-width: 1200px;
+  width: 100%;
+  margin: 10px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px){
+  .round4-nav{
+    margin: 8px auto 0;
+  }
+  
+  .round4-nav .btn{
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+/* =========================
+   Pick cards (Rounds 2 & 3) — icon-only
+   ========================= */
+.pick-card{
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.00) 36%),
+    rgba(0,0,0,0.18);
+
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 16px 44px rgba(0,0,0,0.55);
+
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.pick-card__img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: auto;
+  filter: saturate(1.02);
+}
+
+body.round-2{
+  overflow: hidden; /* prevent scrolling globally in Round 2 */
+}
+
+body.round-2 .pick-card{
+  border-color: rgba(255, 70, 90, 0.55);
+  box-shadow:
+    0 0 18px rgba(255, 70, 90, 0.12),
+    0 16px 44px rgba(0,0,0,0.55);
+}
+
+body.round-2 .pick-card:hover{
+  box-shadow:
+    0 0 0 1px rgba(255, 70, 90, 0.22),
+    0 0 22px rgba(255, 70, 90, 0.16),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+body.round-2 .pick-card.is-selected{
+  border-color: rgba(0, 255, 154, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0,255,154,0.28),
+    0 0 22px rgba(0,255,154,0.18),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+/* Round 3 selection styling */
+body.round-3 .pick-card{
+  border-color: rgba(255, 70, 90, 0.55);
+  box-shadow:
+    0 0 18px rgba(255, 70, 90, 0.12),
+    0 16px 44px rgba(0,0,0,0.55);
+}
+
+body.round-3 .pick-card.is-selected{
+  border-color: rgba(0, 255, 154, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(0,255,154,0.28),
+    0 0 22px rgba(0,255,154,0.18),
+    0 18px 56px rgba(0,0,0,0.65);
+}
+
+/* Make Round 2 grid fill available space and avoid dead space on mobile */
+body.round-2 .round2-grid{
+  grid-auto-rows: 1fr;
+}
+
+@media (max-width: 900px){
+  body.round-2 .round2-wrap{
+    padding: 10px 10px 0;
+  }
+  body.round-2 .round2-grid{
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr;
+  }
+}
+
+@media (hover: none) and (pointer: coarse){
+  body.round-2 .r2-top iframe{
+    display: none;
+  }
+}
+
+/* Round 3 grid should also fill its viewport */
+body.round-3 .round3-grid{
+  grid-auto-rows: 1fr;
+}
+
+/* =========================
+   Round 2/3 nav: reserve room so cards don't sit under buttons
+   ========================= */
+body.round-2 .round2-wrap,
+body.round-3 .round2-wrap{
+  padding-bottom: 70px;
+}
+
+/* =========================
+   Confirm modal (Round 1 -> Round 2)
+   ========================= */
+.confirm{
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.confirm__panel{
+  width: min(720px, 100%);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(12,18,41,.92), rgba(8,11,25,.88));
+  border: 1px solid rgba(0,246,255,0.22);
+  box-shadow: var(--shadow-deep);
+}
+
+.confirm__header{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.confirm__kicker{
+  font-family: var(--mono);
+  font-weight: 900;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: rgba(255,255,255,0.84);
+}
+
+.confirm__title{
+  margin-top: 6px;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+.confirm__body{
+  padding: 14px 16px 8px;
+}
+
+.confirm__text{
+  margin: 0;
+  color: rgba(220,235,255,0.88);
+  line-height: 1.5;
+}
+
+.confirm__actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+ 
+/* ===== Round 2: fix nav being clipped / appearing elsewhere ===== */
+
+/* The stage must NOT be shorter than the Round 2 view, or it will clip the nav. */
+body.round-2 .stage{
+  height: calc(100vh - var(--topbar-h));
+  overflow: visible; /* was hidden; hidden is what makes the buttons "exist but not show" */
+  padding-bottom: 0;
+}
+
+/* Round 2 view/wrap should fit inside the stage height (use 100%, not 100vh). */
+body.round-2 .view--round2{
+  height: 100%;
+  overflow: visible;
+}
+
+body.round-2 .round2-wrap{
+  height: 100%;
+  position: relative; /* this becomes the containing block for .round2-nav */
+  padding-bottom: calc(var(--hud-safe) + var(--r2-controls-h) + 18px);
+}
+
+/* Give the grid extra breathing room so borders/glows don't get cut near the bottom. */
+body.round-2 .round2-grid{
+  overflow: visible;
+  padding-bottom: calc(var(--hud-safe) + var(--r2-controls-h) + 18px);
+}
+
+/* Anchor the nav above the HUD, relative to the Round 2 wrap. */
+body.round-2 .round2-nav{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--hud-safe) + 12px);
+  z-index: 500; /* comfortably above other Round 2 content */
+}

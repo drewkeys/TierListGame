@@ -1,4 +1,5 @@
 import { ASSET_PATHS } from '../utils/paths';
+import './Stars.css';
 
 interface StarsProps {
   stars: number;

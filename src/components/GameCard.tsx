@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context/useApp';
 import type { Game } from '../types';
 import { coverPath, ASSET_PATHS } from '../utils/paths';
 import { Stars } from './Stars';
+import './GameCard.css';
 
 interface GameCardProps {
   game: Game;

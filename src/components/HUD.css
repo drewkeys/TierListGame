@@ -1,0 +1,122 @@
+/* =========================
+   HUD (all rounds)
+   ========================= */
+.hud{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  padding: 12px 12px 14px;
+  background: linear-gradient(180deg, rgba(5,6,14,0.0), rgba(5,6,14,0.78) 30%, rgba(5,6,14,0.92));
+  border-top: 1px solid rgba(0,246,255,0.14);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px){
+  .hud{
+    padding: 10px;
+  }
+}
+
+.hud__row{
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px){
+  .hud__row{
+    gap: 8px;
+    justify-content: flex-start;
+  }
+}
+
+.hud__pill{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(7,9,19,.62);
+  border: 1px solid rgba(0,246,255,0.14);
+  box-shadow: 0 10px 30px rgba(0,0,0,.22);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px){
+  .hud__pill{
+    padding: 7px 10px;
+    gap: 8px;
+  }
+  
+  .hud__label{
+    font-size: 10px;
+  }
+  
+  .hud__value{
+    font-size: 12px;
+  }
+  
+  .hud__hint{
+    font-size: 10px;
+    flex: 1 1 100%;
+    order: 10;
+  }
+  
+  .hud__btn{
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+}
+
+.hud__pill--wide{ padding-right: 16px; }
+
+.hud__label{
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.hud__value{
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  color: rgba(233,236,255,.95);
+}
+
+.hud__hint{
+  flex: 1 1 320px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  padding: 6px 8px;
+}
+
+.hud__btn{
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(8,12,26,0.75);
+  color: rgba(255,255,255,0.92);
+}
+
+.hud__btn--next{
+  border-color: rgba(0,255,154,0.45);
+  background: rgba(0,255,154,0.12);
+  box-shadow: 0 0 18px rgba(0,255,154,0.10);
+}
+
+.hud__btn--next:hover{
+  border-color: rgba(0,255,154,0.70);
+  box-shadow: 0 0 22px rgba(0,255,154,0.16);
+}

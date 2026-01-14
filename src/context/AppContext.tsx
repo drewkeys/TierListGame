@@ -1,28 +1,8 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State } from '../types';
+import { useState, useEffect, useCallback, type ReactNode } from 'react';
+import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State, Console, Game } from '../types';
 import { loadState, saveState, getGameState, resetState } from '../utils/storage';
 import { DATA_URL } from '../utils/constants';
-
-interface AppContextType {
-  catalog: Catalog | null;
-  state: AppState;
-  gameIndex: Map<string, GameIndexEntry>;
-  activeRound: ActiveRound;
-  shootMode: boolean;
-  modalGameId: string | null;
-  setActiveRound: (round: ActiveRound) => void;
-  setShootMode: (mode: boolean) => void;
-  setModalGameId: (id: string | null) => void;
-  setGameStars: (gameId: string, stars: number) => void;
-  setGameEliminated: (gameId: string, eliminated: boolean) => void;
-  toggleGameEliminated: (gameId: string) => void;
-  getGameState: (gameId: string) => import('../types').GameState;
-  updateRound2: (updater: (prev: Round2State) => Round2State) => void;
-  updateRound3: (updater: (prev: Round3State) => Round3State) => void;
-  reset: () => void;
-}
-
-const AppContext = createContext<AppContextType | undefined>(undefined);
+import { AppContext } from './useApp';
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
@@ -39,15 +19,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (!res.ok) throw new Error(`Failed to load ${DATA_URL}: ${res.status}`);
         return res.json();
       })
-      .then((data) => {
+      .then((data: Catalog) => {
         setCatalog(data);
         // Build game index
         const index = new Map<string, GameIndexEntry>();
         const NEON_PALETTE = ['#00f6ff', '#ff2bd6', '#7c4dff', '#00ff9a', '#ffd84d', '#ff6a3d', '#3d8bff'];
-        data.consoles?.forEach((console: any, idx: number) => {
+        data.consoles?.forEach((console: Console, idx: number) => {
           const consoleName = console.name || console.id || 'Console';
           const neon = NEON_PALETTE[idx % NEON_PALETTE.length];
-          console.games?.forEach((game: any) => {
+          console.games?.forEach((game: Game) => {
             if (game?.id) {
               index.set(game.id, {
                 consoleId: console.id,
@@ -158,6 +138,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const nextRound = useCallback(() => {
+    setActiveRoundState(activeRound + 1 as ActiveRound);
+  }, [activeRound]);
+
   const reset = useCallback(() => {
     const newState = resetState();
     setState(newState);
@@ -185,6 +169,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         getGameState: getGameStateLocal,
         updateRound2,
         updateRound3,
+        nextRound,
         reset,
       }}
     >
@@ -193,10 +178,3 @@ export function AppProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useApp() {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useApp must be used within AppProvider');
-  }
-  return context;
-}
