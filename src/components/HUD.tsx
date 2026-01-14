@@ -1,10 +1,17 @@
-import { useMemo } from 'react';
-import { useApp } from '../context/useApp';
-import { Button } from './Button';
-import './HUD.css';
+import { useMemo } from "react";
+import { useApp } from "../context/useApp";
+import { ROUND_CONFIG } from "../utils/constants";
+import { Button } from "./Button";
+import "./HUD.css";
 
 export function HUD() {
-  const { gameIndex, getGameState, activeRound, shootMode, nextRound } = useApp();
+  const { gameIndex, getGameState, activeRound, shootMode, setActiveRound } =
+    useApp();
+  const config = ROUND_CONFIG[activeRound];
+  const prevRound =
+    activeRound > 1 ? ((activeRound - 1) as typeof activeRound) : null;
+  const nextRound =
+    activeRound < 4 ? ((activeRound + 1) as typeof activeRound) : null;
 
   const stats = useMemo(() => {
     let total = 0,
@@ -30,10 +37,10 @@ export function HUD() {
   const hint = useMemo(() => {
     if (activeRound === 1) {
       return shootMode
-        ? 'ELIM MODE is ON. Click a game cover to eliminate.'
-        : 'ELIM MODE is OFF. Click a game to open details.';
+        ? "ELIM MODE is ON. Click a game cover to eliminate."
+        : "ELIM MODE is OFF. Click a game to open details.";
     }
-    return 'Round navigation: Back/Next controls are available.';
+    return "Round navigation: Back/Next controls are available.";
   }, [activeRound, shootMode]);
 
   return (
@@ -69,10 +76,32 @@ export function HUD() {
           <div className="hud__value">{stats.remaining}</div>
         </div>
 
-        <Button className="hud__btn hud__btn--next" onClick={() => nextRound()}>
-          NEXT →
-        </Button>
+        {/* Round Navigation */}
+        {config.navClass && (
+          <>
+            {prevRound && (
+              <Button
+                className="hud__btn hud__btn--back"
+                type="button"
+                onClick={() => setActiveRound(prevRound)}
+              >
+                {config.backButtonText}
+              </Button>
+            )}
+            {config.showNextButton && nextRound && (
+              <Button
+                className="hud__btn hud__btn--next"
+                type="button"
+                onClick={() => setActiveRound(nextRound)}
+                disabled
+              >
+                {config.nextButtonText}
+              </Button>
+            )}
+          </>
+        )}
 
+        
         <div className="hud__hint">{hint}</div>
       </div>
     </footer>

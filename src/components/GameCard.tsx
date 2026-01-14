@@ -27,7 +27,9 @@ export function GameCard({ game, onClick, onEliminate }: GameCardProps) {
         audio.volume = 0.02;
         audio.currentTime = 0;
         await audio.play();
-      } catch {}
+      } catch (error) {
+        console.error('Failed to play explosion sound:', error);
+      }
       onEliminate();
       setTimeout(() => setIsExploding(false), 650);
     } else if (onClick) {

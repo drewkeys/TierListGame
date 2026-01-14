@@ -4,6 +4,7 @@ import { NEON_PALETTE, ROUND_CONFIG } from '../utils/constants';
 import { bannerPath } from '../utils/paths';
 import { GameCard } from '../components/GameCard';
 import type { ActiveRound } from '../types';
+import { useRoundGames } from '../hooks/useRoundGames';
 import './Round.css';
 
 interface RoundProps {
@@ -11,9 +12,9 @@ interface RoundProps {
 }
 
 export function Round({ round }: RoundProps) {
-  const { catalog, gameIndex, setModalGameId, setGameEliminated, setActiveRound } = useApp();
+  const { catalog, gameIndex, setModalGameId, setGameEliminated } = useApp();
   const config = ROUND_CONFIG[round];
-  const prevRound = (round > 1 ? (round - 1) as ActiveRound : null);
+  const gameEntries = useRoundGames(round);
 
   // Memoize consoles for Round 1 (always call hooks, even if not used)
   const consoles = useMemo(() => {
@@ -32,7 +33,7 @@ export function Round({ round }: RoundProps) {
   // Round 1: Console grid with games
   if (config.isConsoleGrid) {
     return (
-      <div id={config.gridId} className={config.containerClass}>
+      <section id={config.gridId} className={config.containerClass} aria-label={config.title}>
         {consoles.map((c, idx) => {
           const neon = NEON_PALETTE[idx % NEON_PALETTE.length];
           return (
@@ -61,8 +62,8 @@ export function Round({ round }: RoundProps) {
                   }}
                 />
               </header>
-              <div className="console-window__body">
-                <div className="game-grid">
+              <section className="console-window__body">
+                <div className="game-grid" role="list" aria-label={`${c.name} games`}>
                   {c.games.map((game) => {
                     const info = gameIndex.get(game.id);
                     if (!info) return null;
@@ -78,72 +79,95 @@ export function Round({ round }: RoundProps) {
                     );
                   })}
                 </div>
-              </div>
+              </section>
             </article>
           );
         })}
-      </div>
+      </section>
     );
   }
 
   // Round 4: Tier list
   if (config.isTierList) {
     return (
-      <div className={config.containerClass}>
-        <div className="round4-head">
-          <div className="round2-title">{config.title}</div>
-          <div className="round2-sub">{config.subtitle}</div>
-        </div>
-        <div className="tier-board">
+      <section className={config.containerClass} aria-label={config.title}>
+        <header className="round-header">
+          <h1 className="round-title">{config.title}</h1>
+          {config.subtitle && <p className="round-subtitle">{config.subtitle}</p>}
+        </header>
+        <section className="tier-board" aria-label="Tier board">
           <div className="tier-row" data-tier="S+">
-            <div className="tier-label">S+</div>
-            <div className="tier-drop" id="tierSPlus" aria-label="S Plus tier drop zone"></div>
+            <div className="tier-label" aria-label="S Plus tier">S+</div>
+            <div className="tier-drop" id="tier-s-plus" role="region" aria-label="S Plus tier drop zone"></div>
           </div>
           <div className="tier-row" data-tier="S">
-            <div className="tier-label">S</div>
-            <div className="tier-drop" id="tierS" aria-label="S tier drop zone"></div>
+            <div className="tier-label" aria-label="S tier">S</div>
+            <div className="tier-drop" id="tier-s" role="region" aria-label="S tier drop zone"></div>
           </div>
           <div className="tier-row" data-tier="S-">
-            <div className="tier-label">S-</div>
-            <div className="tier-drop" id="tierSMinus" aria-label="S Minus tier drop zone"></div>
+            <div className="tier-label" aria-label="S Minus tier">S-</div>
+            <div className="tier-drop" id="tier-s-minus" role="region" aria-label="S Minus tier drop zone"></div>
           </div>
-        </div>
-        <div className="tier-pool-wrap">
-          <div className="tier-pool-title">Pool</div>
-          <div id="tierPool" className="tier-pool" aria-label="Unassigned games pool"></div>
-        </div>
-        <div className={config.navClass}>
-          <button className="btn btn--ghost" type="button" onClick={() => setActiveRound(prevRound!)}>
-            {config.backButtonText}
-          </button>
-        </div>
-      </div>
+        </section>
+        <section className="tier-pool-wrapper" aria-label="Unassigned games pool">
+          <h2 className="tier-pool-title">Pool</h2>
+          <div id="tier-pool" className="tier-pool" role="region" aria-label="Unassigned games pool"></div>
+        </section>
+      </section>
     );
   }
 
-  // Rounds 2 & 3: Grid-based rounds
+  // Rounds 2 & 3: Grid-based rounds with console windows (same structure as Round 1)
   return (
-    <>
-      <div className={config.containerClass}>
-        <div className="round2-head">
-          <div className="round2-title">{config.title}</div>
-          <div className="round2-sub">{config.subtitle}</div>
-        </div>
-        <div id={config.gridId} className={config.gridClass}>
-          <div className="loading-card">{config.title} implementation in progress...</div>
-        </div>
-        <div className="round2-bottom-spacer"></div>
-      </div>
-      <div className={config.navClass}>
-        <button className="btn btn--ghost" type="button" onClick={() => setActiveRound(prevRound!)}>
-          {config.backButtonText}
-        </button>
-        {config.showNextButton && (
-          <button className="btn btn--magenta" type="button" disabled>
-            {config.nextButtonText}
-          </button>
-        )}
-      </div>
-    </>
+    <section className={config.containerClass} aria-label={config.title}>
+      <header className="round-header">
+        <h1 className="round-title">{config.title}</h1>
+        {config.subtitle && <p className="round-subtitle">{config.subtitle}</p>}
+      </header>
+      <section id={config.gridId} className={config.gridClass} aria-label={`${config.title} games`}>
+        {gameEntries.map((consoleGroup) => (
+          <article
+            key={consoleGroup.id}
+            className="console-window"
+            style={{ '--console-neon': consoleGroup.neon } as React.CSSProperties}
+            data-console-id={consoleGroup.id}
+          >
+            <header className="console-window__header console-window__header--banner">
+              <img
+                className="console-window__banner"
+                alt={consoleGroup.name}
+                loading="lazy"
+                src={bannerPath({ id: consoleGroup.id, banner: consoleGroup.banner })}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const fallback = document.createElement('div');
+                  fallback.style.padding = '14px';
+                  fallback.style.fontFamily = 'var(--mono)';
+                  fallback.style.letterSpacing = '0.18em';
+                  fallback.style.fontWeight = '900';
+                  fallback.textContent = String(consoleGroup.name).toUpperCase();
+                  target.parentElement?.appendChild(fallback);
+                }}
+              />
+            </header>
+            <section className="console-window__body">
+              <div className="game-grid" role="list" aria-label={`${consoleGroup.name} games`}>
+                {consoleGroup.games.map((entry) => (
+                  <GameCard
+                    key={entry.game.id}
+                    game={entry.game}
+                    consoleName={entry.consoleName}
+                    neon={entry.neon}
+                    onClick={() => setModalGameId(entry.game.id)}
+                    onEliminate={() => setGameEliminated(entry.game.id, true)}
+                  />
+                ))}
+              </div>
+            </section>
+          </article>
+        ))}
+      </section>
+    </section>
   );
 }

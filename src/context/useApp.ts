@@ -17,7 +17,6 @@ export interface AppContextType {
   getGameState: (gameId: string) => import('../types').GameState;
   updateRound2: (updater: (prev: Round2State) => Round2State) => void;
   updateRound3: (updater: (prev: Round3State) => Round3State) => void;
-  nextRound: () => void;
   reset: () => void;
 }
 

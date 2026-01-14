@@ -44,7 +44,7 @@ body{
   overflow-x: hidden;
 }
 
-.bg-overlay{
+.background-overlay{
   position: fixed;
   inset: 0;
   pointer-events: none;

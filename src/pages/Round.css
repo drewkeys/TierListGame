@@ -101,6 +101,92 @@
 }
 
 /* =========================
+   Card slide-in animation
+   ========================= */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animation to cards with staggered delay */
+.game-grid .game-card,
+.round2-grid .r2-card,
+.round2-grid .pick-card,
+.round3-grid .r3-card,
+.round3-grid .pick-card,
+.tier-drop .tier-icon,
+.tier-pool .tier-icon {
+  animation: slideInFromRight 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Stagger animation delays for grid items */
+.game-grid .game-card:nth-child(1) { animation-delay: 0.05s; }
+.game-grid .game-card:nth-child(2) { animation-delay: 0.1s; }
+.game-grid .game-card:nth-child(3) { animation-delay: 0.15s; }
+.game-grid .game-card:nth-child(4) { animation-delay: 0.2s; }
+.game-grid .game-card:nth-child(5) { animation-delay: 0.25s; }
+.game-grid .game-card:nth-child(6) { animation-delay: 0.3s; }
+.game-grid .game-card:nth-child(7) { animation-delay: 0.35s; }
+.game-grid .game-card:nth-child(8) { animation-delay: 0.4s; }
+.game-grid .game-card:nth-child(n+9) { animation-delay: 0.45s; }
+
+.round2-grid .r2-card:nth-child(1),
+.round2-grid .pick-card:nth-child(1) { animation-delay: 0.05s; }
+.round2-grid .r2-card:nth-child(2),
+.round2-grid .pick-card:nth-child(2) { animation-delay: 0.1s; }
+.round2-grid .r2-card:nth-child(3),
+.round2-grid .pick-card:nth-child(3) { animation-delay: 0.15s; }
+.round2-grid .r2-card:nth-child(n+4),
+.round2-grid .pick-card:nth-child(n+4) { animation-delay: 0.2s; }
+
+.round3-grid .r3-card:nth-child(1),
+.round3-grid .pick-card:nth-child(1) { animation-delay: 0.05s; }
+.round3-grid .r3-card:nth-child(2),
+.round3-grid .pick-card:nth-child(2) { animation-delay: 0.1s; }
+.round3-grid .r3-card:nth-child(n+3),
+.round3-grid .pick-card:nth-child(n+3) { animation-delay: 0.15s; }
+
+.tier-drop .tier-icon,
+.tier-pool .tier-icon {
+  animation-delay: 0.05s;
+}
+
+/* Reduce animation on mobile for performance */
+@media (max-width: 768px) {
+  .game-grid .game-card,
+  .round2-grid .r2-card,
+  .round2-grid .pick-card,
+  .round3-grid .r3-card,
+  .round3-grid .pick-card {
+    animation-duration: 0.4s;
+  }
+  
+  /* Fewer staggered delays on mobile */
+  .game-grid .game-card:nth-child(n+4) { animation-delay: 0.15s; }
+}
+
+/* Disable animation for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .game-grid .game-card,
+  .round2-grid .r2-card,
+  .round2-grid .pick-card,
+  .round3-grid .r3-card,
+  .round3-grid .pick-card,
+  .tier-drop .tier-icon,
+  .tier-pool .tier-icon {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* =========================
    Game grid (Round 1)
    ========================= */
 .game-grid{
@@ -154,7 +240,7 @@
 /* =========================
    View slider (Round 1/2/3/4)
    ========================= */
-.view-viewport{
+.app-viewport{
   position: relative;
   overflow: hidden;
   display: flex;
@@ -167,21 +253,15 @@
 .view-slider{
   display: flex;
   width: 100%;
-  transform: translateX(0%);
-  transition: transform 360ms ease;
-  will-change: transform;
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
-.view-slider.is-round2{ transform: translateX(-25%); }
-.view-slider.is-round3{ transform: translateX(-50%); }
-.view-slider.is-round4{ transform: translateX(-75%); }
-
 .view{
-  width: 25%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  flex: 1 1 auto;
   min-height: 0;
 }
 
@@ -194,7 +274,7 @@
 }
 
 /* Make the Round 2 grid fit inside the visible view area and leave room for HUD+nav */
-#round2Grid{
+#round-2-grid{
   overflow: visible;            /* allow glow/outline to render */
   padding-bottom: 18px;         /* breathing room at the bottom */
   box-sizing: border-box;
@@ -211,7 +291,7 @@ body.round-2 .view--round2{
   overflow: visible;
 }
 
-body.round-2 .round2-wrap{
+body.round-2 .round-container{
   height: calc(100vh - var(--topbar-h));
   display: flex;
   flex-direction: column;
@@ -221,12 +301,12 @@ body.round-2 .round2-wrap{
 }
 
 @media (max-width: 768px){
-  body.round-2 .round2-wrap{
+  body.round-2 .round-container{
     padding: 8px;
   }
 }
 
-body.round-2 .round2-head{
+body.round-2 .round-header{
   flex: 0 0 auto;
   margin: 0 0 10px;
   padding: 12px 14px;
@@ -235,14 +315,14 @@ body.round-2 .round2-head{
   border: 1px solid rgba(0,246,255,0.18);
 }
 
-.round2-title{
+.round-title{
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 14px;
 }
 
-.round2-sub{
+.round-subtitle{
   margin-top: 6px;
   color: var(--muted);
   font-family: var(--mono);
@@ -356,6 +436,7 @@ body.round-2 .r2-card{
   color: rgba(255,255,255,0.84);
 
   display: -webkit-box;
+  line-clamp: 5;
   -webkit-line-clamp: 5;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -461,22 +542,22 @@ body.round-2 .r2-card{
     font-size: 10px;
   }
   
-  .round2-title{
+  .round-title{
     font-size: 12px;
   }
   
-  .round2-sub{
+  .round-subtitle{
     font-size: 11px;
   }
 }
 
 /* Remove old spacer in screen-fit mode */
-body.round-2 .round2-bottom-spacer{
+body.round-2 .round-bottom-spacer{
   display: none;
 }
 
 /* Round 2 bottom nav pinned above the fixed HUD */
-.round2-nav{
+.round-navigation{
   position: absolute;
   left: 0;
   right: 0;
@@ -496,19 +577,19 @@ body.round-2 .round2-bottom-spacer{
 }
 
 @media (max-width: 768px){
-  .round2-nav{
+  .round-navigation{
     bottom: 8px;
     padding: 0 8px;
     gap: 8px;
   }
   
-  .round2-nav .btn{
+  .round-navigation .btn{
     flex: 1 1 auto;
     min-width: 0;
   }
 }
 
-.round2-nav .btn{
+.round-navigation .btn{
   min-width: 120px;
   border-color: rgba(0,246,255,0.28);
   box-shadow: 0 0 18px rgba(0,246,255,0.12);
@@ -529,7 +610,7 @@ body.round-3 .view--round3{
   position: relative;
 }
 
-body.round-3 .round2-wrap{
+body.round-3 .round-container{
   height: calc(100vh - var(--topbar-h));
   display: flex;
   flex-direction: column;
@@ -539,7 +620,7 @@ body.round-3 .round2-wrap{
 }
 
 @media (max-width: 768px){
-  body.round-3 .round2-wrap{
+  body.round-3 .round-container{
     padding: 8px;
   }
 }
@@ -746,7 +827,7 @@ body.round-4 .view--round4{
   overflow: hidden;
 }
 
-body.round-4 .round4-wrap{
+body.round-4 .round-4-container{
   height: calc(100vh - var(--topbar-h));
   display: flex;
   flex-direction: column;
@@ -757,12 +838,12 @@ body.round-4 .round4-wrap{
 }
 
 @media (max-width: 768px){
-  body.round-4 .round4-wrap{
+  body.round-4 .round-4-container{
     padding: 10px;
   }
 }
 
-.round4-head{
+.round-header{
   padding: 8px 10px 10px;
   max-width: 1200px;
   width: 100%;
@@ -771,7 +852,7 @@ body.round-4 .round4-wrap{
 }
 
 @media (max-width: 768px){
-  .round4-head{
+  .round-header{
     padding: 6px 8px 8px;
   }
 }
@@ -873,7 +954,7 @@ body.round-4 .round4-wrap{
   box-shadow: 0 0 0 2px rgba(255,43,214,0.15), 0 0 26px rgba(255,43,214,0.18);
 }
 
-.tier-pool-wrap{
+.tier-pool-wrapper{
   max-width: 1200px;
   width: 100%;
   margin: 10px auto 0;
@@ -929,7 +1010,7 @@ body.round-4 .round4-wrap{
   pointer-events: none;
 }
 
-.round4-nav{
+.round-4-navigation{
   max-width: 1200px;
   width: 100%;
   margin: 10px auto 0;
@@ -942,11 +1023,11 @@ body.round-4 .round4-wrap{
 }
 
 @media (max-width: 768px){
-  .round4-nav{
+  .round-4-navigation{
     margin: 8px auto 0;
   }
   
-  .round4-nav .btn{
+  .round-4-navigation .btn{
     flex: 1 1 auto;
     min-width: 0;
   }
@@ -1031,7 +1112,7 @@ body.round-2 .round2-grid{
 }
 
 @media (max-width: 900px){
-  body.round-2 .round2-wrap{
+  body.round-2 .round-container{
     padding: 10px 10px 0;
   }
   body.round-2 .round2-grid{
@@ -1054,8 +1135,8 @@ body.round-3 .round3-grid{
 /* =========================
    Round 2/3 nav: reserve room so cards don't sit under buttons
    ========================= */
-body.round-2 .round2-wrap,
-body.round-3 .round2-wrap{
+body.round-2 .round-container,
+body.round-3 .round-container{
   padding-bottom: 70px;
 }
 
@@ -1135,9 +1216,9 @@ body.round-2 .view--round2{
   overflow: visible;
 }
 
-body.round-2 .round2-wrap{
+body.round-2 .round-container{
   height: 100%;
-  position: relative; /* this becomes the containing block for .round2-nav */
+  position: relative; /* this becomes the containing block for .round-navigation */
   padding-bottom: calc(var(--hud-safe) + var(--r2-controls-h) + 18px);
 }
 
@@ -1148,7 +1229,7 @@ body.round-2 .round2-grid{
 }
 
 /* Anchor the nav above the HUD, relative to the Round 2 wrap. */
-body.round-2 .round2-nav{
+body.round-2 .round-navigation{
   position: absolute;
   left: 0;
   right: 0;

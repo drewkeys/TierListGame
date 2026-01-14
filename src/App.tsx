@@ -12,18 +12,12 @@ function AppContent() {
 
   return (
     <>
-      <div className="bg-overlay" aria-hidden="true"></div>
+      <div className="background-overlay" aria-hidden="true"></div>
       <Topbar />
       <ElimCounter />
-      <main className="stage">
-        <section className="view-viewport">
-          <div
-            className={`view-slider ${
-              activeRound ? `is-round${activeRound}` : ''
-            }`}
-          >
-            <Round round={activeRound} />
-          </div>
+      <main className="stage" role="main">
+        <section className="app-viewport" aria-label={`Round ${activeRound} view`}>
+          <Round round={activeRound} />
         </section>
       </main>
       <HUD />

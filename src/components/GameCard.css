@@ -18,11 +18,11 @@
 }
 
 .game-card:hover{
-  transform: translateY(-2px);
+  transform: translateX(0) translateY(-2px);
 }
 
 .game-card:active{
-  transform: translateY(0);
+  transform: translateX(0) translateY(0);
 }
 
 /* Small mobile adjustments */

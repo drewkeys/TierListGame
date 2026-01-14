@@ -141,10 +141,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const nextRound = useCallback(() => {
-    setActiveRoundState(activeRound + 1 as ActiveRound);
-  }, [activeRound]);
-
   const reset = useCallback(() => {
     const newState = resetState();
     setState(newState);
@@ -174,7 +170,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
         getGameState: getGameStateLocal,
         updateRound2,
         updateRound3,
-        nextRound,
         reset,
       }}
     >
