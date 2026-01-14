@@ -100,8 +100,16 @@ export function HUD() {
             )}
           </>
         )}
-
-        
+        {/* For testing purposes */}
+        {activeRound == 1 && (
+        <Button
+          className="hud__btn hud__btn--next"
+          type="button"
+          onClick={() => setActiveRound(nextRound!)}
+        >
+          NEXT →
+        </Button>
+        )}
         <div className="hud__hint">{hint}</div>
       </div>
     </footer>
