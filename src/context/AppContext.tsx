@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State, Console, Game } from '../types';
-import { loadState, saveState, getGameState, resetState } from '../utils/storage';
+import { loadState, saveState, saveStateImmediate, getGameState, resetState } from '../utils/storage';
 import { DATA_URL } from '../utils/constants';
 import { AppContext } from './useApp';
 
@@ -45,10 +45,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
   }, []);
 
-  // Save state when it changes
+  // Save state when it changes (debounced for efficiency)
   useEffect(() => {
+    // Skip save on initial mount (state already loaded from localStorage)
+    if (catalog === null) return;
+    
     saveState(state);
-  }, [state]);
+  }, [state, catalog]);
 
   // Body class for round
   useEffect(() => {
@@ -149,6 +152,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setShootModeState(false);
     setModalGameId(null);
     document.body.style.overflow = '';
+    // Immediately save reset state
+    saveStateImmediate(newState);
   }, []);
 
   return (
