@@ -1,7 +1,13 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State, Console, Game } from '../types';
 import { loadState, saveState, saveStateImmediate, getGameState, resetState } from '../utils/storage';
-import { resetRoundUIState } from '../utils/roundStorage';
+import {
+  loadExcludedGameIds,
+  saveExcludedGameIds,
+  loadRound2SelectedIds,
+  saveRound2SelectedIds,
+  resetRoundUIState,
+} from '../utils/roundStorage';
 import { DATA_URL } from '../utils/constants';
 import { AppContext } from './useApp';
 
@@ -12,6 +18,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeRound, setActiveRoundState] = useState<ActiveRound>(1);
   const [shootMode, setShootModeState] = useState(false);
   const [modalGameId, setModalGameId] = useState<string | null>(null);
+  // Round UI state (excluded games and Round 2 selections) - loaded from localStorage
+  const [excludedGameIds, setExcludedGameIdsState] = useState<Set<string>>(() => loadExcludedGameIds());
+  const [round2SelectedIds, setRound2SelectedIdsState] = useState<Set<string>>(() => loadRound2SelectedIds());
 
   // Load catalog
   useEffect(() => {
@@ -64,6 +73,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.body.classList.toggle('shoot-mode', shootMode);
   }, [shootMode]);
+
+  // Save excluded game IDs to localStorage when they change
+  useEffect(() => {
+    saveExcludedGameIds(excludedGameIds);
+  }, [excludedGameIds]);
+
+  // Save Round 2 selected IDs to localStorage when they change
+  useEffect(() => {
+    if (round2SelectedIds.size > 0) {
+      saveRound2SelectedIds(round2SelectedIds);
+    }
+  }, [round2SelectedIds]);
+
+  // Setters for excluded game IDs and Round 2 selected IDs
+  const setExcludedGameIds = useCallback((ids: Set<string>) => {
+    setExcludedGameIdsState(ids);
+  }, []);
+
+  const setRound2SelectedIds = useCallback((ids: Set<string>) => {
+    setRound2SelectedIdsState(ids);
+  }, []);
 
   const setActiveRound = useCallback((round: ActiveRound) => {
     setActiveRoundState(round);
@@ -151,6 +181,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     document.body.style.overflow = '';
     // Reset round UI state (excluded games and Round 2 selections)
     resetRoundUIState();
+    setExcludedGameIdsState(new Set());
+    setRound2SelectedIdsState(new Set());
     // Immediately save reset state
     saveStateImmediate(newState);
   }, []);
@@ -164,6 +196,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         activeRound,
         shootMode,
         modalGameId,
+        excludedGameIds,
+        round2SelectedIds,
         setActiveRound,
         setShootMode,
         setModalGameId: setModalGameIdCallback,
@@ -173,6 +207,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         getGameState: getGameStateLocal,
         updateRound2,
         updateRound3,
+        setExcludedGameIds,
+        setRound2SelectedIds,
         reset,
       }}
     >

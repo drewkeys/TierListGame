@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useLayoutEffect, useEffect } from 'react';
+import { useMemo, useState, useCallback, useLayoutEffect } from 'react';
 import { useApp } from '../context/useApp';
 import { NEON_PALETTE, ROUND_CONFIG } from '../utils/constants';
 import { bannerPath } from '../utils/paths';
@@ -6,12 +6,6 @@ import { GameCard } from '../components/GameCard';
 import { RemoveEntryModal } from '../components/RemoveEntryModal';
 import type { ActiveRound } from '../types';
 import { useRoundGames } from '../hooks/useRoundGames';
-import {
-  loadExcludedGameIds,
-  saveExcludedGameIds,
-  loadRound2SelectedIds,
-  saveRound2SelectedIds,
-} from '../utils/roundStorage';
 import './Rounds.css';
 
 interface RoundProps {
@@ -19,28 +13,24 @@ interface RoundProps {
 }
 
 export function Round({ round }: RoundProps) {
-  const { catalog, gameIndex, setModalGameId, setGameEliminated, state, updateRound2, updateRound3 } = useApp();
+  const {
+    catalog,
+    gameIndex,
+    setModalGameId,
+    setGameEliminated,
+    state,
+    updateRound2,
+    updateRound3,
+    excludedGameIds,
+    round2SelectedIds,
+    setExcludedGameIds,
+    setRound2SelectedIds,
+  } = useApp();
   const config = ROUND_CONFIG[round];
   const gameEntries = useRoundGames(round);
   
   // State for removal modal
   const [pendingRemoval, setPendingRemoval] = useState<{ gameId: string; gameTitle: string } | null>(null);
-  // Track excluded game IDs for rounds 2 and 3 (loaded from localStorage via lazy initializer)
-  const [excludedGameIds, setExcludedGameIds] = useState<Set<string>>(() => loadExcludedGameIds());
-  // Track originally selected game IDs for Round 2 (loaded from localStorage via lazy initializer)
-  const [round2SelectedIds, setRound2SelectedIds] = useState<Set<string>>(() => loadRound2SelectedIds());
-  
-  // Save excluded game IDs to localStorage when they change
-  useEffect(() => {
-    saveExcludedGameIds(excludedGameIds);
-  }, [excludedGameIds]);
-  
-  // Save Round 2 selected IDs to localStorage when they change
-  useEffect(() => {
-    if (round2SelectedIds.size > 0) {
-      saveRound2SelectedIds(round2SelectedIds);
-    }
-  }, [round2SelectedIds]);
 
   // Handler for removing an entry
   const handleRemoveEntry = useCallback(
@@ -131,9 +121,7 @@ export function Round({ round }: RoundProps) {
     if (round2InitialSelection && round2SelectedIds.size === 0) {
       setRound2SelectedIds(round2InitialSelection);
     }
-    // It's safe to depend only on round2InitialSelection, as set will only happen if .size===0
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [round2InitialSelection]);
+  }, [round2InitialSelection, round2SelectedIds.size, setRound2SelectedIds]);
   // Extract the appropriate array based on round for Rounds 2 & 3:
   // Round 2: array[0] = 1-star games (select 3 random entries, but don't repopulate when removed)
   // Round 3: array[1] = 2-star games, plus Round 2 survivors (which may have any star rating)
@@ -252,12 +240,10 @@ export function Round({ round }: RoundProps) {
 
     const { gameId } = pendingRemoval;
 
-    // Add to excluded set
-    setExcludedGameIds((prev) => {
-      const next = new Set(prev);
-      next.add(gameId);
-      return next;
-    });
+    // Add to excluded set (using context setter)
+    const next = new Set(excludedGameIds);
+    next.add(gameId);
+    setExcludedGameIds(next);
 
     // Remove from currentTrio (Round 2) or currentPair (Round 3)
     if (round === 2 && state.r2) {

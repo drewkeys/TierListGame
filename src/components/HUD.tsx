@@ -5,13 +5,30 @@ import { Button } from "./Button";
 import "./HUD.css";
 
 export function HUD() {
-  const { gameIndex, getGameState, activeRound, shootMode, setActiveRound } =
-    useApp();
+  const {
+    gameIndex,
+    getGameState,
+    activeRound,
+    shootMode,
+    setActiveRound,
+    excludedGameIds,
+    round2SelectedIds,
+  } = useApp();
   const config = ROUND_CONFIG[activeRound];
   const prevRound =
     activeRound > 1 ? ((activeRound - 1) as typeof activeRound) : null;
   const nextRound =
     activeRound < 4 ? ((activeRound + 1) as typeof activeRound) : null;
+
+  // Calculate remaining selected IDs for Round 2 to determine if Next button should be enabled
+  const round2RemainingCount = useMemo(() => {
+    if (activeRound !== 2) return null;
+    // Count how many selected IDs are not excluded
+    const remaining = Array.from(round2SelectedIds).filter(
+      (id) => !excludedGameIds.has(id)
+    );
+    return remaining.length;
+  }, [activeRound, excludedGameIds, round2SelectedIds]); // Recalculate when these change
 
   const stats = useMemo(() => {
     let total = 0,
@@ -93,7 +110,9 @@ export function HUD() {
                 className="hud__btn hud__btn--next"
                 type="button"
                 onClick={() => setActiveRound(nextRound)}
-                disabled
+                disabled={
+                  activeRound === 2 ? round2RemainingCount !== 1 : false
+                }
               >
                 {config.nextButtonText}
               </Button>
@@ -102,13 +121,13 @@ export function HUD() {
         )}
         {/* For testing purposes */}
         {activeRound == 1 && (
-        <Button
-          className="hud__btn hud__btn--next"
-          type="button"
-          onClick={() => setActiveRound(nextRound!)}
-        >
-          NEXT →
-        </Button>
+          <Button
+            className="hud__btn hud__btn--next"
+            type="button"
+            onClick={() => setActiveRound(nextRound!)}
+          >
+            NEXT →
+          </Button>
         )}
         <div className="hud__hint">{hint}</div>
       </div>

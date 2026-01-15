@@ -8,6 +8,8 @@ export interface AppContextType {
   activeRound: ActiveRound;
   shootMode: boolean;
   modalGameId: string | null;
+  excludedGameIds: Set<string>;
+  round2SelectedIds: Set<string>;
   setActiveRound: (round: ActiveRound) => void;
   setShootMode: (mode: boolean) => void;
   setModalGameId: (id: string | null) => void;
@@ -17,6 +19,8 @@ export interface AppContextType {
   getGameState: (gameId: string) => import('../types').GameState;
   updateRound2: (updater: (prev: Round2State) => Round2State) => void;
   updateRound3: (updater: (prev: Round3State) => Round3State) => void;
+  setExcludedGameIds: (ids: Set<string>) => void;
+  setRound2SelectedIds: (ids: Set<string>) => void;
   reset: () => void;
 }
 
