@@ -25,7 +25,8 @@ export function GameModal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setModalGameId]);
 
-  if (!modalGameId) return null;
+  // Don't show GameModal in rounds 2 and 3 - use RemoveEntryModal instead
+  if (!modalGameId || activeRound === 2 || activeRound === 3) return null;
 
   const info = gameIndex.get(modalGameId);
   if (!info) return null;

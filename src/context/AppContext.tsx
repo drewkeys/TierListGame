@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State, Console, Game } from '../types';
 import { loadState, saveState, saveStateImmediate, getGameState, resetState } from '../utils/storage';
+import { resetRoundUIState } from '../utils/roundStorage';
 import { DATA_URL } from '../utils/constants';
 import { AppContext } from './useApp';
 
@@ -148,6 +149,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setShootModeState(false);
     setModalGameId(null);
     document.body.style.overflow = '';
+    // Reset round UI state (excluded games and Round 2 selections)
+    resetRoundUIState();
     // Immediately save reset state
     saveStateImmediate(newState);
   }, []);

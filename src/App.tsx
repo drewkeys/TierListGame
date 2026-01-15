@@ -4,7 +4,7 @@ import { Topbar } from './components/Topbar';
 import { ElimCounter } from './components/ElimCounter';
 import { HUD } from './components/HUD';
 import { GameModal } from './components/GameModal';
-import { Round } from './pages/Round';
+import { Round } from './pages/Rounds';
 import './styles.css';
 
 function AppContent() {
