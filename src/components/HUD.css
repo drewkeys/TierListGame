@@ -125,19 +125,19 @@
 .hud .hud__btn--back.btn--magenta,
 .hud .hud__btn--back.btn--ghost,
 .hud .hud__btn--back.btn--default {
-  border: 1px solid rgba(0,246,255,0.28) !important;
-  background: rgba(8,12,26,0.75) !important;
+  border: 1px solid rgba(255,43,214,0.45) !important;
+  background: rgba(255,43,214,0.12) !important;
   color: rgba(255,255,255,0.92) !important;
-  box-shadow: 0 0 18px rgba(0,246,255,0.12) !important;
+  box-shadow: 0 0 18px rgba(255,43,214,0.10) !important;
 }
 
 .hud .hud__btn--back:hover,
 .hud .hud__btn--back.btn:hover,
 .hud .hud__btn--back.btn--magenta:hover,
 .hud .hud__btn--back.btn--ghost:hover {
-  border-color: rgba(0,246,255,0.45) !important;
-  box-shadow: 0 0 22px rgba(0,246,255,0.18) !important;
-  background: rgba(8,12,26,0.75) !important;
+  border-color: rgba(255,43,214,0.70) !important;
+  box-shadow: 0 0 22px rgba(255,43,214,0.16) !important;
+  background: rgba(255,43,214,0.12) !important;
 }
 
 .hud .hud__btn--next,
@@ -145,19 +145,19 @@
 .hud .hud__btn--next.btn--magenta,
 .hud .hud__btn--next.btn--ghost,
 .hud .hud__btn--next.btn--default {
-  border: 1px solid rgba(255,43,214,0.45) !important;
-  background: rgba(255,43,214,0.12) !important;
+  border: 1px solid rgba(0,246,255,0.28) !important;
+  background: rgba(8,12,26,0.75) !important;
   color: rgba(255,255,255,0.92) !important;
-  box-shadow: 0 0 18px rgba(255,43,214,0.10) !important;
+  box-shadow: 0 0 18px rgba(0,246,255,0.12) !important;
 }
 
 .hud .hud__btn--next:hover:not(:disabled),
 .hud .hud__btn--next.btn:hover:not(:disabled),
 .hud .hud__btn--next.btn--magenta:hover:not(:disabled),
 .hud .hud__btn--next.btn--ghost:hover:not(:disabled) {
-  border-color: rgba(255,43,214,0.70) !important;
-  box-shadow: 0 0 22px rgba(255,43,214,0.16) !important;
-  background: rgba(255,43,214,0.12) !important;
+  border-color: rgba(0,246,255,0.45) !important;
+  box-shadow: 0 0 22px rgba(0,246,255,0.18) !important;
+  background: rgba(8,12,26,0.75) !important;
 }
 
 .hud .hud__btn--next:disabled,
