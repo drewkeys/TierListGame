@@ -5,7 +5,7 @@ import { Button } from './Button';
 import './GameModal.css';
 
 export function GameModal() {
-  const { modalGameId, setModalGameId, gameIndex, getGameState, setGameStars, toggleGameEliminated, activeRound } =
+  const { modalGameId, setModalGameId, gameIndex, getGameState, setGameStars, setGameEliminated, activeRound } =
     useApp();
   const videoRef = useRef<HTMLIFrameElement>(null);
 
@@ -39,7 +39,7 @@ export function GameModal() {
   return (
     <>
       <div className="modal-backdrop" onClick={() => setModalGameId(null)} />
-      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" onClick={() => setModalGameId(null)}>
         <div className="modal__panel" onClick={(e) => e.stopPropagation()}>
           <div className="modal__header">
             <div>
@@ -108,7 +108,7 @@ export function GameModal() {
                   <Button onClick={() => !isReadOnly && setGameStars(modalGameId, 3)} disabled={isReadOnly}>
                     3★
                   </Button>
-                  <Button variant="danger" onClick={() => !isReadOnly && toggleGameEliminated(modalGameId)} disabled={isReadOnly}>
+                  <Button variant="danger" onClick={() => {if (isReadOnly) return; setGameEliminated(modalGameId, !gameState.eliminated);}} disabled={isReadOnly}>
                     {gameState.eliminated ? 'Un-eliminate' : 'Eliminate'}
                   </Button>
                 </div>

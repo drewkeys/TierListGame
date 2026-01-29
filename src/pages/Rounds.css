@@ -10,11 +10,28 @@
 
 @media (min-width: 681px){
   .board__grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--gap);
+    /* Masonry-ish layout: two independent columns */
+    column-count: 2;
+    column-gap: var(--gap);
+
+    /* IMPORTANT: must not be grid here */
+    display: block;
+  }
+
+  /* Each console window becomes a "column item" */
+  .console-window{
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+
+    /* Needed so the element respects column width properly */
+    display: inline-block;
+    width: 100%;
+
+    /* This replaces grid gap for vertical spacing */
+    margin: 0 0 var(--gap) 0;
   }
 }
+
 
 @media (min-width: 1200px){
   .board__grid{
