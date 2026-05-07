@@ -52,6 +52,7 @@ export interface Round2State {
   steps: Round2Step[];
   currentTrio: (string | '')[];
   currentPick: string | null;
+  cursor: number; // for keeping track
 }
 
 // Round 3 State Types

@@ -14,21 +14,21 @@ export function HUD() {
     excludedGameIds,
     round2SelectedIds,
   } = useApp();
+
   const config = ROUND_CONFIG[activeRound];
-  const prevRound =
-    activeRound > 1 ? ((activeRound - 1) as typeof activeRound) : null;
+
+  // Only allow forward navigation
   const nextRound =
     activeRound < 4 ? ((activeRound + 1) as typeof activeRound) : null;
 
   // Calculate remaining selected IDs for Round 2 to determine if Next button should be enabled
   const round2RemainingCount = useMemo(() => {
     if (activeRound !== 2) return null;
-    // Count how many selected IDs are not excluded
     const remaining = Array.from(round2SelectedIds).filter(
       (id) => !excludedGameIds.has(id)
     );
     return remaining.length;
-  }, [activeRound, excludedGameIds, round2SelectedIds]); // Recalculate when these change
+  }, [activeRound, excludedGameIds, round2SelectedIds]);
 
   const stats = useMemo(() => {
     let total = 0,
@@ -57,7 +57,7 @@ export function HUD() {
         ? "ELIM MODE is ON. Click a game cover to eliminate."
         : "ELIM MODE is OFF. Click a game to open details.";
     }
-    return "Round navigation: Back/Next controls are available.";
+    return "Round navigation: Next control is available.";
   }, [activeRound, shootMode]);
 
   return (
@@ -93,42 +93,29 @@ export function HUD() {
           <div className="hud__value">{stats.remaining}</div>
         </div>
 
-        {/* Round Navigation */}
-        {config.navClass && (
-          <>
-            {prevRound && (
-              <Button
-                className="hud__btn hud__btn--back"
-                type="button"
-                onClick={() => setActiveRound(prevRound)}
-              >
-                {config.backButtonText}
-              </Button>
-            )}
-            {config.showNextButton && nextRound && (
-              <Button
-                className="hud__btn hud__btn--next"
-                type="button"
-                onClick={() => setActiveRound(nextRound)}
-                disabled={
-                  activeRound === 2 ? round2RemainingCount !== 1 : false
-                }
-              >
-                {config.nextButtonText}
-              </Button>
-            )}
-          </>
-        )}
-        {/* For testing purposes */}
-        {activeRound == 1 && (
+        {/* Round Navigation: FORWARD ONLY */}
+        {config.navClass && config.showNextButton && nextRound && (
           <Button
             className="hud__btn hud__btn--next"
             type="button"
-            onClick={() => setActiveRound(nextRound!)}
+            onClick={() => setActiveRound(nextRound)}
+            disabled={activeRound === 2 ? round2RemainingCount !== 1 : false}
+          >
+            {config.nextButtonText}
+          </Button>
+        )}
+
+        {/* For testing purposes: allow jumping from Round 1 to Round 2 */}
+        {activeRound === 1 && nextRound && (
+          <Button
+            className="hud__btn hud__btn--next"
+            type="button"
+            onClick={() => setActiveRound(nextRound)}
           >
             NEXT →
           </Button>
         )}
+
         <div className="hud__hint">{hint}</div>
       </div>
     </footer>

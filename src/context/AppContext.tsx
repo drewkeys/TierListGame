@@ -1,5 +1,14 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
-import type { AppState, ActiveRound, Catalog, GameIndexEntry, Round2State, Round3State, Console, Game } from '../types';
+import type {
+  AppState,
+  ActiveRound,
+  Catalog,
+  GameIndexEntry,
+  Round2State,
+  Round3State,
+  Console,
+  Game,
+} from '../types';
 import { loadState, saveState, saveStateImmediate, getGameState, resetState } from '../utils/storage';
 import {
   loadExcludedGameIds,
@@ -10,6 +19,21 @@ import {
 } from '../utils/roundStorage';
 import { DATA_URL } from '../utils/constants';
 import { AppContext } from './useApp';
+
+const DEFAULT_R2: Round2State = {
+  baseline: null,
+  steps: [],
+  currentTrio: ['', '', ''],
+  currentPick: null,
+  cursor: -1,
+};
+
+const DEFAULT_R3: Round3State = {
+  baseline: null,
+  steps: [],
+  currentPair: ['', ''],
+  currentPick: null,
+};
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
@@ -59,7 +83,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Skip save on initial mount (state already loaded from localStorage)
     if (catalog === null) return;
-    
+
     saveState(state);
   }, [state, catalog]);
 
@@ -95,20 +119,53 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setRound2SelectedIdsState(ids);
   }, []);
 
+  /**
+   * ✅ CHANGED:
+   * - Prevent going backwards between rounds
+   * - Ensure Round 2/3 state is initialized immediately when entering those rounds
+   * - Keep shoot mode only in Round 1 (existing behavior)
+   * - Close modal on round change (existing behavior)
+   */
   const setActiveRound = useCallback((round: ActiveRound) => {
-    setActiveRoundState(round);
+    setActiveRoundState((prevRound) => {
+      // 🚫 No going backwards
+      if (round < prevRound) return prevRound;
+      return round;
+    });
+
+    // Ensure r2/r3 exist immediately when entering the round
+    setState((prev) => {
+      // If user attempted to go backwards, do nothing
+      // (We can’t read prevRound from the other state setter reliably,
+      //  so we just enforce monotonicity by checking activeRound below.)
+      // If you want this perfectly synchronized, switch to a reducer later.
+      const nextState: AppState = { ...prev };
+
+      // Initialize round state when entering these rounds
+      if (round === 2 && !nextState.r2) nextState.r2 = { ...DEFAULT_R2 };
+      if (round === 3 && !nextState.r3) nextState.r3 = { ...DEFAULT_R3 };
+
+      return nextState;
+    });
+
     // Enforce shoot mode only in Round 1
     if (round !== 1) {
       setShootModeState(false);
     }
+
+    // Close modal on round change
     setModalGameId(null);
+    document.body.style.overflow = '';
   }, []);
 
-  const setShootMode = useCallback((mode: boolean) => {
-    if (activeRound === 1) {
-      setShootModeState(mode);
-    }
-  }, [activeRound]);
+  const setShootMode = useCallback(
+    (mode: boolean) => {
+      if (activeRound === 1) {
+        setShootModeState(mode);
+      }
+    },
+    [activeRound]
+  );
 
   const setModalGameIdCallback = useCallback((id: string | null) => {
     setModalGameId(id);
@@ -146,15 +203,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const getGameStateLocal = useCallback((gameId: string) => {
-    return getGameState(gameId, state);
-  }, [state]);
+  const getGameStateLocal = useCallback(
+    (gameId: string) => {
+      return getGameState(gameId, state);
+    },
+    [state]
+  );
 
   const updateRound2 = useCallback((updater: (prev: Round2State) => Round2State) => {
     setState((prev) => {
       const newState = { ...prev };
       if (!newState.r2) {
-        newState.r2 = { baseline: null, steps: [], currentTrio: ['', '', ''], currentPick: null };
+        newState.r2 = { ...DEFAULT_R2 };
       }
       newState.r2 = updater(newState.r2);
       return newState;
@@ -165,9 +225,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => {
       const newState = { ...prev };
       if (!newState.r3) {
-        newState.r3 = { baseline: null, steps: [], currentPair: ['', ''], currentPick: null };
+        newState.r3 = { ...DEFAULT_R3 };
       }
       newState.r3 = updater(newState.r3);
+      return newState;
+    });
+  }, []);
+
+  const setGameR2Survived = useCallback((gameId: string, survived: boolean) => {
+    setState((prev) => {
+      const newState = { ...prev };
+      const gs = getGameState(gameId, newState);
+      gs.r2Survived = survived;
       return newState;
     });
   }, []);
@@ -209,6 +278,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         updateRound3,
         setExcludedGameIds,
         setRound2SelectedIds,
+        setGameR2Survived,
         reset,
       }}
     >
@@ -216,4 +286,3 @@ export function AppProvider({ children }: { children: ReactNode }) {
     </AppContext.Provider>
   );
 }
-

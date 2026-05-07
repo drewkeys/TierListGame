@@ -568,6 +568,65 @@ body.round-2 .r2-card{
   }
 }
 
+/* -------------------------------------------------
+   NEW: GameCard-based Round 2/3 (fits portrait)
+   ------------------------------------------------- */
+
+/* Round2View now renders <GameCard> inside .round2-card-wrap.
+   Constrain height on portrait so multiple cards fit. */
+.round2-card-wrap{
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Let the card itself flex, but don't overflow the grid cell */
+.round2-card-wrap .game-card{
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Mobile portrait: stack 1-col and cap each card height */
+@media (max-width: 640px){
+  body.round-2 .round2-grid{
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body.round-2 .round2-card-wrap .game-card{
+    max-height: 28vh;     /* key: prevents the first card from eating the screen */
+    overflow: hidden;
+  }
+
+  /* Prevent cover cropping on phones */
+  body.round-2 .round2-card-wrap .game-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* Round 3: if Round3View is using GameCard grids, apply the same "fit" behavior */
+@media (max-width: 640px){
+  body.round-3 .game-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  body.round-3 .game-grid .game-card{
+    max-height: 24vh;
+    overflow: hidden;
+  }
+
+  body.round-3 .game-grid .game-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
 /* Remove old spacer in screen-fit mode */
 body.round-2 .round-bottom-spacer{
   display: none;

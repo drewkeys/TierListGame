@@ -5,11 +5,21 @@ import { ElimCounter } from './components/ElimCounter';
 import { HUD } from './components/HUD';
 import { GameModal } from './components/GameModal';
 import { Round } from './pages/Rounds';
+import { useEffect } from "react";
+
 import './styles.css';
 
 function AppContent() {
   const { activeRound } = useApp();
+    useEffect(() => {
+      const onBeforeUnload = (e: BeforeUnloadEvent) => {
+        // Required for the browser to show the confirm dialog.
+        e.preventDefault();
+      };
 
+      window.addEventListener("beforeunload", onBeforeUnload);
+      return () => window.removeEventListener("beforeunload", onBeforeUnload);
+    }, []);
   return (
     <>
       <div className="background-overlay" aria-hidden="true"></div>
