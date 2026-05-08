@@ -16,7 +16,7 @@ export function Topbar() {
       <div>
         <div className="title">GAME RATING GAME</div>
         <div className="subtitle">
-          Round {activeRound}: {activeRound === 1 ? 'rate 1–3 stars or eliminate. Click a game for details.' : 'continue selection'}
+          Round {activeRound}: {activeRound === 1 ? 'rate 1–4 stars or eliminate. Click a game for details.' : 'continue selection'}
         </div>
       </div>
       <div className="topbar__actions">

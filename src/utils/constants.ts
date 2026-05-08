@@ -64,7 +64,7 @@ export const ROUND_CONFIG: Record<1 | 2 | 3 | 4, RoundConfig> = {
   },
   4: {
     title: 'Round 4',
-    subtitle: 'Tier list: drag survivors of Round 3 and any 3-star games into S+, S, or S-.',
+    subtitle: 'Tier list: drag survivors of Round 3 and any 3/4-star games into S+, S, or S-.',
     containerClass: 'round-4-container',
     navClass: 'round-4-navigation',
     backButtonText: '← Back to Round 3',

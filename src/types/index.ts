@@ -52,7 +52,9 @@ export interface Round2State {
   steps: Round2Step[];
   currentTrio: (string | '')[];
   currentPick: string | null;
-  cursor: number; // for keeping track
+  cursor: number; // -1 means "live newest trio"; 0+ means viewing history
+  poolKey?: string;
+  shuffledIds?: string[];
 }
 
 // Round 3 State Types

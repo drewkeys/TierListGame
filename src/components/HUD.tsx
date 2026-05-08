@@ -1,8 +1,15 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useApp } from "../context/useApp";
 import { ROUND_CONFIG } from "../utils/constants";
 import { Button } from "./Button";
+import type { Round2State } from "../types";
 import "./HUD.css";
+
+function makeTrio(ids: string[], startIndex: number): (string | "")[] {
+  const trio = ids.slice(startIndex, startIndex + 3);
+  while (trio.length < 3) trio.push("");
+  return trio as (string | "")[];
+}
 
 export function HUD() {
   const {
@@ -11,31 +18,93 @@ export function HUD() {
     activeRound,
     shootMode,
     setActiveRound,
-    excludedGameIds,
-    round2SelectedIds,
+    state,
+    updateRound2,
   } = useApp();
 
   const config = ROUND_CONFIG[activeRound];
 
-  // Only allow forward navigation
   const nextRound =
     activeRound < 4 ? ((activeRound + 1) as typeof activeRound) : null;
 
-  // Calculate remaining selected IDs for Round 2 to determine if Next button should be enabled
-  const round2RemainingCount = useMemo(() => {
-    if (activeRound !== 2) return null;
-    const remaining = Array.from(round2SelectedIds).filter(
-      (id) => !excludedGameIds.has(id)
-    );
-    return remaining.length;
-  }, [activeRound, excludedGameIds, round2SelectedIds]);
+  const r2 = state.r2;
+  const r2Cursor = r2?.cursor ?? -1;
+  const r2ShuffledIds = r2?.shuffledIds ?? [];
+  const r2NextLiveStartIndex = (r2?.steps.length ?? 0) * 3;
+  const r2HasFutureLiveTrio = r2NextLiveStartIndex < r2ShuffledIds.length;
+  const r2HasCurrentTrio = Boolean(r2?.currentTrio?.some(Boolean));
+
+  const r2IsComplete = Boolean(
+    activeRound === 2 &&
+      r2 &&
+      r2.steps.length > 0 &&
+      !r2HasCurrentTrio &&
+      r2NextLiveStartIndex >= r2ShuffledIds.length
+  );
+
+  const r2CanGoBack = Boolean(
+    activeRound === 2 &&
+      r2 &&
+      r2.steps.length > 0 &&
+      (r2Cursor === -1 || r2Cursor > 0)
+  );
+
+  const r2CanGoNext = Boolean(
+    activeRound === 2 &&
+      r2 &&
+      r2Cursor >= 0 &&
+      (r2Cursor < r2.steps.length - 1 || r2HasFutureLiveTrio)
+  );
+
+  const goRound2Back = useCallback(() => {
+    if (!r2 || r2.steps.length === 0) return;
+
+    const targetIndex = r2Cursor === -1 ? r2.steps.length - 1 : Math.max(0, r2Cursor - 1);
+    const step = r2.steps[targetIndex];
+    if (!step) return;
+
+    updateRound2((prev: Round2State) => ({
+      ...prev,
+      currentTrio: step.trio,
+      currentPick: step.pick,
+      cursor: targetIndex,
+    }));
+  }, [r2, r2Cursor, updateRound2]);
+
+  const goRound2Next = useCallback(() => {
+    if (!r2 || r2Cursor < 0) return;
+
+    const nextIndex = r2Cursor + 1;
+    const nextHistoryStep = r2.steps[nextIndex];
+
+    if (nextHistoryStep) {
+      updateRound2((prev: Round2State) => ({
+        ...prev,
+        currentTrio: nextHistoryStep.trio,
+        currentPick: nextHistoryStep.pick,
+        cursor: nextIndex,
+      }));
+      return;
+    }
+
+    const order = r2.shuffledIds ?? [];
+    const nextLiveTrio = makeTrio(order, r2.steps.length * 3);
+
+    updateRound2((prev: Round2State) => ({
+      ...prev,
+      currentTrio: nextLiveTrio,
+      currentPick: null,
+      cursor: -1,
+    }));
+  }, [r2, r2Cursor, updateRound2]);
 
   const stats = useMemo(() => {
     let total = 0,
       eliminated = 0,
       s1 = 0,
       s2 = 0,
-      s3 = 0;
+      s3 = 0,
+      s4 = 0;
 
     for (const [gameId] of gameIndex) {
       total++;
@@ -44,11 +113,12 @@ export function HUD() {
       if (gameState.stars === 1) s1++;
       if (gameState.stars === 2) s2++;
       if (gameState.stars === 3) s3++;
+      if (gameState.stars === 4) s4++;
     }
 
     const remaining = Math.max(0, total - eliminated);
 
-    return { total, eliminated, s1, s2, s3, remaining };
+    return { total, eliminated, s1, s2, s3, s4, remaining };
   }, [gameIndex, getGameState]);
 
   const hint = useMemo(() => {
@@ -57,7 +127,8 @@ export function HUD() {
         ? "ELIM MODE is ON. Click a game cover to eliminate."
         : "ELIM MODE is OFF. Click a game to open details.";
     }
-    return "Round navigation: Next control is available.";
+
+    return "";
   }, [activeRound, shootMode]);
 
   return (
@@ -88,24 +159,58 @@ export function HUD() {
           <div className="hud__value">{stats.s3}</div>
         </div>
 
+        <div className="hud__pill">
+          <div className="hud__label">4★</div>
+          <div className="hud__value">{stats.s4}</div>
+        </div>
+
         <div className="hud__pill hud__pill--wide">
           <div className="hud__label">Remaining</div>
           <div className="hud__value">{stats.remaining}</div>
         </div>
 
-        {/* Round Navigation: FORWARD ONLY */}
-        {config.navClass && config.showNextButton && nextRound && (
+        {activeRound === 2 && (
+          <>
+            <Button
+              className="hud__btn hud__btn--back"
+              type="button"
+              onClick={goRound2Back}
+              disabled={!r2CanGoBack}
+            >
+              Back
+            </Button>
+
+            {r2IsComplete && nextRound ? (
+              <Button
+                className="hud__btn hud__btn--next"
+                type="button"
+                onClick={() => setActiveRound(nextRound)}
+              >
+                Round 3 →
+              </Button>
+            ) : (
+              <Button
+                className="hud__btn hud__btn--next"
+                type="button"
+                onClick={goRound2Next}
+                disabled={!r2CanGoNext}
+              >
+                Next →
+              </Button>
+            )}
+          </>
+        )}
+
+        {config.navClass && config.showNextButton && nextRound && activeRound !== 2 && (
           <Button
             className="hud__btn hud__btn--next"
             type="button"
             onClick={() => setActiveRound(nextRound)}
-            disabled={activeRound === 2 ? round2RemainingCount !== 1 : false}
           >
             {config.nextButtonText}
           </Button>
         )}
 
-        {/* For testing purposes: allow jumping from Round 1 to Round 2 */}
         {activeRound === 1 && nextRound && (
           <Button
             className="hud__btn hud__btn--next"
@@ -116,7 +221,7 @@ export function HUD() {
           </Button>
         )}
 
-        <div className="hud__hint">{hint}</div>
+        {hint && <div className="hud__hint">{hint}</div>}
       </div>
     </footer>
   );

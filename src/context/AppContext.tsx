@@ -26,6 +26,8 @@ const DEFAULT_R2: Round2State = {
   currentTrio: ['', '', ''],
   currentPick: null,
   cursor: -1,
+  poolKey: '',
+  shuffledIds: [],
 };
 
 const DEFAULT_R3: Round3State = {
@@ -180,7 +182,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => {
       const newState = { ...prev };
       const gameState = getGameState(gameId, newState);
-      gameState.stars = stars;
+      gameState.stars = Math.max(0, Math.min(4, stars));
       return newState;
     });
   }, []);

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useApp } from '../context/useApp';
 import { ROUND_CONFIG } from '../utils/constants';
 import { useRoundGames } from '../hooks/useRoundGames';
@@ -7,16 +7,33 @@ import { RemoveEntryModal } from '../components/RemoveEntryModal';
 
 export function Round3View() {
   const config = ROUND_CONFIG[3];
-  const { gameIndex, setModalGameId, excludedGameIds, setExcludedGameIds, state, updateRound3 } = useApp();
+
+  const {
+    gameIndex,
+    setModalGameId,
+    excludedGameIds,
+    setExcludedGameIds,
+    state,
+    updateRound3,
+  } = useApp();
+
   const gameEntries = useRoundGames(3);
 
-  const [pendingRemoval, setPendingRemoval] = useState<{ gameId: string; gameTitle: string } | null>(null);
+  const [pendingRemoval, setPendingRemoval] = useState<{
+    gameId: string;
+    gameTitle: string;
+  } | null>(null);
 
   const handleRemoveEntry = useCallback(
     (gameId: string) => {
       const info = gameIndex.get(gameId);
+
       if (info) {
-        setPendingRemoval({ gameId, gameTitle: info.game.title || gameId });
+        setPendingRemoval({
+          gameId,
+          gameTitle: info.game.title || gameId,
+        });
+
         setModalGameId(null);
       }
     },
@@ -25,11 +42,12 @@ export function Round3View() {
 
   const handleConfirmRemoval = useCallback(() => {
     if (!pendingRemoval) return;
+
     const { gameId } = pendingRemoval;
 
-    const next = new Set(excludedGameIds);
-    next.add(gameId);
-    setExcludedGameIds(next);
+    const nextExcludedIds = new Set(excludedGameIds);
+    nextExcludedIds.add(gameId);
+    setExcludedGameIds(nextExcludedIds);
 
     if (state.r3) {
       updateRound3((prev) => ({
@@ -42,36 +60,51 @@ export function Round3View() {
     setPendingRemoval(null);
   }, [pendingRemoval, excludedGameIds, setExcludedGameIds, state.r3, updateRound3]);
 
-  const handleCancelRemoval = useCallback(() => setPendingRemoval(null), []);
+  const handleCancelRemoval = useCallback(() => {
+    setPendingRemoval(null);
+  }, []);
 
-  // ✅ This used to be in Rounds.tsx after the Round 2 return
   const roundGameEntries = useMemo(() => {
-    const twoStarGames = gameEntries[1] || [];
-    const allGamesWithStars = gameEntries[3] || [];
+    const twoStarGroups = gameEntries[1] || [];
+    const allGroupsWithStars = gameEntries[3] || [];
 
-    const consoleGroupMap = new Map<string, typeof twoStarGames[0]>();
+    const consoleGroupMap = new Map<string, (typeof twoStarGroups)[number]>();
 
-    twoStarGames.forEach((group) => {
+    // Add 2★ games from Round 1.
+    twoStarGroups.forEach((group) => {
       const filteredGames = group.games.filter((entry) => !excludedGameIds.has(entry.game.id));
+
       if (filteredGames.length > 0) {
-        consoleGroupMap.set(group.id, { ...group, games: filteredGames });
+        consoleGroupMap.set(group.id, {
+          ...group,
+          games: filteredGames,
+        });
       }
     });
 
-    allGamesWithStars.forEach((group) => {
+    // Add games that survived Round 2.
+    allGroupsWithStars.forEach((group) => {
       const survivorGames = group.games.filter(
         (entry) => entry.gameState.r2Survived === true && !excludedGameIds.has(entry.game.id)
       );
-      if (survivorGames.length > 0) {
-        const existingGroup = consoleGroupMap.get(group.id);
-        if (existingGroup) {
-          const existingIds = new Set(existingGroup.games.map((g) => g.game.id));
-          survivorGames.forEach((entry) => {
-            if (!existingIds.has(entry.game.id)) existingGroup.games.push(entry);
-          });
-        } else {
-          consoleGroupMap.set(group.id, { ...group, games: [...survivorGames] });
-        }
+
+      if (survivorGames.length === 0) return;
+
+      const existingGroup = consoleGroupMap.get(group.id);
+
+      if (existingGroup) {
+        const existingIds = new Set(existingGroup.games.map((entry) => entry.game.id));
+
+        survivorGames.forEach((entry) => {
+          if (!existingIds.has(entry.game.id)) {
+            existingGroup.games.push(entry);
+          }
+        });
+      } else {
+        consoleGroupMap.set(group.id, {
+          ...group,
+          games: [...survivorGames],
+        });
       }
     });
 
@@ -81,11 +114,15 @@ export function Round3View() {
       group.games.sort((a, b) => {
         const aTitle = (a.game.sortTitle || a.game.title || '').toLowerCase();
         const bTitle = (b.game.sortTitle || b.game.title || '').toLowerCase();
+
         return aTitle.localeCompare(bTitle);
       });
     });
 
-    mergedGroups.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    mergedGroups.sort((a, b) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
+
     return mergedGroups;
   }, [gameEntries, excludedGameIds]);
 
@@ -101,16 +138,22 @@ export function Round3View() {
           {roundGameEntries.map((consoleGroup) => (
             <article key={consoleGroup.id} className="console-group">
               <h2 className="console-group-title">{consoleGroup.name}</h2>
+
               <div className="game-grid" role="list" aria-label={`${consoleGroup.name} games`}>
                 {consoleGroup.games.map((entry) => {
                   const info = gameIndex.get(entry.game.id);
                   if (!info) return null;
+
+                  const isSelected =
+                    state.r3?.currentPick === info.game.id || entry.gameState.r3Survived === true;
+
                   return (
                     <GameCard
                       key={entry.game.id}
                       game={info.game}
                       consoleName={info.consoleName}
                       neon={info.neon}
+                      selected={isSelected}
                       onClick={() => setModalGameId(info.game.id)}
                       onEliminate={() => handleRemoveEntry(info.game.id)}
                     />

@@ -32,7 +32,7 @@ function validateState(state: AppState): AppState {
 
     if (isModified) {
       cleanedGames[gameId] = {
-        stars: typeof gameState.stars === 'number' ? Math.max(0, Math.min(3, gameState.stars)) : 0,
+        stars: typeof gameState.stars === 'number' ? Math.max(0, Math.min(4, gameState.stars)) : 0,
         eliminated: typeof gameState.eliminated === 'boolean' ? gameState.eliminated : false,
         r2Survived: typeof gameState.r2Survived === 'boolean' ? gameState.r2Survived : false,
         r3Survived: typeof gameState.r3Survived === 'boolean' ? gameState.r3Survived : false,

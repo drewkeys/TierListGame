@@ -21,6 +21,42 @@
   transform: translateX(0) translateY(-2px);
 }
 
+/* Winner / saved pick highlight for Rounds 2 and 3 */
+.game-card.is-selected{
+  border-color: rgba(0, 255, 154, 0.85);
+  box-shadow:
+    0 0 0 1px rgba(0,255,154,0.35),
+    0 0 24px rgba(0,255,154,0.24),
+    0 18px 56px rgba(0,0,0,0.68);
+}
+
+.game-card.is-selected::after{
+  content: "WINNER";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 20;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: rgba(4, 18, 13, 0.96);
+  background: rgba(0,255,154,0.92);
+  box-shadow: 0 0 18px rgba(0,255,154,0.36);
+  pointer-events: none;
+}
+
+@media (max-width: 520px){
+  .game-card.is-selected::after{
+    top: 6px;
+    left: 6px;
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+}
+
 .game-card:active{
   transform: translateX(0) translateY(0);
 }

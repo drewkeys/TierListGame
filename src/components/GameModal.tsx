@@ -4,6 +4,12 @@ import { youtubeToEmbed } from '../utils/youtube';
 import { Button } from './Button';
 import './GameModal.css';
 
+function makeTrio(ids: string[], startIndex: number): (string | '')[] {
+  const trio = ids.slice(startIndex, startIndex + 3);
+  while (trio.length < 3) trio.push('');
+  return trio as (string | '')[];
+}
+
 export function GameModal() {
   const {
     modalGameId,
@@ -11,8 +17,6 @@ export function GameModal() {
     gameIndex,
     getGameState,
     setGameStars,
-
-    // Prefer explicit setter over toggle (more predictable)
     setGameEliminated,
 
     // Round 2 selection support
@@ -34,11 +38,12 @@ export function GameModal() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setModalGameId(null);
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setModalGameId]);
 
-  // Keep Round 3 using RemoveEntryModal (as your current codebase expects)
+  // Keep Round 3 using RemoveEntryModal if your current codebase expects that.
   if (!modalGameId || activeRound === 3) return null;
 
   const info = gameIndex.get(modalGameId);
@@ -48,33 +53,66 @@ export function GameModal() {
   const gameState = getGameState(modalGameId);
   const embed = youtubeToEmbed(game.youtube || '');
 
-  // Round 2+ should be read-only for rating/eliminate
-  const isReadOnly = activeRound > 1;
-
   const handlePickWinnerRound2 = () => {
-    if (activeRound !== 2) return;
+    if (activeRound !== 2 || !modalGameId) return;
 
-    // Mark survivor so Round 3 can consume it
-    setGameR2Survived(modalGameId, true);
+    const pickedId = modalGameId;
 
-    // Commit this trio selection into Round 2 history and force next trio
     updateRound2((prev: any) => {
-      const step = { trio: prev.currentTrio, pick: modalGameId };
+      const currentTrio = prev.currentTrio ?? ['', '', ''];
+      const cursor = typeof prev.cursor === 'number' ? prev.cursor : -1;
+      const steps = prev.steps ?? [];
 
-      // If user previously went "back" and is rewriting history, truncate forward steps
-      const baseSteps =
-        typeof prev.cursor === 'number' && prev.cursor < prev.steps.length - 1
-          ? prev.steps.slice(0, prev.cursor + 1)
-          : prev.steps;
+      const step = {
+        trio: currentTrio,
+        pick: pickedId,
+      };
 
+      /*
+        cursor === -1 means we are on the live/newest trio.
+        cursor >= 0 means we are viewing old history and may be changing an answer.
+      */
+
+      if (cursor >= 0) {
+        // Remove survivor status from all future steps because they are being discarded.
+        const futureSteps = steps.slice(cursor + 1);
+        for (const futureStep of futureSteps) {
+          if (futureStep.pick) {
+            setGameR2Survived(futureStep.pick, false);
+          }
+        }
+
+        // If replacing the saved pick for this historical trio, unset the old pick.
+        const oldPick = steps[cursor]?.pick;
+        if (oldPick && oldPick !== pickedId) {
+          setGameR2Survived(oldPick, false);
+        }
+      }
+
+      // Save the new winner.
+      setGameR2Survived(pickedId, true);
+
+      /*
+        Important:
+        If cursor is 2, we are replacing step 2.
+        Keep steps 0 and 1, then append the replacement step.
+        Do NOT use slice(0, cursor + 1), or you keep the old step and duplicate it.
+      */
+      const baseSteps = cursor >= 0 ? steps.slice(0, cursor) : steps;
       const nextSteps = [...baseSteps, step];
+
+      const order = prev.shuffledIds ?? [];
+      const nextStartIndex = nextSteps.length * 3;
+
+      const nextTrio =
+        nextStartIndex < order.length ? makeTrio(order, nextStartIndex) : ['', '', ''];
 
       return {
         ...prev,
         steps: nextSteps,
-        cursor: nextSteps.length - 1,
+        cursor: -1,
         currentPick: null,
-        currentTrio: ['', '', ''], // clears so Round 2 view generates next trio
+        currentTrio: nextTrio,
       };
     });
 
@@ -84,12 +122,13 @@ export function GameModal() {
   return (
     <>
       <div className="modal-backdrop" onClick={() => setModalGameId(null)} />
+
       <div
         className="modal"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modalTitle"
-        onClick={() => setModalGameId(null)} // click outside closes
+        onClick={() => setModalGameId(null)}
       >
         <div className="modal__panel" onClick={(e) => e.stopPropagation()}>
           <div className="modal__header">
@@ -99,6 +138,7 @@ export function GameModal() {
                 {game.title || game.id}
               </h2>
             </div>
+
             <button className="modal__close" type="button" onClick={() => setModalGameId(null)}>
               Close
             </button>
@@ -126,69 +166,54 @@ export function GameModal() {
               </div>
 
               <div className="detail-block detail-block--spaced">
-                <div className="detail-label">Rating</div>
+                {activeRound === 1 && (
+                  <>
+                    <div className="detail-label">Rating</div>
 
-                <div className="stars stars--spaced">
-                  {[1, 2, 3].map((i) => (
-                    <div
-                      key={i}
-                      className={`star-btn ${i <= gameState.stars ? 'is-on' : ''}`}
-                      role="button"
-                      tabIndex={0}
-                      aria-label={`Set ${i} star rating`}
-                      onClick={() => {
-                        if (isReadOnly) return;
-                        setGameStars(modalGameId, i);
-                      }}
-                      onKeyDown={(e) => {
-                        if (isReadOnly) return;
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setGameStars(modalGameId, i);
-                        }
-                      }}
-                    />
-                  ))}
-                </div>
+                    <div className="stars stars--spaced">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div
+                          key={i}
+                          className={`star-btn ${i <= gameState.stars ? 'is-on' : ''}`}
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`Set ${i} star rating`}
+                          onClick={() => setGameStars(modalGameId, i)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              setGameStars(modalGameId, i);
+                            }
+                          }}
+                        />
+                      ))}
+                    </div>
 
-                <div className="modal__actions">
-                  <Button onClick={() => !isReadOnly && setGameStars(modalGameId, 0)} disabled={isReadOnly}>
-                    0★
-                  </Button>
-                  <Button onClick={() => !isReadOnly && setGameStars(modalGameId, 1)} disabled={isReadOnly}>
-                    1★
-                  </Button>
-                  <Button onClick={() => !isReadOnly && setGameStars(modalGameId, 2)} disabled={isReadOnly}>
-                    2★
-                  </Button>
-                  <Button onClick={() => !isReadOnly && setGameStars(modalGameId, 3)} disabled={isReadOnly}>
-                    3★
-                  </Button>
+                    <div className="modal__actions">
+                      <Button onClick={() => setGameStars(modalGameId, 0)}>0★</Button>
+                      <Button onClick={() => setGameStars(modalGameId, 1)}>1★</Button>
+                      <Button onClick={() => setGameStars(modalGameId, 2)}>2★</Button>
+                      <Button onClick={() => setGameStars(modalGameId, 3)}>3★</Button>
+                      <Button onClick={() => setGameStars(modalGameId, 4)}>4★</Button>
 
-                  <Button
-                    variant="danger"
-                    disabled={isReadOnly}
-                    onClick={() => {
-                      if (isReadOnly) return;
-                      setGameEliminated(modalGameId, !gameState.eliminated);
-                    }}
-                  >
-                    {gameState.eliminated ? 'Un-eliminate' : 'Eliminate'}
-                  </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => setGameEliminated(modalGameId, !gameState.eliminated)}
+                      >
+                        {gameState.eliminated ? 'Un-eliminate' : 'Eliminate'}
+                      </Button>
+                    </div>
+                  </>
+                )}
 
-                  {/* Round 2 specific action */}
-                  {activeRound === 2 && (
+                {activeRound === 2 && (
+                  <div className="modal__actions">
                     <Button variant="magenta" onClick={handlePickWinnerRound2}>
                       Pick this winner
                     </Button>
-                  )}
-                </div>
-
-                {isReadOnly && (
-                  <div className="modal__hint modal__hint--spaced">
-                    This panel is read-only in Rounds 2–4. Return to Round 1 to change ratings.
                   </div>
                 )}
+
                 <div className="modal__hint">
                   Tip: press <span className="kbd">Esc</span> to close.
                 </div>

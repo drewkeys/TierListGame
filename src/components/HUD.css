@@ -167,3 +167,63 @@
   opacity: 0.5 !important;
   cursor: not-allowed !important;
 }
+
+/* Compact HUD so it does not cover Round 2/3 cards */
+.hud{
+  padding: 6px 10px 7px;
+  background: linear-gradient(180deg, rgba(5,6,14,0.0), rgba(5,6,14,0.86) 38%, rgba(5,6,14,0.96));
+}
+
+.hud__row{
+  gap: 6px;
+  justify-content: flex-start;
+}
+
+.hud__pill{
+  padding: 5px 9px;
+  gap: 7px;
+}
+
+.hud__label{
+  font-size: 9px;
+}
+
+.hud__value{
+  font-size: 11px;
+}
+
+.hud__hint{
+  display: none;
+}
+
+.hud .hud__btn,
+.hud .hud__btn.btn,
+.hud .hud__btn.btn--magenta,
+.hud .hud__btn.btn--ghost,
+.hud .hud__btn.btn--default,
+.hud .hud__btn.btn--danger{
+  padding: 6px 11px !important;
+  font-size: 10px !important;
+}
+
+@media (max-width: 640px){
+  .hud{
+    padding: 5px 8px 6px;
+  }
+
+  .hud__row{
+    gap: 5px;
+  }
+
+  .hud__pill{
+    padding: 4px 8px;
+  }
+
+  .hud__label{
+    font-size: 8px;
+  }
+
+  .hud__value{
+    font-size: 10px;
+  }
+}

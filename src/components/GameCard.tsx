@@ -9,11 +9,12 @@ interface GameCardProps {
   game: Game;
   consoleName?: string;
   neon?: string;
+  selected?: boolean;
   onClick?: () => void;
   onEliminate?: () => void;
 }
 
-export function GameCard({ game, onClick, onEliminate }: GameCardProps) {
+export function GameCard({ game, selected = false, onClick, onEliminate }: GameCardProps) {
   const { getGameState, shootMode, activeRound } = useApp();
   const gameState = getGameState(game.id);
   const [isExploding, setIsExploding] = useState(false);
@@ -41,7 +42,7 @@ export function GameCard({ game, onClick, onEliminate }: GameCardProps) {
     <div
       className={`game-card ${gameState.eliminated ? 'is-eliminated' : ''} ${
         isExploding ? 'is-exploding' : ''
-      }`.trim()}
+       } ${selected ? 'is-selected' : ''}`.trim()}
       data-game-id={game.id}
       onClick={handleClick}
     >

@@ -10,7 +10,7 @@ export function Stars({ stars, className = '' }: StarsProps) {
   const s = Number(stars) || 0;
   return (
     <div className={`caption__stars ${className}`.trim()}>
-      {[1, 2, 3].map((i) => (
+      {[1, 2, 3, 4].map((i) => (
         <img
           key={i}
           src={ASSET_PATHS.starPng}
