@@ -1,14 +1,20 @@
-import { useCallback, useMemo } from "react";
-import { useApp } from "../context/useApp";
-import { ROUND_CONFIG } from "../utils/constants";
-import { Button } from "./Button";
-import type { Round2State } from "../types";
-import "./HUD.css";
+import { useCallback, useMemo } from 'react';
+import { useApp } from '../context/useApp';
+import { ROUND_CONFIG } from '../utils/constants';
+import { Button } from './Button';
+import type { Round2State, Round3State } from '../types';
+import './HUD.css';
 
-function makeTrio(ids: string[], startIndex: number): (string | "")[] {
+function makeTrio(ids: string[], startIndex: number): (string | '')[] {
   const trio = ids.slice(startIndex, startIndex + 3);
-  while (trio.length < 3) trio.push("");
-  return trio as (string | "")[];
+  while (trio.length < 3) trio.push('');
+  return trio as (string | '')[];
+}
+
+function makePair(ids: string[], startIndex: number): (string | '')[] {
+  const pair = ids.slice(startIndex, startIndex + 2);
+  while (pair.length < 2) pair.push('');
+  return pair as (string | '')[];
 }
 
 export function HUD() {
@@ -20,6 +26,7 @@ export function HUD() {
     setActiveRound,
     state,
     updateRound2,
+    updateRound3,
   } = useApp();
 
   const config = ROUND_CONFIG[activeRound];
@@ -54,6 +61,35 @@ export function HUD() {
       r2 &&
       r2Cursor >= 0 &&
       (r2Cursor < r2.steps.length - 1 || r2HasFutureLiveTrio)
+  );
+
+  const r3 = state.r3;
+  const r3Cursor = r3?.cursor ?? -1;
+  const r3ShuffledIds = r3?.shuffledIds ?? [];
+  const r3NextLiveStartIndex = (r3?.steps.length ?? 0) * 2;
+  const r3HasFutureLivePair = r3NextLiveStartIndex < r3ShuffledIds.length;
+  const r3HasCurrentPair = Boolean(r3?.currentPair?.some(Boolean));
+
+  const r3IsComplete = Boolean(
+    activeRound === 3 &&
+      r3 &&
+      r3.steps.length > 0 &&
+      !r3HasCurrentPair &&
+      r3NextLiveStartIndex >= r3ShuffledIds.length
+  );
+
+  const r3CanGoBack = Boolean(
+    activeRound === 3 &&
+      r3 &&
+      r3.steps.length > 0 &&
+      (r3Cursor === -1 || r3Cursor > 0)
+  );
+
+  const r3CanGoNext = Boolean(
+    activeRound === 3 &&
+      r3 &&
+      r3Cursor >= 0 &&
+      (r3Cursor < r3.steps.length - 1 || r3HasFutureLivePair)
   );
 
   const goRound2Back = useCallback(() => {
@@ -98,6 +134,48 @@ export function HUD() {
     }));
   }, [r2, r2Cursor, updateRound2]);
 
+  const goRound3Back = useCallback(() => {
+    if (!r3 || r3.steps.length === 0) return;
+
+    const targetIndex = r3Cursor === -1 ? r3.steps.length - 1 : Math.max(0, r3Cursor - 1);
+    const step = r3.steps[targetIndex];
+    if (!step) return;
+
+    updateRound3((prev: Round3State) => ({
+      ...prev,
+      currentPair: step.pair,
+      currentPick: step.pick,
+      cursor: targetIndex,
+    }));
+  }, [r3, r3Cursor, updateRound3]);
+
+  const goRound3Next = useCallback(() => {
+    if (!r3 || r3Cursor < 0) return;
+
+    const nextIndex = r3Cursor + 1;
+    const nextHistoryStep = r3.steps[nextIndex];
+
+    if (nextHistoryStep) {
+      updateRound3((prev: Round3State) => ({
+        ...prev,
+        currentPair: nextHistoryStep.pair,
+        currentPick: nextHistoryStep.pick,
+        cursor: nextIndex,
+      }));
+      return;
+    }
+
+    const order = r3.shuffledIds ?? [];
+    const nextLivePair = makePair(order, r3.steps.length * 2);
+
+    updateRound3((prev: Round3State) => ({
+      ...prev,
+      currentPair: nextLivePair,
+      currentPick: null,
+      cursor: -1,
+    }));
+  }, [r3, r3Cursor, updateRound3]);
+
   const stats = useMemo(() => {
     let total = 0,
       eliminated = 0,
@@ -124,11 +202,11 @@ export function HUD() {
   const hint = useMemo(() => {
     if (activeRound === 1) {
       return shootMode
-        ? "ELIM MODE is ON. Click a game cover to eliminate."
-        : "ELIM MODE is OFF. Click a game to open details.";
+        ? 'ELIM MODE is ON. Click a game cover to eliminate.'
+        : 'ELIM MODE is OFF. Click a game to open details.';
     }
 
-    return "";
+    return '';
   }, [activeRound, shootMode]);
 
   return (
@@ -201,15 +279,51 @@ export function HUD() {
           </>
         )}
 
-        {config.navClass && config.showNextButton && nextRound && activeRound !== 2 && (
-          <Button
-            className="hud__btn hud__btn--next"
-            type="button"
-            onClick={() => setActiveRound(nextRound)}
-          >
-            {config.nextButtonText}
-          </Button>
+        {activeRound === 3 && (
+          <>
+            <Button
+              className="hud__btn hud__btn--back"
+              type="button"
+              onClick={goRound3Back}
+              disabled={!r3CanGoBack}
+            >
+              Back
+            </Button>
+
+            {r3IsComplete && nextRound ? (
+              <Button
+                className="hud__btn hud__btn--next"
+                type="button"
+                onClick={() => setActiveRound(nextRound)}
+              >
+                Round 4 →
+              </Button>
+            ) : (
+              <Button
+                className="hud__btn hud__btn--next"
+                type="button"
+                onClick={goRound3Next}
+                disabled={!r3CanGoNext}
+              >
+                Next →
+              </Button>
+            )}
+          </>
         )}
+
+        {config.navClass &&
+          config.showNextButton &&
+          nextRound &&
+          activeRound !== 2 &&
+          activeRound !== 3 && (
+            <Button
+              className="hud__btn hud__btn--next"
+              type="button"
+              onClick={() => setActiveRound(nextRound)}
+            >
+              {config.nextButtonText}
+            </Button>
+          )}
 
         {activeRound === 1 && nextRound && (
           <Button

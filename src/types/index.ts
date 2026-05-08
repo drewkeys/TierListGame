@@ -74,6 +74,9 @@ export interface Round3State {
   steps: Round3Step[];
   currentPair: (string | '')[];
   currentPick: string | null;
+  cursor: number; // -1 means live newest pair; 0+ means viewing history
+  poolKey?: string;
+  shuffledIds?: string[];
 }
 
 // App State Types

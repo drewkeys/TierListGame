@@ -22,6 +22,7 @@ export interface AppContextType {
   setExcludedGameIds: (ids: Set<string>) => void;
   setRound2SelectedIds: (ids: Set<string>) => void;
   setGameR2Survived: (gameId: string, survived: boolean) => void;
+  setGameR3Survived: (gameId: string, survived: boolean) => void;
   reset: () => void;
 }
 

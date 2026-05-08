@@ -10,6 +10,12 @@ function makeTrio(ids: string[], startIndex: number): (string | '')[] {
   return trio as (string | '')[];
 }
 
+function makePair(ids: string[], startIndex: number): (string | '')[] {
+  const pair = ids.slice(startIndex, startIndex + 2);
+  while (pair.length < 2) pair.push('');
+  return pair as (string | '')[];
+}
+
 export function GameModal() {
   const {
     modalGameId,
@@ -19,9 +25,11 @@ export function GameModal() {
     setGameStars,
     setGameEliminated,
 
-    // Round 2 selection support
+    // Round 2 / Round 3 selection support
     setGameR2Survived,
+    setGameR3Survived,
     updateRound2,
+    updateRound3,
 
     activeRound,
   } = useApp() as any;
@@ -43,8 +51,7 @@ export function GameModal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setModalGameId]);
 
-  // Keep Round 3 using RemoveEntryModal if your current codebase expects that.
-  if (!modalGameId || activeRound === 3) return null;
+  if (!modalGameId) return null;
 
   const info = gameIndex.get(modalGameId);
   if (!info) return null;
@@ -68,42 +75,31 @@ export function GameModal() {
         pick: pickedId,
       };
 
-      /*
-        cursor === -1 means we are on the live/newest trio.
-        cursor >= 0 means we are viewing old history and may be changing an answer.
-      */
-
+      // cursor -1 = live/newest trio.
+      // cursor 0+ = viewing old history and replacing that answer.
       if (cursor >= 0) {
-        // Remove survivor status from all future steps because they are being discarded.
         const futureSteps = steps.slice(cursor + 1);
+
         for (const futureStep of futureSteps) {
           if (futureStep.pick) {
             setGameR2Survived(futureStep.pick, false);
           }
         }
 
-        // If replacing the saved pick for this historical trio, unset the old pick.
         const oldPick = steps[cursor]?.pick;
         if (oldPick && oldPick !== pickedId) {
           setGameR2Survived(oldPick, false);
         }
       }
 
-      // Save the new winner.
       setGameR2Survived(pickedId, true);
 
-      /*
-        Important:
-        If cursor is 2, we are replacing step 2.
-        Keep steps 0 and 1, then append the replacement step.
-        Do NOT use slice(0, cursor + 1), or you keep the old step and duplicate it.
-      */
+      // If replacing step 2, keep steps 0 and 1, then append the replacement.
       const baseSteps = cursor >= 0 ? steps.slice(0, cursor) : steps;
       const nextSteps = [...baseSteps, step];
 
       const order = prev.shuffledIds ?? [];
       const nextStartIndex = nextSteps.length * 3;
-
       const nextTrio =
         nextStartIndex < order.length ? makeTrio(order, nextStartIndex) : ['', '', ''];
 
@@ -113,6 +109,61 @@ export function GameModal() {
         cursor: -1,
         currentPick: null,
         currentTrio: nextTrio,
+      };
+    });
+
+    setModalGameId(null);
+  };
+
+  const handlePickWinnerRound3 = () => {
+    if (activeRound !== 3 || !modalGameId) return;
+
+    const pickedId = modalGameId;
+
+    updateRound3((prev: any) => {
+      const currentPair = prev.currentPair ?? ['', ''];
+      const cursor = typeof prev.cursor === 'number' ? prev.cursor : -1;
+      const steps = prev.steps ?? [];
+
+      const step = {
+        pair: currentPair,
+        pick: pickedId,
+      };
+
+      // cursor -1 = live/newest pair.
+      // cursor 0+ = viewing old history and replacing that answer.
+      if (cursor >= 0) {
+        const futureSteps = steps.slice(cursor + 1);
+
+        for (const futureStep of futureSteps) {
+          if (futureStep.pick) {
+            setGameR3Survived(futureStep.pick, false);
+          }
+        }
+
+        const oldPick = steps[cursor]?.pick;
+        if (oldPick && oldPick !== pickedId) {
+          setGameR3Survived(oldPick, false);
+        }
+      }
+
+      setGameR3Survived(pickedId, true);
+
+      // If replacing step 2, keep steps 0 and 1, then append the replacement.
+      const baseSteps = cursor >= 0 ? steps.slice(0, cursor) : steps;
+      const nextSteps = [...baseSteps, step];
+
+      const order = prev.shuffledIds ?? [];
+      const nextStartIndex = nextSteps.length * 2;
+      const nextPair =
+        nextStartIndex < order.length ? makePair(order, nextStartIndex) : ['', ''];
+
+      return {
+        ...prev,
+        steps: nextSteps,
+        cursor: -1,
+        currentPick: null,
+        currentPair: nextPair,
       };
     });
 
@@ -209,6 +260,14 @@ export function GameModal() {
                 {activeRound === 2 && (
                   <div className="modal__actions">
                     <Button variant="magenta" onClick={handlePickWinnerRound2}>
+                      Pick this winner
+                    </Button>
+                  </div>
+                )}
+
+                {activeRound === 3 && (
+                  <div className="modal__actions">
+                    <Button variant="magenta" onClick={handlePickWinnerRound3}>
                       Pick this winner
                     </Button>
                   </div>

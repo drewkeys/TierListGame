@@ -35,6 +35,9 @@ const DEFAULT_R3: Round3State = {
   steps: [],
   currentPair: ['', ''],
   currentPick: null,
+  cursor: -1,
+  poolKey: '',
+  shuffledIds: [],
 };
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -243,6 +246,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const setGameR3Survived = useCallback((gameId: string, survived: boolean) => {
+    setState((prev) => {
+      const newState = { ...prev };
+      const gs = getGameState(gameId, newState);
+      gs.r3Survived = survived;
+      return newState;
+    });
+  }, []);
+
   const reset = useCallback(() => {
     const newState = resetState();
     setState(newState);
@@ -281,6 +293,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setExcludedGameIds,
         setRound2SelectedIds,
         setGameR2Survived,
+        setGameR3Survived,
         reset,
       }}
     >

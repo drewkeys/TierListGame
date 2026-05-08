@@ -1399,3 +1399,214 @@ body.round-2 .round-container{
 body.round-2 .round2-grid{
   padding-bottom: 6px;
 }
+
+/* Round 3 now behaves like Round 2: 2-game picker, no console/category split */
+body.round-3{
+  overflow: hidden;
+}
+
+body.round-3 .stage{
+  height: calc(100vh - var(--topbar-h) - var(--hud-safe));
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+body.round-3 .view--round3{
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.round-3 .round-container{
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+  padding: 10px;
+  padding-bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.round-3 .round-header{
+  flex: 0 0 auto;
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: rgba(8,12,26,0.78);
+  border: 1px solid rgba(0,246,255,0.18);
+}
+
+body.round-3 .round3-grid{
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: 1fr;
+  gap: 12px;
+  padding: 0 0 6px;
+  overflow: hidden;
+  max-width: none;
+  margin: 0;
+}
+
+body.round-3 .round3-slot,
+body.round-3 .round3-card-wrap{
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.round-3 .round3-card-wrap{
+  display: flex;
+}
+
+body.round-3 .round3-card-wrap .game-card{
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.round-3 .round3-card-wrap .game-card .cover{
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: rgba(255,255,255,0.04);
+}
+
+body.round-3 .round3-card-wrap .game-card .caption{
+  flex: 0 0 auto;
+}
+
+@media (max-width: 900px){
+  body.round-3 .round-container{
+    padding: 8px;
+    padding-bottom: 4px;
+  }
+
+  body.round-3 .round-header{
+    padding: 9px 11px;
+    margin-bottom: 7px;
+  }
+
+  body.round-3 .round-title{
+    font-size: 12px;
+  }
+
+  body.round-3 .round-subtitle{
+    font-size: 11px;
+    line-height: 1.25;
+  }
+
+  body.round-3 .round3-grid{
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+
+  body.round-3 .round3-card-wrap .game-card{
+    display: grid;
+    grid-template-columns: clamp(96px, 26vw, 150px) minmax(0, 1fr);
+    grid-template-rows: 1fr;
+    align-items: stretch;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .cover{
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption{
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    height: 100%;
+    border-top: 0;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    padding: 8px 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__title{
+    min-height: 0;
+    font-size: 12px;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__stars{
+    margin-top: 0;
+    padding-bottom: 0;
+    justify-content: flex-end;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__stars img{
+    width: 13px;
+    height: 13px;
+  }
+}
+
+@media (max-width: 520px){
+  body.round-3 .round3-card-wrap .game-card{
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption{
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__title{
+    font-size: 11px;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__stars{
+    justify-content: flex-start;
+  }
+
+  body.round-3 .round3-card-wrap .game-card .caption__stars img{
+    width: 11px;
+    height: 11px;
+  }
+}
+
+@media (max-height: 650px){
+  body.round-3 .round-container{
+    padding-top: 6px;
+  }
+
+  body.round-3 .round-header{
+    padding: 7px 10px;
+    margin-bottom: 6px;
+  }
+
+  body.round-3 .round-subtitle{
+    margin-top: 4px;
+  }
+
+  body.round-3 .round3-grid{
+    gap: 6px;
+  }
+}
+
+/* Round 3 nav now lives in the HUD */
+body.round-3 .round-navigation{
+  display: none;
+}
