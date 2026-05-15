@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from './Button';
 import { useApp } from '../context/useApp';
 import { hasSavedProgress, loadSavedActiveRound } from '../utils/saveSlotStorage';
@@ -10,16 +10,16 @@ export function ResumeSaveModal() {
   const { activeRound, setActiveRound, reset } = useApp();
 
   const savedRound = useMemo(() => loadSavedActiveRound(), []);
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
+  const [show, setShow] = useState(() => {
     const alreadyAsked = sessionStorage.getItem(SEEN_THIS_SESSION_KEY) === '1';
+    const shouldShow = !alreadyAsked && hasSavedProgress() && Boolean(savedRound && savedRound > 1);
 
-    if (!alreadyAsked && hasSavedProgress() && savedRound && savedRound > 1) {
-      setShow(true);
+    if (shouldShow) {
       sessionStorage.setItem(SEEN_THIS_SESSION_KEY, '1');
     }
-  }, [savedRound]);
+
+    return shouldShow;
+  });
 
   if (!show || !savedRound) return null;
 

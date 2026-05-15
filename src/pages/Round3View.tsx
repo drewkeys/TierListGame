@@ -108,7 +108,7 @@ export function Round3View() {
     });
   }, [r3, poolKey, round3PoolIds, updateRound3]);
 
-  const currentPair = r3?.currentPair ?? ['', ''];
+  const currentPair = useMemo<(string | '')[]>(() => r3?.currentPair ?? ['', ''], [r3?.currentPair]);
   const hasCurrentPair = currentPair.some(Boolean);
 
   const displayedPick = useMemo(() => {

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
+import type { Round2State, Round3State } from '../types';
 import { useApp } from '../context/useApp';
 import { youtubeToEmbed } from '../utils/youtube';
 import { Button } from './Button';
@@ -60,7 +61,7 @@ export function GameModal() {
     updateRound3,
 
     activeRound,
-  } = useApp() as any;
+  } = useApp();
 
   const videoRef = useRef<HTMLIFrameElement>(null);
 
@@ -82,10 +83,12 @@ export function GameModal() {
   const info = modalGameId ? gameIndex.get(modalGameId) : null;
   const game = info?.game ?? null;
 
+  const youtubeUrl = game?.youtube ?? '';
+
   const embed = useMemo(() => {
-    if (!game?.youtube) return '';
-    return withYoutubeApiParams(youtubeToEmbed(game.youtube || ''));
-  }, [game?.youtube]);
+    if (!youtubeUrl) return '';
+    return withYoutubeApiParams(youtubeToEmbed(youtubeUrl));
+  }, [youtubeUrl]);
 
   useEffect(() => {
     const iframe = videoRef.current;
@@ -138,7 +141,7 @@ export function GameModal() {
 
     const pickedId = modalGameId;
 
-    updateRound2((prev: any) => {
+    updateRound2((prev: Round2State) => {
       const currentTrio = prev.currentTrio ?? ['', '', ''];
       const cursor = typeof prev.cursor === 'number' ? prev.cursor : -1;
       const steps = prev.steps ?? [];
@@ -193,7 +196,7 @@ export function GameModal() {
 
     const pickedId = modalGameId;
 
-    updateRound3((prev: any) => {
+    updateRound3((prev: Round3State) => {
       const currentPair = prev.currentPair ?? ['', ''];
       const cursor = typeof prev.cursor === 'number' ? prev.cursor : -1;
       const steps = prev.steps ?? [];

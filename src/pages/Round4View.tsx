@@ -260,27 +260,21 @@ export function Round4View() {
     return new Set(round4Games.map((entry) => entry!.game.id));
   }, [round4Games]);
 
-  // Keep saved Round 4 tier data aligned with the current eligible game set.
-  useEffect(() => {
-    setAssignments((prev) => {
-      let changed = false;
-      const next: TierAssignments = {};
+  const visibleAssignments = useMemo(() => {
+    const next: TierAssignments = {};
 
-      for (const [gameId, tier] of Object.entries(prev)) {
-        if (eligibleIds.has(gameId) && isTierId(tier)) {
-          next[gameId] = tier;
-        } else {
-          changed = true;
-        }
+    for (const [gameId, tier] of Object.entries(assignments)) {
+      if (eligibleIds.has(gameId) && isTierId(tier)) {
+        next[gameId] = tier;
       }
+    }
 
-      return changed ? next : prev;
-    });
-  }, [eligibleIds]);
+    return next;
+  }, [assignments, eligibleIds]);
 
   useEffect(() => {
-    saveTierAssignments(assignments);
-  }, [assignments]);
+    saveTierAssignments(visibleAssignments);
+  }, [visibleAssignments]);
 
   const gamesByTier = useMemo(() => {
     const grouped: Record<TierId, string[]> = {
@@ -294,7 +288,7 @@ export function Round4View() {
       if (!entry) continue;
 
       const id = entry.game.id;
-      const tier = assignments[id] || 'pool';
+      const tier = visibleAssignments[id] || 'pool';
 
       if (isTierId(tier)) {
         grouped[tier].push(id);
@@ -304,7 +298,7 @@ export function Round4View() {
     }
 
     return grouped;
-  }, [round4Games, assignments]);
+  }, [round4Games, visibleAssignments]);
 
   const activeGame = activeGameId ? gameIndex.get(activeGameId)?.game : null;
   const activeGameStars = activeGameId ? getGameState(activeGameId).stars : 0;
@@ -312,10 +306,10 @@ export function Round4View() {
   function placeGameInTier(gameId: string, targetTier: TierId) {
     if (!eligibleIds.has(gameId)) return;
 
-    setAssignments((prev) => ({
-      ...prev,
+    setAssignments({
+      ...visibleAssignments,
       [gameId]: targetTier,
-    }));
+    });
   }
 
   function handlePlaceSelected(targetTier: TierId) {

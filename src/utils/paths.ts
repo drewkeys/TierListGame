@@ -1,7 +1,9 @@
-const ASSET_COVER_BASE = '/assets/covers/';
-const ASSET_COVER_FALLBACK = '/assets/covers/placeholder.png';
+const BASE = import.meta.env.BASE_URL;
 
-const ASSET_CONSOLE_BANNER_BASE = '/assets/consoles/';
+const ASSET_COVER_BASE = `${BASE}assets/covers/`;
+const ASSET_COVER_FALLBACK = `${BASE}assets/covers/placeholder.png`;
+
+const ASSET_CONSOLE_BANNER_BASE = `${BASE}assets/consoles/`;
 
 const CONSOLE_BANNER_MAP: Record<string, string> = {
   NES: 'Banner_NES_NoBG.png',
@@ -59,10 +61,10 @@ export function coverPath(gameObj: { id: string; cover?: string }): string {
 
 export const ASSET_PATHS = {
   coverFallback: ASSET_COVER_FALLBACK,
-  explosionGif: '/assets/ui/explode.gif',
-  starPng: '/assets/ui/stars.png',
-  gunPng: '/assets/ui/gun.png',
-  crosshairPng: '/assets/ui/crosshair.png',
-  explodeMp3: '/assets/ui/explode.mp3',
-  speakerPng: '/assets/ui/speaker.png',
+  explosionGif: `${BASE}assets/ui/explode.gif`,
+  starPng: `${BASE}assets/ui/stars.png`,
+  gunPng: `${BASE}assets/ui/gun.png`,
+  crosshairPng: `${BASE}assets/ui/crosshair.png`,
+  explodeMp3: `${BASE}assets/ui/explode.mp3`,
+  speakerPng: `${BASE}assets/ui/speaker.png`,
 } as const;

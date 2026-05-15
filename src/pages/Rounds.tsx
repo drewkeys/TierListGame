@@ -17,12 +17,7 @@ export function Round({ round }: RoundProps) {
   const { catalog, gameIndex, setModalGameId, setGameEliminated } = useApp();
   const config = ROUND_CONFIG[round];
 
-  // Round 2 / Round 3 are now isolated components
-  if (round === 2) return <Round2View />;
-  if (round === 3) return <Round3View />;
-  if (round === 4) return <Round4View />;
-
-  // Round 1 consoles
+  // Round 1 consoles. Keep this hook before any early returns so hook order stays stable.
   const consoles = useMemo(() => {
     if (!catalog || !config.isConsoleGrid) return [];
     return catalog.consoles.map((c) => ({
@@ -35,6 +30,10 @@ export function Round({ round }: RoundProps) {
       }),
     }));
   }, [catalog, config.isConsoleGrid]);
+
+  if (round === 2) return <Round2View />;
+  if (round === 3) return <Round3View />;
+  if (round === 4) return <Round4View />;
 
   if (config.isConsoleGrid) {
     return (

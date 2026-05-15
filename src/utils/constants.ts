@@ -8,7 +8,7 @@ export const NEON_PALETTE = [
   '#3d8bff',
 ] as const;
 
-export const DATA_URL = '/data/data.json';
+export const DATA_URL = `${import.meta.env.BASE_URL}data/data.json`;
 
 export interface RoundConfig {
   title: string;

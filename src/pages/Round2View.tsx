@@ -110,7 +110,7 @@ export function Round2View() {
     });
   }, [r2, poolKey, round2PoolIds, updateRound2]);
 
-  const currentTrio = r2?.currentTrio ?? ['', '', ''];
+  const currentTrio = useMemo<(string | '')[]>(() => r2?.currentTrio ?? ['', '', ''], [r2?.currentTrio]);
   const hasCurrentTrio = currentTrio.some(Boolean);
 
   const displayedPick = useMemo(() => {
