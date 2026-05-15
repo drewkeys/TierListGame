@@ -215,3 +215,21 @@
   border: 1px solid rgba(255,255,255,0.16);
   background: rgba(0,0,0,0.22);
 }
+
+/* Mobile: leave a larger outside-tap area below the modal panel. */
+@media (max-width: 768px){
+  .modal{
+    place-items: start center;
+    padding: 14px 14px max(88px, calc(env(safe-area-inset-bottom) + 72px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal__panel{
+    max-height: calc(100dvh - max(118px, calc(env(safe-area-inset-bottom) + 104px)));
+  }
+
+  .modal__content{
+    max-height: none;
+  }
+}

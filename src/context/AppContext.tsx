@@ -1,4 +1,11 @@
+
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
+import {
+  loadSavedActiveRound,
+  saveActiveRound,
+  clearSavedActiveRound,
+  clearRound4Tiers,
+} from '../utils/saveSlotStorage';
 import type {
   AppState,
   ActiveRound,
@@ -40,12 +47,31 @@ const DEFAULT_R3: Round3State = {
   shuffledIds: [],
 };
 
+const MUTE_STORAGE_KEY = 'grg_muted_v1';
+
+function loadMuted(): boolean {
+  try {
+    return localStorage.getItem(MUTE_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function saveMuted(muted: boolean): void {
+  try {
+    localStorage.setItem(MUTE_STORAGE_KEY, muted ? '1' : '0');
+  } catch (error) {
+    console.error('Failed to save mute setting:', error);
+  }
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [state, setState] = useState<AppState>(loadState);
   const [gameIndex, setGameIndex] = useState<Map<string, GameIndexEntry>>(new Map());
-  const [activeRound, setActiveRoundState] = useState<ActiveRound>(1);
+  const [activeRound, setActiveRoundState] = useState<ActiveRound>(() => loadSavedActiveRound() ?? 1);
   const [shootMode, setShootModeState] = useState(false);
+  const [muted, setMutedState] = useState<boolean>(() => loadMuted());
   const [modalGameId, setModalGameId] = useState<string | null>(null);
   // Round UI state (excluded games and Round 2 selections) - loaded from localStorage
   const [excludedGameIds, setExcludedGameIdsState] = useState<Set<string>>(() => loadExcludedGameIds());
@@ -114,6 +140,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
       saveRound2SelectedIds(round2SelectedIds);
     }
   }, [round2SelectedIds]);
+  
+  useEffect(() => {
+    saveActiveRound(activeRound);
+  }, [activeRound]);
+
+  useEffect(() => {
+    saveMuted(muted);
+  }, [muted]);
 
   // Setters for excluded game IDs and Round 2 selected IDs
   const setExcludedGameIds = useCallback((ids: Set<string>) => {
@@ -171,6 +205,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     },
     [activeRound]
   );
+
+  const setMuted = useCallback((nextMuted: boolean) => {
+    setMutedState(nextMuted);
+  }, []);
+
+  const toggleMuted = useCallback(() => {
+    setMutedState((prev) => !prev);
+  }, []);
 
   const setModalGameIdCallback = useCallback((id: string | null) => {
     setModalGameId(id);
@@ -257,17 +299,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const reset = useCallback(() => {
     const newState = resetState();
+
+    clearSavedActiveRound();
+    clearRound4Tiers();
+
     setState(newState);
     setActiveRoundState(1);
     setShootModeState(false);
     setModalGameId(null);
     document.body.style.overflow = '';
-    // Reset round UI state (excluded games and Round 2 selections)
+
     resetRoundUIState();
     setExcludedGameIdsState(new Set());
     setRound2SelectedIdsState(new Set());
-    // Immediately save reset state
+
     saveStateImmediate(newState);
+    saveActiveRound(1);
   }, []);
 
   return (
@@ -278,11 +325,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         gameIndex,
         activeRound,
         shootMode,
+        muted,
         modalGameId,
         excludedGameIds,
         round2SelectedIds,
         setActiveRound,
         setShootMode,
+        setMuted,
+        toggleMuted,
         setModalGameId: setModalGameIdCallback,
         setGameStars,
         setGameEliminated,

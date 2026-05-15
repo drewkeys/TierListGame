@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useApp } from '../context/useApp';
 import { youtubeToEmbed } from '../utils/youtube';
 import { Button } from './Button';
@@ -16,6 +16,31 @@ function makePair(ids: string[], startIndex: number): (string | '')[] {
   return pair as (string | '')[];
 }
 
+function withYoutubeApiParams(url: string): string {
+  if (!url) return url;
+
+  try {
+    const parsed = new URL(url, window.location.origin);
+
+    parsed.searchParams.set('enablejsapi', '1');
+    parsed.searchParams.set('origin', window.location.origin);
+
+    return parsed.toString();
+  } catch {
+    const separator = url.includes('?') ? '&' : '?';
+    const origin =
+      typeof window !== 'undefined'
+        ? encodeURIComponent(window.location.origin)
+        : '';
+
+    if (url.includes('enablejsapi=1')) {
+      return url;
+    }
+
+    return `${url}${separator}enablejsapi=1&origin=${origin}`;
+  }
+}
+
 export function GameModal() {
   const {
     modalGameId,
@@ -24,6 +49,9 @@ export function GameModal() {
     getGameState,
     setGameStars,
     setGameEliminated,
+
+    // Global audio state
+    muted,
 
     // Round 2 / Round 3 selection support
     setGameR2Survived,
@@ -51,14 +79,59 @@ export function GameModal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [setModalGameId]);
 
+  const info = modalGameId ? gameIndex.get(modalGameId) : null;
+  const game = info?.game ?? null;
+
+  const embed = useMemo(() => {
+    if (!game?.youtube) return '';
+    return withYoutubeApiParams(youtubeToEmbed(game.youtube || ''));
+  }, [game?.youtube]);
+
+  useEffect(() => {
+    const iframe = videoRef.current;
+    if (!iframe || !modalGameId || !embed) return;
+
+    const sendYoutubeCommand = (func: string, args: unknown[] = []) => {
+      iframe.contentWindow?.postMessage(
+        JSON.stringify({
+          event: 'command',
+          func,
+          args,
+        }),
+        '*'
+      );
+    };
+
+    const applyAudioState = () => {
+      if (muted) {
+        sendYoutubeCommand('mute');
+        sendYoutubeCommand('setVolume', [0]);
+      } else {
+        sendYoutubeCommand('unMute');
+        sendYoutubeCommand('setVolume', [25]);
+      }
+    };
+
+    // YouTube iframe is not always ready immediately, especially on mobile.
+    // Re-send a few times so the command lands once the player is ready.
+    const timers = [
+      window.setTimeout(applyAudioState, 250),
+      window.setTimeout(applyAudioState, 750),
+      window.setTimeout(applyAudioState, 1500),
+      window.setTimeout(applyAudioState, 2500),
+    ];
+
+    return () => {
+      timers.forEach(window.clearTimeout);
+    };
+  }, [modalGameId, embed, muted]);
+
   if (!modalGameId) return null;
 
-  const info = gameIndex.get(modalGameId);
-  if (!info) return null;
+  if (!info || !game) return null;
 
-  const { consoleName, game } = info;
+  const { consoleName } = info;
   const gameState = getGameState(modalGameId);
-  const embed = youtubeToEmbed(game.youtube || '');
 
   const handlePickWinnerRound2 = () => {
     if (activeRound !== 2 || !modalGameId) return;

@@ -1,9 +1,10 @@
 import { useApp } from '../context/useApp';
 import { Button } from './Button';
+import { ASSET_PATHS } from '../utils/paths';
 import './Topbar.css';
 
 export function Topbar() {
-  const { reset, activeRound } = useApp();
+  const { reset, activeRound, muted, toggleMuted } = useApp();
 
   const handleReset = () => {
     if (window.confirm('Reset all ratings and eliminations? This cannot be undone.')) {
@@ -20,7 +21,15 @@ export function Topbar() {
         </div>
       </div>
       <div className="topbar__actions">
-        <Button variant="danger" onClick={handleReset}>
+          <Button
+            type="button"
+            className={`topbar__mute ${muted ? 'is-muted' : ''}`}
+            onClick={toggleMuted}
+            aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
+          >
+            <img src={ASSET_PATHS.speakerPng} alt="" aria-hidden="true" />
+          </Button>
+        <Button className="topbar__reset" variant="danger" onClick={handleReset}>
           Reset
         </Button>
       </div>

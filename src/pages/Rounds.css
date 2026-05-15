@@ -48,6 +48,15 @@
   font-family: var(--mono);
 }
 
+:root{
+  --mobile-hud-clearance: 74px;
+}
+
+@media (max-width: 560px){
+  :root{
+    --mobile-hud-clearance: 82px;
+  }
+}
 /* =========================
    Console window (Round 1)
    ========================= */
@@ -76,18 +85,41 @@
 
 .console-window__header--banner{
   padding: 0;
+  height: 104px;
   background: rgba(0,0,0,0.28);
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .console-window__banner{
   display: block;
   width: 100%;
-  height: 64px;
+  height: 104px;
+
   object-fit: contain;
-  padding: 10px 14px;
+  padding: 4px 10px;
+
   background: linear-gradient(to bottom, rgba(0,0,0,0.86), rgba(0,0,0,0.30));
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--console-neon, var(--laser-cyan)) 45%, transparent));
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--console-neon, var(--laser-cyan)) 55%, transparent));
+
+  transform: scale(2.35);
+  transform-origin: center;
+}
+
+@media (max-width: 560px){
+  .console-window__header--banner{
+    height: 72px;
+  }
+
+  .console-window__banner{
+    height: 72px;
+    padding: 2px 6px;
+    transform: scale(2.05);
+  }
 }
 
 .console-window__body{
@@ -101,7 +133,29 @@
 
 @media (max-width: 479px){
   .console-window__body{
-    padding: 8px;
+    padding: 7px;
+  }
+
+  body.round-1 .game-grid{
+    gap: 7px;
+  }
+
+  body.round-1 .game-card .cover{
+    max-height: 145px;
+  }
+
+  body.round-1 .game-card .caption{
+    padding: 7px 6px 8px;
+    min-height: 68px;
+  }
+
+  body.round-1 .game-card .caption__title{
+    font-size: 12px;
+  }
+
+  body.round-1 .game-card .caption__stars img{
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -136,9 +190,7 @@
 .round2-grid .r2-card,
 .round2-grid .pick-card,
 .round3-grid .r3-card,
-.round3-grid .pick-card,
-.tier-drop .tier-icon,
-.tier-pool .tier-icon {
+.round3-grid .pick-card {
   animation: slideInFromRight 0.5s ease-out forwards;
   opacity: 0;
 }
@@ -170,10 +222,7 @@
 .round3-grid .r3-card:nth-child(n+3),
 .round3-grid .pick-card:nth-child(n+3) { animation-delay: 0.15s; }
 
-.tier-drop .tier-icon,
-.tier-pool .tier-icon {
-  animation-delay: 0.05s;
-}
+
 
 /* Reduce animation on mobile for performance */
 @media (max-width: 768px) {
@@ -218,7 +267,37 @@
 @media (min-width: 320px){
   .game-grid{
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
+  }
+
+  body.round-1 .game-card .cover{
+    aspect-ratio: 1 / 1;
+    height: auto;
+    max-height: 150px;
+    object-fit: cover;
+  }
+
+  body.round-1 .game-card .caption{
+    padding: 9px 8px 10px;
+    min-height: 82px;
+  }
+
+  body.round-1 .game-card .caption__title{
+    font-size: 17px;
+    line-height: 1.25;
+    font-weight: 900;
+    min-height: 38px;
+  }
+
+  body.round-1 .game-card .caption__stars{
+    margin-top: 9px;
+    gap: 7px;
+    justify-content: center;
+  }
+
+  body.round-1 .game-card .caption__stars img{
+    width: 17px;
+    height: 17px;
   }
 }
 
@@ -226,7 +305,20 @@
 @media (min-width: 480px){
   .game-grid{
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 10px;
+  }
+
+  body.round-1 .game-card .cover{
+    max-height: 165px;
+  }
+
+  body.round-1 .game-card .caption__title{
+    font-size: 17px;
+  }
+
+  body.round-1 .game-card .caption__stars img{
+    width: 17px;
+    height: 17px;
   }
 }
 
@@ -235,6 +327,11 @@
   .game-grid{
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
+  }
+
+  body.round-1 .game-card .cover{
+    max-height: none;
+    aspect-ratio: auto;
   }
 }
 
@@ -291,7 +388,7 @@ body.round-2{
 }
 
 body.round-2 .stage{
-  height: calc(100vh - var(--topbar-h) - var(--hud-safe));
+  height: calc(100dvh - var(--topbar-h) - var(--mobile-hud-clearance));
   padding-bottom: 0;
   overflow: hidden;
 }
@@ -391,13 +488,16 @@ body.round-2 .round2-card-wrap .game-card .caption{
 /* Medium + phone: 3 horizontal rows */
 @media (max-width: 900px){
   body.round-2 .round-container{
-    padding: 8px;
-    padding-bottom: 4px;
+    height: 100%;
+    min-height: 0;
+    padding: 6px 8px 4px;
+    overflow: hidden;
   }
 
   body.round-2 .round-header{
-    padding: 9px 11px;
-    margin-bottom: 7px;
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    margin-bottom: 6px;
   }
 
   body.round-2 .round-title{
@@ -406,28 +506,48 @@ body.round-2 .round2-card-wrap .game-card .caption{
 
   body.round-2 .round-subtitle{
     font-size: 11px;
-    line-height: 1.25;
+    line-height: 1.2;
+    margin-top: 3px;
   }
 
   body.round-2 .round2-grid{
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-    padding-bottom: 4px;
+
+    gap: 6px;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  body.round-2 .round2-card-wrap{
+    min-height: 0;
+    overflow: hidden;
   }
 
   body.round-2 .round2-card-wrap .game-card{
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+
     display: grid;
-    grid-template-columns: clamp(96px, 26vw, 150px) minmax(0, 1fr);
-    grid-template-rows: 1fr;
+    grid-template-columns: clamp(82px, 24vw, 128px) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     align-items: stretch;
   }
 
   body.round-2 .round2-card-wrap .game-card .cover{
     grid-column: 1;
     grid-row: 1;
+
     width: 100%;
     height: 100%;
+    min-height: 0;
+
     aspect-ratio: auto;
     object-fit: contain;
   }
@@ -435,21 +555,26 @@ body.round-2 .round2-card-wrap .game-card .caption{
   body.round-2 .round2-card-wrap .game-card .caption{
     grid-column: 2;
     grid-row: 1;
+
     min-width: 0;
+    min-height: 0;
     height: 100%;
+
     border-top: 0;
     border-left: 1px solid rgba(255,255,255,0.08);
-    padding: 8px 10px;
+
+    padding: 6px 8px;
+
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   body.round-2 .round2-card-wrap .game-card .caption__title{
     min-height: 0;
     font-size: 12px;
-    line-height: 1.25;
+    line-height: 1.2;
     white-space: normal;
     overflow-wrap: anywhere;
     -webkit-line-clamp: 2;
@@ -460,13 +585,13 @@ body.round-2 .round2-card-wrap .game-card .caption{
     margin-top: 0;
     padding-bottom: 0;
     justify-content: flex-end;
-    gap: 5px;
+    gap: 4px;
     white-space: nowrap;
   }
 
   body.round-2 .round2-card-wrap .game-card .caption__stars img{
-    width: 13px;
-    height: 13px;
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -760,221 +885,365 @@ body.round-3 .r3-card.is-selected{
   white-space: pre-wrap;
 }
 
-/* =========================
-   Round 4 styles (tier list)
-   ========================= */
+/* -------------------------
+   Round 4 tier board
+   Roblox 2009 TierMaker style
+   ------------------------- */
 
-body.round-4 .view--round4{
-  height: calc(100vh - var(--topbar-h));
-  overflow: hidden;
+body.round-4 .stage {
+  padding-bottom: calc(44px + var(--hud-safe));
 }
 
-body.round-4 .round-4-container{
-  height: calc(100vh - var(--topbar-h));
+body.round-4 .round-4-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+/* Round 4 instruction box */
+body.round-4 .round-header {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+
+  background: #eeeeee;
+  border: 1px solid #000;
+  box-shadow: none;
+}
+
+body.round-4 .round-title {
+  margin: 0 0 4px;
+  color: #111;
+
+  font-family: var(--title-font);
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.round-4 .round-subtitle {
+  margin: 0;
+  color: #111;
+
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+
+/* Main tier board */
+.tier-board {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #101010 !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.28) !important;
+
   overflow: hidden;
-  padding: 14px;
-  width: 100%;
-  min-height: 0;
 }
 
-@media (max-width: 768px){
-  body.round-4 .round-4-container{
-    padding: 10px;
-  }
-}
-
-.round-header{
-  padding: 8px 10px 10px;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  flex-shrink: 0;
-}
-
-@media (max-width: 768px){
-  .round-header{
-    padding: 6px 8px 8px;
-  }
-}
-
-.tier-board{
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
+/* Each row = TierMaker strip */
+.tier-row {
   display: grid;
-  gap: 10px;
-  flex: 1;
-  min-height: 0;
+  grid-template-columns: 120px minmax(0, 1fr);
+
+  min-height: 132px;
+
+  background: #111;
+  border-bottom: 2px solid #000;
 }
 
-.tier-row{
+.tier-row:last-child {
+  border-bottom: none;
+}
+
+/* Colored tier labels */
+.tier-label {
   display: grid;
-  grid-template-columns: 66px 1fr;
-  gap: 10px;
-  align-items: stretch;
-  min-height: 0;
-}
+  place-items: center;
 
-@media (max-width: 768px){
-  .tier-row{
-    grid-template-columns: 50px 1fr;
-    gap: 8px;
-  }
-  
-  .tier-label{
-    font-size: 12px;
-    padding: 8px;
-  }
-  
-  .tier-drop{
-    padding: 8px;
-    gap: 6px;
-  }
-  
-  .tier-icon{
-    width: 48px;
-    height: 48px;
-  }
-}
+  border-right: 2px solid #000;
+  border-radius: 0 !important;
 
-@media (max-width: 480px){
-  .tier-row{
-    grid-template-columns: 45px 1fr;
-    gap: 6px;
-  }
-  
-  .tier-label{
-    font-size: 11px;
-    padding: 6px;
-  }
-  
-  .tier-drop{
-    padding: 6px;
-    gap: 4px;
-  }
-  
-  .tier-icon{
-    width: 40px;
-    height: 40px;
-  }
-  
-  .tier-pool-title{
-    font-size: 11px;
-  }
-}
+  color: #111 !important;
+  text-shadow: none !important;
 
-.tier-label{
-  border: 1px solid rgba(120,210,255,0.25);
-  background: rgba(8,12,26,0.55);
-  border-radius: 12px;
-  font-family: var(--mono);
+  font-family: var(--title-font);
+  font-size: 34px;
   font-weight: 900;
-  letter-spacing: 0.12em;
-  color: rgba(220,235,255,0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-shadow: 0 0 12px rgba(0,246,255,0.28);
+  letter-spacing: 0.02em;
 }
 
-.tier-drop{
-  border: 1px dashed rgba(120,210,255,0.35);
-  background: rgba(8,12,26,0.35);
-  border-radius: 16px;
+/* Per-tier colors, close to TierMaker but softer/Roblox-y */
+.tier-row[data-tier="S+"] .tier-label {
+  background: #ff7777 !important;
+}
+
+.tier-row[data-tier="S"] .tier-label {
+  background: #ffc77d !important;
+}
+
+.tier-row[data-tier="S-"] .tier-label {
+  background: #fff07d !important;
+}
+
+/* Drop zone side */
+.tier-drop {
+  min-height: 132px;
   padding: 10px;
-  overflow: auto;
+
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   align-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    #111 !important;
+
+  border: none !important;
+  border-radius: 0 !important;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.tier-drop.is-over{
-  border-color: rgba(255,43,214,0.65);
-  box-shadow: 0 0 0 2px rgba(255,43,214,0.15), 0 0 26px rgba(255,43,214,0.18);
+/* Drag-over state */
+.tier-drop.is-over {
+  background: #1b2638 !important;
+  outline: 3px solid #6f9dca;
+  outline-offset: -3px;
+  box-shadow: inset 0 0 0 2px #fff;
 }
 
-.tier-pool-wrapper{
-  max-width: 1200px;
+/* Pool container */
+.tier-pool-wrapper {
   width: 100%;
-  margin: 10px auto 0;
-}
-
-.tier-pool-title{
-  font-family: var(--mono);
-  font-weight: 900;
-  letter-spacing: 0.10em;
-  color: rgba(220,235,255,0.92);
-  margin: 4px 2px 8px;
-  text-shadow: 0 0 12px rgba(0,246,255,0.24);
-}
-
-.tier-pool{
-  border: 1px dashed rgba(120,210,255,0.35);
-  background: rgba(8,12,26,0.35);
-  border-radius: 16px;
+  margin: 0;
   padding: 10px;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2) !important;
+
+  overflow: hidden;
+}
+
+.tier-pool-title {
+  margin: 0 0 8px;
+
+  color: #111;
+  font-family: var(--title-font);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Game pool */
+.tier-pool {
+  min-height: 102px;
+  max-height: 164px;
+
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 8px;
-  min-height: 84px;
-  overflow: auto;
+
+  padding: 10px;
+
+  background: #f8f8f8 !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.tier-icon{
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
-  border: 1px solid rgba(120,210,255,0.24);
-  background: rgba(8,12,26,0.6);
-  box-shadow: 0 8px 26px rgba(0,0,0,0.38);
+/* Game icons */
+.tier-icon {
+  width: 76px;
+  height: 76px;
+
+  padding: 0;
+  flex: 0 0 auto;
+
+  background: #d7d7d7 !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35) !important;
+
   overflow: hidden;
   cursor: grab;
-  position: relative;
+
+  image-rendering: auto;
+
+  transition:
+    transform 80ms ease,
+    box-shadow 80ms ease,
+    filter 80ms ease;
 }
 
-.tier-icon:active{ cursor: grabbing; }
+.tier-icon:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.42) !important;
+  filter: brightness(1.08);
+}
 
-.tier-icon img{
+.tier-icon:active {
+  cursor: grabbing;
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45) !important;
+}
+
+.tier-icon img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
   display: block;
+  object-fit: cover;
 }
 
-.tier-icon::after{
+.tier-icon::after {
   content: "";
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 0 1px rgba(0,246,255,0.14);
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
   pointer-events: none;
 }
 
-.round-4-navigation{
-  max-width: 1200px;
+/* Empty pool message */
+.tier-pool .loading-card,
+.tier-drop .loading-card {
   width: 100%;
-  margin: 10px auto 0;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  color: #111 !important;
+
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Round 4 nav */
+.round-4-navigation {
+  width: 100%;
+  margin: 0;
+
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
   gap: 10px;
-  flex-shrink: 0;
+  justify-content: flex-start;
 }
 
-@media (max-width: 768px){
-  .round-4-navigation{
-    margin: 8px auto 0;
+/* Tablet */
+@media (max-width: 900px) {
+  .tier-row {
+    grid-template-columns: 92px minmax(0, 1fr);
+    min-height: 112px;
   }
-  
-  .round-4-navigation .btn{
-    flex: 1 1 auto;
-    min-width: 0;
+
+  .tier-label {
+    font-size: 28px;
+  }
+
+  .tier-drop {
+    min-height: 112px;
+  }
+
+  .tier-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .tier-pool {
+    max-height: 150px;
   }
 }
 
+/* Phone */
+@media (max-width: 560px) {
+  body.round-4 .round-title {
+    font-size: 22px;
+  }
+
+  body.round-4 .round-subtitle {
+    font-size: 13px;
+  }
+
+  .tier-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    min-height: 92px;
+  }
+
+  .tier-label {
+    font-size: 22px;
+  }
+
+  .tier-drop {
+    min-height: 92px;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .tier-pool-wrapper {
+    padding: 8px;
+  }
+
+  .tier-pool-title {
+    font-size: 18px;
+  }
+
+  .tier-pool {
+    min-height: 86px;
+    max-height: 132px;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .tier-icon {
+    width: 52px;
+    height: 52px;
+    border-width: 1px !important;
+  }
+  .tier-pool.is-over,
+  .tier-drop.is-over {
+    background: #1b2638 !important;
+    outline: 3px solid #6f9dca;
+    outline-offset: -3px;
+  }
+
+  .tier-icon.is-dragging {
+    opacity: 0.45;
+    transform: scale(0.95);
+  }
+}
+/* Round 4: no placement animation when moving icons between tiers */
+body.round-4 .tier-drop .tier-icon,
+body.round-4 .tier-pool .tier-icon {
+  animation: none !important;
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+body.round-4 .tier-icon:hover,
+body.round-4 .tier-icon:active,
+body.round-4 .tier-icon.is-dragging {
+  transition: none !important;
+}
 /* =========================
    Confirm modal (Round 1 -> Round 2)
    ========================= */
@@ -1609,4 +1878,99 @@ body.round-3 .round3-card-wrap .game-card .caption{
 /* Round 3 nav now lives in the HUD */
 body.round-3 .round-navigation{
   display: none;
+}
+/* dnd-kit Round 4 helpers */
+.tier-icon {
+  position: relative;
+  touch-action: none;
+  user-select: none;
+}
+
+.tier-icon-visual {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tier-icon-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tier-drag-overlay {
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.tier-icon-visual--overlay {
+  width: 76px;
+  height: 76px;
+  display: block;
+  overflow: hidden;
+  background: #d7d7d7;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);
+}
+
+.tier-pool.is-over,
+.tier-drop.is-over {
+  background: #1b2638 !important;
+  outline: 3px solid #6f9dca;
+  outline-offset: -3px;
+}
+
+.tier-icon.is-dragging {
+  opacity: 0.45;
+  transform: scale(0.95);
+}
+
+@media (max-width: 900px) {
+  .tier-icon-visual--overlay {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+@media (max-width: 560px) {
+  .tier-icon-visual--overlay {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* Round 4 mobile/touch quality fixes */
+body.round-4 .tier-board,
+body.round-4 .tier-pool-wrapper,
+body.round-4 .tier-icon,
+body.round-4 .tier-icon * {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body.round-4 .tier-icon {
+  touch-action: none;
+}
+
+body.round-4 .tier-drop.is-click-target,
+body.round-4 .tier-pool.is-click-target {
+  cursor: pointer;
+  outline: 2px dashed #6f9dca;
+  outline-offset: -5px;
+}
+
+body.round-4 .tier-icon.is-selected {
+  outline: 4px solid #7dff8a;
+  outline-offset: -4px;
+  box-shadow:
+    0 0 0 2px #000,
+    0 0 18px rgba(125, 255, 138, 0.65) !important;
+}
+
+body.round-4 .round4-touch-tip {
+  margin-top: 6px;
 }

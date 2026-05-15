@@ -1,118 +1,1800 @@
-:root{
-  --bg-ink: #05070d;
-  --bg-panel: #0e1222;
+/* =========================================================
+   Game Rating Game — 2009 Roblox-ish theme
+   Single theme file. No roblox2008.css needed.
 
-  --text: rgba(255,255,255,0.92);
-  --muted: rgba(180,200,255,0.68);
-  --muted-2: rgba(180,200,255,0.46);
+   Required assets:
+   public/assets/ui/skybox.jpg
+   public/assets/ui/roblox-banner.jpg
+   public/assets/ui/play-now.png
+   public/assets/fonts/ComicNeue-Regular.ttf
+   public/assets/fonts/ComicNeue-Bold.ttf
+   ========================================================= */
 
-  --laser-cyan: #00f6ff;
-  --laser-magenta: #ff2bd6;
+@font-face {
+  font-family: "Comic Neue Local";
+  src: url("/assets/fonts/ComicNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --shadow-deep: 0 16px 44px rgba(0,0,0,0.75);
+@font-face {
+  font-family: "Comic Neue Local";
+  src: url("/assets/fonts/ComicNeue-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --radius: 16px;
-  --radius-sm: 10px;
+:root {
+  --bg-panel: #e6e6e6;
+  --bg-panel-light: #f2f2f2;
+  --bg-header-blue: #6f9dca;
+
+  --text: #111;
+  --muted: #444;
 
   --gap: 16px;
   --hud-safe: 70px;
+  --topbar-h: 92px;
 
-  /* JS should set this dynamically; fallback is fine */
-  --topbar-h: 80px;
-
-  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-
-  --r2-controls-h: 42px; /* tweak 56–80px as you like */
+  --font: "Comic Neue Local", "Comic Sans MS", "Comic Sans", "Trebuchet MS", Verdana, Arial, sans-serif;
+  --title-font: Arial, Helvetica, Verdana, sans-serif;
 }
 
-*{ box-sizing: border-box; }
-html, body{ height: 100%; }
+/* -------------------------
+   Base
+   ------------------------- */
 
-[hidden] { display: none !important; }
+* {
+  box-sizing: border-box;
+}
 
-body{
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  background: transparent;
+}
+
+body {
   margin: 0;
   font-family: var(--font);
   color: var(--text);
-  background-color: var(--bg-ink);
-
-  background-image: url("/assets/ui/tile.png");
-  background-repeat: repeat;
-  background-size: 160px 160px;
-
+  background: transparent !important;
   overflow-x: hidden;
 }
 
-.background-overlay{
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background:
-    radial-gradient(1100px 700px at 15% 10%, rgba(0,246,255,0.10), transparent 60%),
-    radial-gradient(900px 650px at 90% 25%, rgba(255,43,214,0.08), transparent 60%),
-    linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.84));
+#root {
+  min-height: 100%;
+  background: transparent !important;
 }
 
-body::after{
+/* Fixed sky background */
+body::before {
   content: "";
   position: fixed;
   inset: 0;
-  pointer-events: none;
-  z-index: 1;
+  z-index: -1;
 
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.018),
-      rgba(255,255,255,0.018) 1px,
-      rgba(0,0,0,0.0) 2px,
-      rgba(0,0,0,0.0) 4px
-    );
-  mix-blend-mode: overlay;
-  opacity: 0.22;
+  background-image: url("/assets/ui/skybox.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #b9d9ee;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+/* Kill old neon/CRT overlays */
+.background-overlay,
+body::after {
+  display: none !important;
+}
+
+/* Shoot mode cursor */
 body.shoot-mode,
-body.shoot-mode *{
+body.shoot-mode * {
   cursor: url("/assets/ui/crosshair.png") 16 16, crosshair;
 }
 
-/* =========================
-   Stage
-   ========================= */
-.stage{
+/* -------------------------
+   Main layout
+   ------------------------- */
+
+.stage {
   position: relative;
-  max-width: 1600px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 18px;
-  padding-bottom: calc(44px + var(--hud-safe));
   z-index: 2;
+
+  width: calc(100% - 80px);
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 16px 0 calc(44px + var(--hud-safe));
+
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
   min-height: 0;
 }
 
-@media (max-width: 768px){
-  .stage{
-    padding: 12px;
-    padding-bottom: calc(44px + var(--hud-safe));
-  }
+.app-viewport {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
-/* Round 2/3 should be screen-fit (no scroll) */
+/* Round 2/3 screen-fit behavior */
 body.round-2,
-body.round-3{
+body.round-3 {
   overflow: hidden;
 }
 
 body.round-2 .stage,
-body.round-3 .stage{
+body.round-3 .stage {
   height: calc(100vh - var(--topbar-h) - var(--hud-safe));
   padding-bottom: 0;
   overflow: hidden;
+}
+
+body.round-2 .app-viewport,
+body.round-3 .app-viewport {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* -------------------------
+   Top banner
+   ------------------------- */
+
+.topbar {
+  position: relative;
+  z-index: 10;
+
+  width: calc(100% - 80px);
+  max-width: 1500px;
+  margin: 18px auto 0;
+  padding: 0;
+
+  display: block;
+
+  background:
+    linear-gradient(rgba(111, 157, 202, 0.08), rgba(111, 157, 202, 0.08)),
+    url("/assets/ui/roblox-banner.jpg") center center / cover no-repeat !important;
+
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.topbar > div:first-child {
+  min-height: 78px;
+  padding: 10px 160px 8px;
+
+  background: transparent !important;
+  border-right: none !important;
+  text-align: center;
+}
+
+.topbar::after {
+  content: none !important;
+  display: none !important;
+}
+
+.title {
+  margin: 0;
+
+  font-family: var(--title-font);
+  font-size: clamp(34px, 4.2vw, 58px);
+  line-height: 0.9;
+  font-weight: 900;
+  letter-spacing: 5px;
+
+  color: #ffffff;
+  text-transform: uppercase;
+
+  text-shadow:
+    -2px -2px 0 #e00000,
+     2px -2px 0 #e00000,
+    -2px  2px 0 #e00000,
+     2px  2px 0 #e00000;
+}
+
+.subtitle {
+  margin-top: 8px;
+
+  color: #fff !important;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+
+  text-shadow:
+    -1px -1px 0 #315c8a,
+     1px -1px 0 #315c8a,
+    -1px  1px 0 #315c8a,
+     1px  1px 0 #315c8a;
+}
+
+.topbar__actions {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+
+  min-width: auto;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Reset button visually becomes image-based PLAY NOW button */
+.topbar__actions .btn {
+  width: 126px;
+  height: 46px;
+  padding: 0 !important;
+
+  background: url("/assets/ui/play-now.png") center center / contain no-repeat !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  font-size: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px;
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+/* -------------------------
+   Generic buttons
+   ------------------------- */
+
+.btn,
+.hud .hud__btn,
+.modal__close,
+.kbd,
+.star-btn,
+.gun-icon {
+  border-radius: 4px !important;
+  border: 1px solid #333 !important;
+
+  background: #f4f4f4 !important;
+  color: #000 !important;
+  box-shadow: none !important;
+
+  font-family: var(--font) !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.btn {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.btn:hover,
+.hud .hud__btn:hover:not(:disabled),
+.modal__close:hover,
+.star-btn:hover,
+.gun-icon:hover {
+  background: #fff6c9 !important;
+  color: #000 !important;
+}
+
+.btn:active,
+.hud .hud__btn:active:not(:disabled),
+.modal__close:active,
+.star-btn:active,
+.gun-icon:active {
+  background: #ddd !important;
+  transform: translateY(1px) !important;
+}
+
+/* Keep image button from inheriting generic button backgrounds */
+.topbar__actions .btn,
+.topbar__actions .btn:hover,
+.topbar__actions .btn:active {
+  background:
+    url("/assets/ui/play-now.png") center center / contain no-repeat !important;
+  background-color: transparent !important;
+}
+
+.topbar__actions .btn:hover {
+  filter: brightness(1.08);
+}
+
+.topbar__actions .btn:active {
+  transform: translateY(1px) !important;
+  filter: brightness(0.95);
+}
+
+/* -------------------------
+   Round 1 console sections
+   ------------------------- */
+
+.board__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  width: 100%;
+}
+
+@media (min-width: 681px) {
+  .board__grid {
+    display: block;
+    column-count: 2;
+    column-gap: var(--gap);
+  }
+
+  .console-window {
+    display: inline-block;
+    width: 100%;
+    margin: 0 0 var(--gap) 0;
+
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+}
+
+.console-window {
+  width: 100%;
+
+  background: var(--bg-panel) !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  overflow: hidden;
+}
+
+.console-window__header,
+.console-window__header--banner {
+  padding: 0 !important;
+  background: #dcdcdc !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+.console-window__banner {
+  display: block;
+
+  width: 100%;
+  height: 48px;
+  object-fit: contain;
+
+  padding: 8px 12px;
+
+  background: #dcdcdc !important;
+  border: none !important;
+  filter: none !important;
+}
+
+.console-window__body {
+  padding: 12px !important;
+  background: var(--bg-panel-light) !important;
+}
+
+/* -------------------------
+   Game grid/cards
+   ------------------------- */
+
+.game-grid {
+  display: grid;
+  width: 100%;
+  align-items: start;
+  gap: 8px;
+
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+}
+
+@media (min-width: 320px) {
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 640px) {
+  .game-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .game-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.game-card,
+.pick-card,
+.r2-card,
+.r3-card {
+  position: relative;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: none !important;
+}
+
+.game-card:hover,
+.pick-card:hover,
+.r2-card:hover,
+.r3-card:hover {
+  transform: none !important;
+  background: #fff6c9 !important;
+  border-color: #000 !important;
+  box-shadow: none !important;
+}
+
+.cover {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  background: #ddd !important;
+  border: none !important;
+}
+
+.caption {
+  padding: 7px 8px 6px !important;
+
+  background: #eeeeee !important;
+  border-top: 1px solid #000 !important;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.caption__title {
+  min-height: calc(12px * 1.25 * 2);
+
+  color: #111 !important;
+  font-family: var(--font) !important;
+  font-weight: 700;
+  line-height: 1.25;
+
+  overflow: hidden;
+  word-break: break-word;
+
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.caption__stars {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.caption__stars img {
+  width: 13px;
+  height: 13px;
+}
+
+.caption__stars .off {
+  opacity: 0.22;
+}
+
+.caption__stars .on {
+  opacity: 1;
+}
+
+/* Eliminated cards */
+.game-card.is-eliminated {
+  opacity: 0.55;
+}
+
+.game-card.is-eliminated .cover,
+.game-card.is-eliminated .caption {
+  filter: grayscale(1);
+}
+
+.card-meta {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+}
+
+.card-elim {
+  display: none;
+
+  padding: 2px 5px;
+
+  background: #cc0000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.game-card.is-eliminated .card-elim {
+  display: inline-flex;
+}
+
+/* Winner highlight */
+.game-card.is-selected {
+  border: 3px solid #008000 !important;
+  box-shadow: none !important;
+}
+
+.game-card.is-selected::after {
+  content: "WINNER";
+
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 20;
+
+  padding: 3px 6px;
+
+  background: #ffff99;
+  color: #000;
+  border: 1px solid #000;
+
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 900;
+
+  pointer-events: none;
+}
+
+/* -------------------------
+   Stars
+   ------------------------- */
+
+.stars {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.stars--spaced {
+  margin-top: 10px;
+}
+
+.star-btn {
+  width: 24px;
+  height: 24px;
+
+  display: grid;
+  place-items: center;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.star-btn::before {
+  content: "★";
+  color: #aaa;
+  font-size: 15px;
+}
+
+.star-btn.is-on::before {
+  color: #d7a700;
+}
+
+/* -------------------------
+   Elimination counter
+   ------------------------- */
+
+.overlay-counter {
+  position: fixed;
+  right: 14px;
+  top: 110px;
+  z-index: 300;
+  pointer-events: auto;
+}
+
+body.round-2 .overlay-counter,
+body.round-3 .overlay-counter {
+  display: none !important;
+}
+
+.panel {
+  text-align: center;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  pointer-events: auto;
+}
+
+.panel--mini {
+  min-width: 112px;
+  padding: 10px;
+}
+
+.panel__title {
+  color: #111;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.panel__value {
+  margin-top: 6px;
+
+  color: #cc0000 !important;
+  font-size: 26px;
+  font-weight: 900;
+  text-shadow: none !important;
+}
+
+.gun-icon {
+  margin-top: 8px;
+  width: 100%;
+  height: 50px;
+  padding: 0;
+
+  display: block;
+  cursor: pointer;
+}
+
+.gun-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: none !important;
+}
+
+.gun-icon.is-on {
+  background: #fff6c9 !important;
+}
+
+/* -------------------------
+   Round 2 / Round 3
+   ------------------------- */
+
+.round-header {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+}
+
+.round-title {
+  margin: 0;
+
+  color: #111 !important;
+  font-family: var(--font) !important;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-shadow: none !important;
+}
+
+.round-subtitle {
+  margin: 4px 0 0;
+
+  color: var(--muted) !important;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.round2-grid,
+.round3-grid,
+.round-pick-grid {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.round2-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.round3-grid,
+.round-pick-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.round2-card-wrap,
+.round3-card-wrap {
+  min-width: 0;
+}
+
+.round2-slot,
+.round3-slot,
+.round2-empty,
+.round3-empty {
+  min-height: 220px;
+
+  background: rgba(238, 238, 238, 0.85);
+  border: 1px dashed #555;
+}
+
+.loading-card {
+  padding: 14px 16px;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+  box-shadow: none !important;
+
+  font-family: var(--font);
+}
+
+/* -------------------------
+   Round 4 tier board
+   ------------------------- */
+
+.tier-board,
+.tier-pool-wrapper {
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.tier-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.tier-row {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+
+  min-height: 110px;
+
+  border-bottom: 1px solid #000;
+  background: #f2f2f2;
+}
+
+.tier-row:last-child {
+  border-bottom: none;
+}
+
+.tier-label {
+  display: grid;
+  place-items: center;
+
+  background: var(--bg-header-blue) !important;
+  color: #fff !important;
+  border-right: 1px solid #000;
+
+  font-family: var(--font);
+  font-size: 28px;
+  font-weight: 900;
+  text-shadow: none;
+}
+
+.tier-drop {
+  min-height: 110px;
+  padding: 10px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-content: flex-start;
+
+  background: #f2f2f2 !important;
+}
+
+.tier-pool-wrapper {
+  margin-top: 12px;
+  padding: 10px;
+}
+
+.tier-pool-title {
+  margin: 0 0 8px;
+
+  color: #111;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.tier-pool {
+  min-height: 110px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  padding: 10px;
+
+  background: #f8f8f8;
+  border: 1px solid #000;
+}
+
+.tier-icon {
+  width: 78px;
+  height: 78px;
+
+  object-fit: cover;
+
+  background: #ddd;
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: none;
+
+  cursor: grab;
+}
+
+.tier-icon:active {
+  cursor: grabbing;
+}
+
+/* -------------------------
+   Modal
+   ------------------------- */
+
+.modal-backdrop {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  place-items: center;
+  padding: 18px;
+}
+
+.modal-backdrop:not([hidden]) {
+  display: block;
+}
+
+.modal:not([hidden]) {
+  display: grid;
+}
+
+.modal__panel {
+  width: min(980px, 96vw);
+  height: min(92vh, 860px);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.modal__header {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 8px 12px;
+
+  background: var(--bg-header-blue) !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+.modal__console {
+  margin-bottom: 4px;
+
+  color: #fff !important;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.modal__title {
+  margin: 0;
+
+  color: #fff !important;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.modal__content {
+  flex: 1 1 auto;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  padding: 12px;
+  overflow: hidden;
+
+  color: #111 !important;
+  background: #eeeeee !important;
+}
+
+/* Video always stays fully visible.
+   On short screens it shrinks before description text does. */
+.video-frame {
+  flex: 0 1 auto;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 52vh;
+
+  overflow: hidden;
+
+  background: #000 !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+}
+
+.video-frame iframe {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+}
+
+.no-video {
+  flex: 0 1 auto;
+
+  display: grid;
+  place-items: center;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 52vh;
+
+  color: #111;
+  background: #ddd;
+  border: 1px solid #000;
+}
+
+/* Description + rating visually behave like one box */
+.detail-block {
+  padding: 10px 12px;
+
+  background: #f8f8f8 !important;
+  border: 1px solid #000 !important;
+  border-bottom: none !important;
+}
+
+.modal__content > .detail-block:first-of-type {
+  flex: 1 1 auto;
+  min-height: 80px;
+  margin-top: 12px;
+
+  overflow-y: auto;
+}
+
+.detail-block--spaced {
+  flex: 0 0 auto;
+
+  margin-top: 0;
+  padding-top: 4px;
+
+  border-top: none !important;
+  border-bottom: 1px solid #000 !important;
+}
+
+.detail-block--spaced .detail-label {
+  display: none !important;
+}
+
+.detail-label {
+  margin-bottom: 8px;
+
+  color: #111 !important;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.detail-paragraph,
+.remove-entry-modal__text,
+.remove-entry-modal__hint,
+.modal__hint {
+  color: #111 !important;
+  line-height: 1.45;
+}
+
+.detail-paragraph {
+  font-size: 16px;
+}
+
+.detail-block--spaced .stars {
+  width: 100%;
+
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+
+  margin-top: 2px;
+}
+
+/* Hide old numeric rating shortcut buttons:
+   0*, 1*, 2*, 3*, 4*
+   Keep the final button visible, usually Eliminate or Pick this winner. */
+.modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+
+  margin-top: 8px;
+}
+
+.modal__actions .btn:not(:last-child) {
+  display: none !important;
+}
+
+.modal__actions .btn:last-child {
+  min-width: 92px;
+  padding: 8px 12px !important;
+}
+
+/* Larger modal stars only. Card stars are unaffected. */
+.modal .star-btn {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.modal .star-btn::before {
+  font-size: 22px !important;
+}
+
+/* -------------------------
+   HUD
+   ------------------------- */
+
+.hud {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+
+  padding: 8px 10px;
+
+  background: #e6e6e6 !important;
+  border-top: 1px solid #000 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.hud__row {
+  max-width: 1500px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.hud__pill {
+  padding: 5px 9px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  background: #f8f8f8 !important;
+  border: 1px solid #999 !important;
+  border-radius: 0 !important;
+  color: #111 !important;
+  box-shadow: none !important;
+}
+
+.hud__label {
+  color: #315c8a !important;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.hud__value {
+  color: #111 !important;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.hud__hint {
+  display: none !important;
+}
+
+.hud .hud__btn {
+  padding: 6px 11px !important;
+}
+
+/* -------------------------
+   Explosion
+   ------------------------- */
+
+/*
+  Explosion overlay is owned by GameCard.css.
+  Do not set .explosion { display: none } globally, because the React
+  component mounts the overlay only while the shot animation is active.
+*/
+
+/* -------------------------
+   Font consistency
+   ------------------------- */
+
+body,
+button,
+input,
+textarea,
+select,
+.game-card,
+.game-card *,
+.pick-card,
+.pick-card *,
+.r2-card,
+.r2-card *,
+.r3-card,
+.r3-card *,
+.caption,
+.caption *,
+.modal,
+.modal *,
+.detail-block,
+.detail-block *,
+.round-header,
+.round-header *,
+.console-window,
+.console-window *,
+.hud,
+.hud * {
+  font-family: var(--font) !important;
+}
+
+.title,
+.title * {
+  font-family: var(--title-font) !important;
+}
+
+/* -------------------------
+   Mobile
+   ------------------------- */
+
+@media (max-width: 768px) {
+  .topbar,
+  .stage {
+    width: calc(100% - 24px);
+  }
+
+  .topbar {
+    margin-top: 12px;
+    display: block;
+  }
+
+  .topbar > div:first-child {
+    min-height: 0;
+    padding: 10px 12px 8px;
+    border-right: none !important;
+    border-bottom: 1px solid #000;
+  }
+
+  .topbar__actions {
+    position: static;
+    transform: none;
+
+    padding: 8px;
+    justify-content: center;
+
+    background: rgba(220, 220, 220, 0.85) !important;
+    border-top: 1px solid #000 !important;
+    border-left: none !important;
+  }
+
+  .topbar__actions .btn {
+    width: 118px;
+    height: 42px;
+  }
+
+  .title {
+    font-size: 32px;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .stage {
+    padding-top: 12px;
+  }
+
+  .board__grid {
+    display: flex;
+    column-count: unset;
+  }
+
+  .round2-grid,
+  .round3-grid,
+  .round-pick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overlay-counter {
+    top: 8px;
+    right: 8px;
+  }
+
+  .panel--mini {
+    width: 92px;
+    min-width: 92px;
+    padding: 6px;
+  }
+
+  .panel__value {
+    font-size: 20px;
+  }
+
+  .gun-icon {
+    height: 36px;
+  }
+
+  .modal {
+    padding: 8px;
+  }
+
+  .modal__panel {
+    width: 100%;
+    height: 96vh;
+  }
+
+  .modal__content {
+    padding: 8px;
+  }
+
+  .video-frame,
+  .no-video {
+    max-height: 44vh;
+  }
+
+  .modal__content > .detail-block:first-of-type {
+    min-height: 70px;
+  }
+
+  .hud {
+    padding: 5px 8px;
+  }
+
+  .hud__pill {
+    padding: 4px 7px;
+  }
+
+  .hud__label {
+    font-size: 8px;
+  }
+
+  .hud__value {
+    font-size: 10px;
+  }
+
+  .hud .hud__btn {
+    padding: 5px 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .caption {
+    padding: 6px !important;
+  }
+
+
+  .caption__stars img {
+    width: 11px;
+    height: 11px;
+  }
+
+  .tier-row {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .tier-label {
+    font-size: 20px;
+  }
+
+  .tier-icon {
+    width: 58px;
+    height: 58px;
+  }
+}
+/* =========================================================
+   Final mobile/layout fixes for v0.74
+   - Round 1 medium-card scaling / cover clipping
+   - Round 2/3 reserve real HUD space on mobile
+   - Round 4 name + stars cards
+   - Topbar mute button
+   ========================================================= */
+
+:root {
+  --round-pick-hud-clearance: 74px;
+}
+
+@media (max-width: 560px) {
+  :root {
+    --round-pick-hud-clearance: 88px;
+  }
+}
+
+/* Topbar: Reset stays as play-now image; Mute is icon-only speaker button. */
+.topbar__actions {
+  gap: 10px !important;
+}
+
+.topbar__actions .topbar__mute.btn,
+.topbar__actions .topbar__mute.btn:hover,
+.topbar__actions .topbar__mute.btn:active {
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 42px !important;
+  padding: 0 !important;
+
+  display: inline-grid !important;
+  place-items: center !important;
+
+  background: #f4f4f4 !important;
+  border: 1px solid #333 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: 0 !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+.topbar__actions .topbar__mute.btn:hover {
+  background: #fff6c9 !important;
+  filter: none !important;
+}
+
+.topbar__actions .topbar__mute.btn:active {
+  background: #ddd !important;
+  transform: translateY(1px) !important;
+}
+
+.topbar__actions .topbar__mute img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+/* Hide any text label inside the mute button, while preserving aria-label/title. */
+.topbar__actions .topbar__mute span {
+  display: none !important;
+}
+
+.topbar__actions .topbar__mute.is-muted img {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+.topbar__actions .topbar__reset.btn,
+.topbar__actions .topbar__reset.btn:hover,
+.topbar__actions .topbar__reset.btn:active {
+  width: 126px !important;
+  height: 46px !important;
+  min-width: 126px !important;
+  padding: 0 !important;
+
+  background: url('/assets/ui/play-now.png') center center / contain no-repeat !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+
+  font-size: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+}
+
+.topbar__actions .topbar__reset.btn:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 768px) {
+  .topbar__actions {
+    gap: 8px !important;
+  }
+
+  .topbar__actions .topbar__mute.btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 36px !important;
+    padding: 0 !important;
+  }
+
+  .topbar__actions .topbar__mute img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .topbar__actions .topbar__reset.btn {
+    width: 112px !important;
+    min-width: 112px !important;
+    height: 38px !important;
+  }
+}
+
+/* Round 1: medium/small cards should not look zoomed or clip covers. */
+@media (min-width: 480px) and (max-width: 680px) {
+  body.round-1 .game-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body.round-1 .game-card .cover {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 150px !important;
+    object-fit: contain !important;
+  }
+
+  body.round-1 .game-card .caption {
+    padding: 6px 6px 7px !important;
+    min-height: 60px !important;
+  }
+
+  body.round-1 .game-card .caption__title {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    min-height: calc(12px * 1.2 * 2) !important;
+  }
+
+  body.round-1 .game-card .caption__stars img {
+    width: 12px !important;
+    height: 12px !important;
+  }
+}
+
+@media (max-width: 479px) {
+  body.round-1 .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+
+  body.round-1 .game-card .cover {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 136px !important;
+    object-fit: contain !important;
+  }
+
+  body.round-1 .game-card .caption__title {
+    font-size: 13px !important;
+    line-height: 1.22 !important;
+    min-height: calc(13px * 1.22 * 2) !important;
+  }
+}
+
+/* Round 2/3: use flex height from the visible viewport and reserve space for the fixed HUD. */
+@media (max-width: 900px) {
+  body.round-2,
+  body.round-3 {
+    overflow: hidden !important;
+  }
+
+  body.round-2 #root,
+  body.round-3 #root {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  body.round-2 .stage,
+  body.round-3 .stage {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 8px 0 var(--round-pick-hud-clearance) !important;
+    overflow: hidden !important;
+  }
+
+  body.round-2 .app-viewport,
+  body.round-3 .app-viewport,
+  body.round-2 .view,
+  body.round-3 .view,
+  body.round-2 .view--round2,
+  body.round-3 .view--round3,
+  body.round-2 .round-container,
+  body.round-3 .round-container {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.round-2 .round-container,
+  body.round-3 .round-container {
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.round-2 .round-header,
+  body.round-3 .round-header {
+    flex: 0 0 auto !important;
+    margin: 0 0 6px !important;
+    padding: 7px 10px !important;
+  }
+
+  body.round-2 .round-title,
+  body.round-3 .round-title {
+    font-size: 14px !important;
+  }
+
+  body.round-2 .round-subtitle,
+  body.round-3 .round-subtitle {
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+  }
+
+  body.round-2 .round2-grid,
+  body.round-3 .round3-grid {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    overflow: hidden !important;
+  }
+
+  body.round-2 .round2-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  body.round-3 .round3-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  body.round-2 .round2-card-wrap,
+  body.round-3 .round3-card-wrap {
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card,
+  body.round-3 .round3-card-wrap .game-card {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+
+    display: grid !important;
+    grid-template-columns: clamp(88px, 25vw, 132px) minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+  }
+
+  body.round-3 .round3-card-wrap .game-card {
+    grid-template-columns: clamp(104px, 30vw, 156px) minmax(0, 1fr) !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card .cover,
+  body.round-3 .round3-card-wrap .game-card .cover {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card .caption,
+  body.round-3 .round3-card-wrap .game-card .caption {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 6px 8px !important;
+    border-top: 0 !important;
+    border-left: 1px solid #000 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card .caption__title,
+  body.round-3 .round3-card-wrap .game-card .caption__title {
+    min-height: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card .caption__stars,
+  body.round-3 .round3-card-wrap .game-card .caption__stars {
+    margin-top: 0 !important;
+    padding-bottom: 0 !important;
+    gap: 4px !important;
+    justify-content: flex-end !important;
+    white-space: nowrap !important;
+  }
+
+  body.round-2 .round2-card-wrap .game-card .caption__stars img,
+  body.round-3 .round3-card-wrap .game-card .caption__stars img {
+    width: 12px !important;
+    height: 12px !important;
+  }
+}
+
+@media (max-width: 900px) and (max-height: 680px) {
+  body.round-2 .stage,
+  body.round-3 .stage {
+    padding-top: 6px !important;
+  }
+
+  body.round-2 .round-header,
+  body.round-3 .round-header {
+    padding: 6px 9px !important;
+    margin-bottom: 5px !important;
+  }
+
+  body.round-2 .round2-grid,
+  body.round-3 .round3-grid {
+    gap: 5px !important;
+  }
+}
+
+/* Round 4: game tiles show cover, name, stars; no drop shadow. */
+body.round-4 .tier-icon {
+  width: 92px !important;
+  height: auto !important;
+  min-height: 122px !important;
+  padding: 0 !important;
+  display: block !important;
+  background: #eeeeee !important;
+  border: 1px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+body.round-4 .tier-icon:hover,
+body.round-4 .tier-icon:active,
+body.round-4 .tier-icon.is-dragging,
+body.round-4 .tier-icon.is-selected {
+  box-shadow: none !important;
+}
+
+body.round-4 .tier-icon-visual {
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #eeeeee !important;
+}
+
+body.round-4 .tier-icon-cover {
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  display: block !important;
+  background: #ddd !important;
+  border-bottom: 1px solid #000 !important;
+  overflow: hidden !important;
+}
+
+body.round-4 .tier-icon-cover img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+body.round-4 .tier-icon-name {
+  min-height: 28px !important;
+  padding: 4px 4px 2px !important;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  overflow: hidden !important;
+  color: #111 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  text-align: center !important;
+}
+
+body.round-4 .tier-icon-stars {
+  padding: 0 4px 5px !important;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 2px !important;
+}
+
+body.round-4 .tier-icon-stars img {
+  width: 10px !important;
+  height: 10px !important;
+  display: block !important;
+}
+
+body.round-4 .tier-icon-stars img.off {
+  opacity: 0.22 !important;
+}
+
+body.round-4 .tier-pool .tier-icon {
+  box-shadow: none !important;
+}
+
+body.round-4 .tier-icon-visual--overlay {
+  width: 92px !important;
+  height: auto !important;
+  border: 1px solid #000 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 560px) {
+  body.round-4 .tier-icon,
+  body.round-4 .tier-icon-visual--overlay {
+    width: 74px !important;
+    min-height: 106px !important;
+  }
+
+  body.round-4 .tier-icon-name {
+    font-size: 10px !important;
+  }
+
+  body.round-4 .tier-icon-stars img {
+    width: 9px !important;
+    height: 9px !important;
+  }
 }

@@ -5,8 +5,10 @@ import { bannerPath } from '../utils/paths';
 import { GameCard } from '../components/GameCard';
 import './Rounds.css';
 
+
 import { Round2View } from './Round2View';
 import { Round3View } from './Round3View';
+import { Round4View } from './Round4View';
 import type { ActiveRound } from '../types';
 
 type RoundProps = { round: ActiveRound; };
@@ -18,6 +20,7 @@ export function Round({ round }: RoundProps) {
   // Round 2 / Round 3 are now isolated components
   if (round === 2) return <Round2View />;
   if (round === 3) return <Round3View />;
+  if (round === 4) return <Round4View />;
 
   // Round 1 consoles
   const consoles = useMemo(() => {
@@ -87,56 +90,6 @@ export function Round({ round }: RoundProps) {
             </article>
           );
         })}
-      </section>
-    );
-  }
-
-  // Round 4 tier list
-  if (config.isTierList) {
-    return (
-      <section className={config.containerClass} aria-label={config.title}>
-        <header className="round-header">
-          <h1 className="round-title">{config.title}</h1>
-          {config.subtitle && <p className="round-subtitle">{config.subtitle}</p>}
-        </header>
-
-        <section className="tier-board" aria-label="Tier board">
-          <div className="tier-row" data-tier="S+">
-            <div className="tier-label" aria-label="S Plus tier">
-              S+
-            </div>
-            <div
-              className="tier-drop"
-              id="tier-s-plus"
-              role="region"
-              aria-label="S Plus tier drop zone"
-            />
-          </div>
-
-          <div className="tier-row" data-tier="S">
-            <div className="tier-label" aria-label="S tier">
-              S
-            </div>
-            <div className="tier-drop" id="tier-s" role="region" aria-label="S tier drop zone" />
-          </div>
-
-          <div className="tier-row" data-tier="S-">
-            <div className="tier-label" aria-label="S Minus tier">
-              S-
-            </div>
-            <div
-              className="tier-drop"
-              id="tier-s-minus"
-              role="region"
-              aria-label="S Minus tier drop zone"
-            />
-          </div>
-        </section>
-
-        <section className="tier-pool-wrapper" aria-label="Unassigned games pool">
-          <h2 className="tier-pool-title">Pool</h2>
-          <div id="tier-pool" className="tier-pool" role="region" aria-label="Unassigned games pool" />
-        </section>
       </section>
     );
   }

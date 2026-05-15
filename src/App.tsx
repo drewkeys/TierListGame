@@ -6,7 +6,7 @@ import { HUD } from './components/HUD';
 import { GameModal } from './components/GameModal';
 import { Round } from './pages/Rounds';
 import { useEffect } from "react";
-
+import { ResumeSaveModal } from './components/ResumeSaveModal';
 import './styles.css';
 
 function AppContent() {
@@ -32,9 +32,11 @@ function AppContent() {
       </main>
       <HUD />
       <GameModal />
+      <ResumeSaveModal />
     </>
   );
 }
+
 
 function App() {
   return (

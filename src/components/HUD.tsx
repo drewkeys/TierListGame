@@ -17,6 +17,11 @@ function makePair(ids: string[], startIndex: number): (string | '')[] {
   return pair as (string | '')[];
 }
 
+function sameIds(a: readonly (string | '')[], b: readonly (string | '')[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((id, index) => id === b[index]);
+}
+
 export function HUD() {
   const {
     gameIndex,
@@ -125,11 +130,12 @@ export function HUD() {
 
     const order = r2.shuffledIds ?? [];
     const nextLiveTrio = makeTrio(order, r2.steps.length * 3);
+    const savedLiveStep = r2.steps.find((step) => sameIds(step.trio, nextLiveTrio));
 
     updateRound2((prev: Round2State) => ({
       ...prev,
       currentTrio: nextLiveTrio,
-      currentPick: null,
+      currentPick: savedLiveStep?.pick ?? null,
       cursor: -1,
     }));
   }, [r2, r2Cursor, updateRound2]);
@@ -167,11 +173,12 @@ export function HUD() {
 
     const order = r3.shuffledIds ?? [];
     const nextLivePair = makePair(order, r3.steps.length * 2);
+    const savedLiveStep = r3.steps.find((step) => sameIds(step.pair, nextLivePair));
 
     updateRound3((prev: Round3State) => ({
       ...prev,
       currentPair: nextLivePair,
-      currentPick: null,
+      currentPick: savedLiveStep?.pick ?? null,
       cursor: -1,
     }));
   }, [r3, r3Cursor, updateRound3]);

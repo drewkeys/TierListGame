@@ -111,6 +111,16 @@ export function Round3View() {
   const currentPair = r3?.currentPair ?? ['', ''];
   const hasCurrentPair = currentPair.some(Boolean);
 
+  const displayedPick = useMemo(() => {
+    if (!r3) return null;
+    if (r3.currentPick) return r3.currentPick;
+
+    const currentKey = currentPair.join('|');
+    const matchingStep = r3.steps.find((step) => step.pair.join('|') === currentKey);
+
+    return matchingStep?.pick ?? null;
+  }, [r3, currentPair]);
+
   const pairEntries = useMemo(() => {
     return currentPair.map((id) => {
       if (!id) return null;
@@ -151,7 +161,7 @@ export function Round3View() {
                   game={info.game}
                   consoleName={info.consoleName}
                   neon={info.neon}
-                  selected={r3?.currentPick === info.game.id}
+                  selected={displayedPick === info.game.id}
                   onClick={() => setModalGameId(info.game.id)}
                   onEliminate={() => setModalGameId(info.game.id)}
                 />

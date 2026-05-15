@@ -156,12 +156,13 @@
 
 /* FIX: don't grayscale the entire card (it also greys the explosion overlay) */
 .game-card.is-eliminated{
-  /* Do NOT apply filter to the whole card, or it will also gray-out the explosion overlay. */
-  opacity: 0.62;
+  /* Keep the card itself fully opaque so the explosion overlay stays vivid. */
+  opacity: 1;
 }
 
 .game-card.is-eliminated .cover,
 .game-card.is-eliminated .caption{
+  opacity: 0.62;
   filter: grayscale(1) saturate(0.7);
 }
 
@@ -300,20 +301,32 @@
   }
 }
 
-.explosion{
+.game-card .explosion {
   position: absolute;
   inset: 0;
-  display: none;
+  display: grid !important;
   place-items: center;
   background: rgba(0,0,0,0.12);
   pointer-events: none;
+  z-index: 1000;
+  opacity: 1;
 }
 
-.explosion img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.95;
+/* Visible flash fallback so the shot still feels responsive if the GIF is slow to decode. */
+.game-card.is-exploding::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 210, 80, 0.28), rgba(255, 90, 0, 0.16) 38%, transparent 70%);
 }
 
-.game-card.is-exploding .explosion{ display: grid; }
+.game-card .explosion img {
+  width: 125%;
+  height: 125%;
+  display: block;
+  object-fit: contain;
+  opacity: 1;
+  image-rendering: auto;
+}

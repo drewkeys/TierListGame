@@ -113,6 +113,16 @@ export function Round2View() {
   const currentTrio = r2?.currentTrio ?? ['', '', ''];
   const hasCurrentTrio = currentTrio.some(Boolean);
 
+  const displayedPick = useMemo(() => {
+    if (!r2) return null;
+    if (r2.currentPick) return r2.currentPick;
+
+    const currentKey = currentTrio.join('|');
+    const matchingStep = r2.steps.find((step) => step.trio.join('|') === currentKey);
+
+    return matchingStep?.pick ?? null;
+  }, [r2, currentTrio]);
+
   const trioEntries = useMemo(() => {
     return currentTrio.map((id) => {
       if (!id) return null;
@@ -154,7 +164,7 @@ export function Round2View() {
                   game={info.game}
                   consoleName={info.consoleName}
                   neon={info.neon}
-                  selected={r2?.currentPick === info.game.id}
+                  selected={displayedPick === info.game.id}
                   onClick={() => setModalGameId(info.game.id)}
                   onEliminate={() => setModalGameId(info.game.id)}
                 />

@@ -7,11 +7,14 @@ export interface AppContextType {
   gameIndex: Map<string, GameIndexEntry>;
   activeRound: ActiveRound;
   shootMode: boolean;
+  muted: boolean;
   modalGameId: string | null;
   excludedGameIds: Set<string>;
   round2SelectedIds: Set<string>;
   setActiveRound: (round: ActiveRound) => void;
   setShootMode: (mode: boolean) => void;
+  setMuted: (muted: boolean) => void;
+  toggleMuted: () => void;
   setModalGameId: (id: string | null) => void;
   setGameStars: (gameId: string, stars: number) => void;
   setGameEliminated: (gameId: string, eliminated: boolean) => void;
