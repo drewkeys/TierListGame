@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: "Comic Neue Local";
-  src: url("/TierListGame/assets/fonts/ComicNeue-Regular.ttf") format("truetype");
+  src: url("/assets/fonts/ComicNeue-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "Comic Neue Local";
-  src: url("/TierListGame/assets/fonts/ComicNeue-Bold.ttf") format("truetype");
+  src: url("/assets/fonts/ComicNeue-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -81,7 +81,7 @@ body::before {
   inset: 0;
   z-index: -1;
 
-  background-image: url("/TierListGame/assets/ui/skybox.jpg");
+  background-image: url("/assets/ui/skybox.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -101,7 +101,7 @@ body::after {
 /* Shoot mode cursor */
 body.shoot-mode,
 body.shoot-mode * {
-  cursor: url("/TierListGame/assets/ui/crosshair.png") 16 16, crosshair;
+  cursor: url("/assets/ui/crosshair.png") 16 16, crosshair;
 }
 
 /* -------------------------
@@ -165,7 +165,7 @@ body.round-3 .app-viewport {
 
   background:
     linear-gradient(rgba(111, 157, 202, 0.08), rgba(111, 157, 202, 0.08)),
-    url("/TierListGame/assets/ui/roblox-banner.jpg") center center / cover no-repeat !important;
+    url("/assets/ui/roblox-banner.jpg") center center / cover no-repeat !important;
 
   border: 1px solid #000 !important;
   border-radius: 0 !important;
@@ -245,7 +245,7 @@ body.round-3 .app-viewport {
   height: 46px;
   padding: 0 !important;
 
-  background: url("/TierListGame/assets/ui/play-now.png") center center / contain no-repeat !important;
+  background: url("/assets/ui/play-now.png") center center / contain no-repeat !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -309,7 +309,7 @@ body.round-3 .app-viewport {
 .topbar__actions .btn:hover,
 .topbar__actions .btn:active {
   background:
-    url("/TierListGame/assets/ui/play-now.png") center center / contain no-repeat !important;
+    url("/assets/ui/play-now.png") center center / contain no-repeat !important;
   background-color: transparent !important;
 }
 
@@ -1427,7 +1427,7 @@ select,
   min-width: 126px !important;
   padding: 0 !important;
 
-  background: url('/TierListGame/assets/ui/play-now.png') center center / contain no-repeat !important;
+  background: url('/assets/ui/play-now.png') center center / contain no-repeat !important;
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
