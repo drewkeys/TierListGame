@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Round2State, Round3State } from '../types';
 import { useApp } from '../context/useApp';
 import { youtubeToEmbed } from '../utils/youtube';
+import { ASSET_PATHS } from '../utils/paths';
 import { Button } from './Button';
 import './GameModal.css';
 
@@ -15,6 +16,54 @@ function makePair(ids: string[], startIndex: number): (string | '')[] {
   const pair = ids.slice(startIndex, startIndex + 2);
   while (pair.length < 2) pair.push('');
   return pair as (string | '')[];
+}
+
+let cachedButtonAudio: HTMLAudioElement | null = null;
+let cachedYayAudio: HTMLAudioElement | null = null;
+
+function getCachedAudio(src: string, cacheName: 'button' | 'yay'): HTMLAudioElement | null {
+  if (typeof window === 'undefined') return null;
+
+  if (cacheName === 'button') {
+    cachedButtonAudio ??= new Audio(src);
+    return cachedButtonAudio;
+  }
+
+  cachedYayAudio ??= new Audio(src);
+  return cachedYayAudio;
+}
+
+function playButtonSound(muted: boolean) {
+  if (muted) return;
+
+  try {
+    const cachedAudio = getCachedAudio(ASSET_PATHS.buttonMp3, 'button');
+    const audio = (cachedAudio ?? new Audio(ASSET_PATHS.buttonMp3)).cloneNode(true) as HTMLAudioElement;
+    audio.currentTime = 0;
+
+    void audio.play().catch((error) => {
+      console.warn('Could not play button sound:', error);
+    });
+  } catch (error) {
+    console.warn('Could not prepare button sound:', error);
+  }
+}
+
+function playRatingSound(stars: number, muted: boolean) {
+  if (muted) return;
+
+  try {
+    const src = stars === 4 ? ASSET_PATHS.yayMp3 : ASSET_PATHS.buttonMp3;
+    const cachedAudio = getCachedAudio(src, stars === 4 ? 'yay' : 'button');
+    const audio = (cachedAudio ?? new Audio(src)).cloneNode(true) as HTMLAudioElement;
+    audio.currentTime = 0;
+
+    void audio.play().catch((error) => {
+      console.warn('Could not play rating sound:', error);
+    });
+  } catch (error) {
+    console.warn('Could not prepare rating sound:', error);
+  }
 }
 
 function withYoutubeApiParams(url: string): string {
@@ -64,6 +113,15 @@ export function GameModal() {
   } = useApp();
 
   const videoRef = useRef<HTMLIFrameElement>(null);
+  const [hoverStars, setHoverStars] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Warm these after first render so the first star click feels instant.
+    getCachedAudio(ASSET_PATHS.buttonMp3, 'button');
+    getCachedAudio(ASSET_PATHS.yayMp3, 'yay');
+  }, []);
 
   useEffect(() => {
     if (!modalGameId && videoRef.current) {
@@ -73,12 +131,27 @@ export function GameModal() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setModalGameId(null);
+      if (e.key === 'Escape') {
+        setModalGameId(null);
+        return;
+      }
+
+      if (activeRound !== 1 || !modalGameId || e.repeat || e.altKey || e.ctrlKey || e.metaKey) {
+        return;
+      }
+
+      if (e.key >= '1' && e.key <= '4') {
+        e.preventDefault();
+
+        const stars = Number(e.key);
+        playRatingSound(stars, muted);
+        setGameStars(modalGameId, stars);
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [setModalGameId]);
+  }, [activeRound, modalGameId, muted, setGameStars, setModalGameId]);
 
   const info = modalGameId ? gameIndex.get(modalGameId) : null;
   const game = info?.game ?? null;
@@ -139,6 +212,8 @@ export function GameModal() {
   const handlePickWinnerRound2 = () => {
     if (activeRound !== 2 || !modalGameId) return;
 
+    playButtonSound(muted);
+
     const pickedId = modalGameId;
 
     updateRound2((prev: Round2State) => {
@@ -153,38 +228,49 @@ export function GameModal() {
 
       // cursor -1 = live/newest trio.
       // cursor 0+ = viewing old history and replacing that answer.
+      // Important: preserve future history when editing an old answer.
+      // Back/Next should behave like a review timeline, not erase later picks.
+      let nextSteps = steps;
+      let nextCursor = -1;
+      let nextCurrentTrio: (string | '')[] = ['', '', ''];
+      let nextCurrentPick: string | null = null;
+
       if (cursor >= 0) {
-        const futureSteps = steps.slice(cursor + 1);
-
-        for (const futureStep of futureSteps) {
-          if (futureStep.pick) {
-            setGameR2Survived(futureStep.pick, false);
-          }
-        }
-
         const oldPick = steps[cursor]?.pick;
         if (oldPick && oldPick !== pickedId) {
           setGameR2Survived(oldPick, false);
         }
+
+        nextSteps = steps.map((savedStep, index) => (index === cursor ? step : savedStep));
+
+        const followingStep = nextSteps[cursor + 1];
+        if (followingStep) {
+          nextCursor = cursor + 1;
+          nextCurrentTrio = followingStep.trio;
+          nextCurrentPick = followingStep.pick;
+        } else {
+          const order = prev.shuffledIds ?? [];
+          const nextStartIndex = nextSteps.length * 3;
+          nextCurrentTrio =
+            nextStartIndex < order.length ? makeTrio(order, nextStartIndex) : ['', '', ''];
+        }
+      } else {
+        nextSteps = [...steps, step];
+
+        const order = prev.shuffledIds ?? [];
+        const nextStartIndex = nextSteps.length * 3;
+        nextCurrentTrio =
+          nextStartIndex < order.length ? makeTrio(order, nextStartIndex) : ['', '', ''];
       }
 
       setGameR2Survived(pickedId, true);
 
-      // If replacing step 2, keep steps 0 and 1, then append the replacement.
-      const baseSteps = cursor >= 0 ? steps.slice(0, cursor) : steps;
-      const nextSteps = [...baseSteps, step];
-
-      const order = prev.shuffledIds ?? [];
-      const nextStartIndex = nextSteps.length * 3;
-      const nextTrio =
-        nextStartIndex < order.length ? makeTrio(order, nextStartIndex) : ['', '', ''];
-
       return {
         ...prev,
         steps: nextSteps,
-        cursor: -1,
-        currentPick: null,
-        currentTrio: nextTrio,
+        cursor: nextCursor,
+        currentPick: nextCurrentPick,
+        currentTrio: nextCurrentTrio,
       };
     });
 
@@ -193,6 +279,8 @@ export function GameModal() {
 
   const handlePickWinnerRound3 = () => {
     if (activeRound !== 3 || !modalGameId) return;
+
+    playButtonSound(muted);
 
     const pickedId = modalGameId;
 
@@ -208,38 +296,49 @@ export function GameModal() {
 
       // cursor -1 = live/newest pair.
       // cursor 0+ = viewing old history and replacing that answer.
+      // Important: preserve future history when editing an old answer.
+      // Back/Next should behave like a review timeline, not erase later picks.
+      let nextSteps = steps;
+      let nextCursor = -1;
+      let nextCurrentPair: (string | '')[] = ['', ''];
+      let nextCurrentPick: string | null = null;
+
       if (cursor >= 0) {
-        const futureSteps = steps.slice(cursor + 1);
-
-        for (const futureStep of futureSteps) {
-          if (futureStep.pick) {
-            setGameR3Survived(futureStep.pick, false);
-          }
-        }
-
         const oldPick = steps[cursor]?.pick;
         if (oldPick && oldPick !== pickedId) {
           setGameR3Survived(oldPick, false);
         }
+
+        nextSteps = steps.map((savedStep, index) => (index === cursor ? step : savedStep));
+
+        const followingStep = nextSteps[cursor + 1];
+        if (followingStep) {
+          nextCursor = cursor + 1;
+          nextCurrentPair = followingStep.pair;
+          nextCurrentPick = followingStep.pick;
+        } else {
+          const order = prev.shuffledIds ?? [];
+          const nextStartIndex = nextSteps.length * 2;
+          nextCurrentPair =
+            nextStartIndex < order.length ? makePair(order, nextStartIndex) : ['', ''];
+        }
+      } else {
+        nextSteps = [...steps, step];
+
+        const order = prev.shuffledIds ?? [];
+        const nextStartIndex = nextSteps.length * 2;
+        nextCurrentPair =
+          nextStartIndex < order.length ? makePair(order, nextStartIndex) : ['', ''];
       }
 
       setGameR3Survived(pickedId, true);
 
-      // If replacing step 2, keep steps 0 and 1, then append the replacement.
-      const baseSteps = cursor >= 0 ? steps.slice(0, cursor) : steps;
-      const nextSteps = [...baseSteps, step];
-
-      const order = prev.shuffledIds ?? [];
-      const nextStartIndex = nextSteps.length * 2;
-      const nextPair =
-        nextStartIndex < order.length ? makePair(order, nextStartIndex) : ['', ''];
-
       return {
         ...prev,
         steps: nextSteps,
-        cursor: -1,
-        currentPick: null,
-        currentPair: nextPair,
+        cursor: nextCursor,
+        currentPick: nextCurrentPick,
+        currentPair: nextCurrentPair,
       };
     });
 
@@ -286,51 +385,59 @@ export function GameModal() {
               )}
             </div>
 
-            <div>
-              <div className="detail-block">
+            <div className="modal__details">
+              <div className="detail-block modal__description-block">
                 <div className="detail-label">Description</div>
                 <p className="detail-paragraph">{game.description || ''}</p>
               </div>
 
-              <div className="detail-block detail-block--spaced">
+              <div className="detail-block detail-block--spaced modal__controls-row">
+                <div className="modal__hint">
+                  Tip: press <span className="kbd">1</span> to <span className="kbd">4</span> to rate. Press <span className="kbd">Esc</span> to close.
+                </div>
+
                 {activeRound === 1 && (
-                  <>
-                    <div className="detail-label">Rating</div>
+                  <div className="modal__rating-controls">
+                    <Button
+                      variant="danger"
+                      onClick={() => setGameEliminated(modalGameId, !gameState.eliminated)}
+                    >
+                      {gameState.eliminated ? 'Un-eliminate' : 'Eliminate'}
+                    </Button>
 
-                    <div className="stars stars--spaced">
-                      {[1, 2, 3, 4].map((i) => (
-                        <div
-                          key={i}
-                          className={`star-btn ${i <= gameState.stars ? 'is-on' : ''}`}
-                          role="button"
-                          tabIndex={0}
-                          aria-label={`Set ${i} star rating`}
-                          onClick={() => setGameStars(modalGameId, i)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
+                    <div
+                      className="stars stars--spaced"
+                      onMouseLeave={() => setHoverStars(0)}
+                    >
+                      {[1, 2, 3, 4].map((i) => {
+                        const previewStars = hoverStars || gameState.stars;
+
+                        return (
+                          <div
+                            key={i}
+                            className={`star-btn ${i <= previewStars ? 'is-on' : ''}`}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Set ${i} star rating`}
+                            onMouseEnter={() => setHoverStars(i)}
+                            onFocus={() => setHoverStars(i)}
+                            onBlur={() => setHoverStars(0)}
+                            onClick={() => {
+                              playRatingSound(i, muted);
                               setGameStars(modalGameId, i);
-                            }
-                          }}
-                        />
-                      ))}
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                playRatingSound(i, muted);
+                                setGameStars(modalGameId, i);
+                              }
+                            }}
+                          />
+                        );
+                      })}
                     </div>
-
-                    <div className="modal__actions">
-                      <Button onClick={() => setGameStars(modalGameId, 0)}>0★</Button>
-                      <Button onClick={() => setGameStars(modalGameId, 1)}>1★</Button>
-                      <Button onClick={() => setGameStars(modalGameId, 2)}>2★</Button>
-                      <Button onClick={() => setGameStars(modalGameId, 3)}>3★</Button>
-                      <Button onClick={() => setGameStars(modalGameId, 4)}>4★</Button>
-
-                      <Button
-                        variant="danger"
-                        onClick={() => setGameEliminated(modalGameId, !gameState.eliminated)}
-                      >
-                        {gameState.eliminated ? 'Un-eliminate' : 'Eliminate'}
-                      </Button>
-                    </div>
-                  </>
+                  </div>
                 )}
 
                 {activeRound === 2 && (
@@ -348,10 +455,6 @@ export function GameModal() {
                     </Button>
                   </div>
                 )}
-
-                <div className="modal__hint">
-                  Tip: press <span className="kbd">Esc</span> to close.
-                </div>
               </div>
             </div>
           </div>

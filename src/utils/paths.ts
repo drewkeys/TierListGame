@@ -66,5 +66,10 @@ export const ASSET_PATHS = {
   gunPng: `${BASE}assets/ui/gun.png`,
   crosshairPng: `${BASE}assets/ui/crosshair.png`,
   explodeMp3: `${BASE}assets/ui/explode.mp3`,
+  buttonMp3: `${BASE}assets/ui/button.mp3`,
+  yayMp3: `${BASE}assets/ui/yay.mp3`,
+  wooshMp3: `${BASE}assets/ui/woosh.mp3`,
+  celebrationMp3: `${BASE}assets/ui/celebration.mp3`,
+  cookiePng: `${BASE}assets/ui/cookie.png`,
   speakerPng: `${BASE}assets/ui/speaker.png`,
 } as const;

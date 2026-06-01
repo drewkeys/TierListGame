@@ -1924,8 +1924,7 @@ body.round-3 .round-navigation{
 }
 
 .tier-icon.is-dragging {
-  opacity: 0.45;
-  transform: scale(0.95);
+  opacity: 0;
 }
 
 @media (max-width: 900px) {
@@ -1973,4 +1972,310 @@ body.round-4 .tier-icon.is-selected {
 
 body.round-4 .round4-touch-tip {
   margin-top: 6px;
+}
+
+/* =========================
+   Round 4 final ordering + GOAT tier polish
+   ========================= */
+.tier-row[data-tier="GOAT"] .tier-label {
+  background: #9b63e6 !important;
+  color: #ffffff !important;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.tier-row[data-tier="S-"] .tier-label {
+  background: #ded14d !important;
+}
+
+body.round-4 .tier-icon.is-slot-over:not(.is-dragging) {
+  outline: 3px dashed #ffffff;
+  outline-offset: -5px;
+  filter: brightness(1.12);
+}
+
+body.round-4 .tier-icon {
+  width: 116px;
+  height: auto;
+  min-height: 0;
+  flex: 0 0 116px;
+  background: #ffffff !important;
+}
+
+body.round-4 .tier-icon-visual {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
+body.round-4 .tier-icon-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #d9e3ef;
+}
+
+body.round-4 .tier-icon-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body.round-4 .tier-icon-name {
+  display: grid;
+  place-items: center;
+  min-height: 38px;
+  padding: 6px 5px 2px;
+  color: #111827;
+  font-size: 13px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+body.round-4 .tier-icon-stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 5px 8px;
+}
+
+body.round-4 .tier-icon-stars img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.22));
+}
+
+body.round-4 .tier-icon-stars img.off {
+  opacity: 0.2;
+  filter: grayscale(1);
+}
+
+body.round-4 .tier-icon-visual--overlay {
+  width: 116px;
+  height: auto;
+  background: #ffffff;
+}
+
+@media (max-width: 900px) {
+  body.round-4 .tier-icon,
+  body.round-4 .tier-icon-visual--overlay {
+    width: 96px;
+    flex-basis: 96px;
+  }
+}
+
+@media (max-width: 560px) {
+  body.round-4 .tier-icon,
+  body.round-4 .tier-icon-visual--overlay {
+    width: 82px;
+    flex-basis: 82px;
+  }
+
+  body.round-4 .tier-icon-name {
+    min-height: 34px;
+    font-size: 11px;
+  }
+
+  body.round-4 .tier-icon-stars img {
+    width: 11px;
+    height: 11px;
+  }
+}
+
+/* =================================================
+   Round 2 / Round 3 complete screen
+   ================================================= */
+.round-complete-panel{
+  grid-column: 1 / -1;
+  align-self: stretch;
+  justify-self: stretch;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+
+  background: rgba(238, 238, 238, 0.72);
+  border: 1px solid #000;
+  box-shadow: none;
+}
+
+.round-complete-card{
+  width: min(680px, 100%);
+  background: rgba(238, 238, 238, 0.94);
+  border: 1px solid #000;
+  color: #111;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.22);
+}
+
+.round-complete-card::before{
+  content: '';
+  display: block;
+  height: 38px;
+  background: #75a6cf;
+  border-bottom: 1px solid #000;
+}
+
+.round-complete-card > *{
+  margin-left: 22px;
+  margin-right: 22px;
+}
+
+.round-complete-eyebrow{
+  margin-top: 18px;
+  margin-bottom: 4px;
+  color: #4e6680;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.round-complete-card h2{
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #111;
+  font-family: var(--font);
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 5px;
+  text-shadow: none;
+}
+
+.round-complete-card p{
+  color: #111;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.round-complete-steps{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.round-complete-steps span{
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid #000;
+  color: #111;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.round-complete-note{
+  margin-bottom: 22px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 620px){
+  .round-complete-panel{
+    padding: 10px;
+  }
+
+  .round-complete-card::before{
+    height: 30px;
+  }
+
+  .round-complete-card > *{
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .round-complete-card h2{
+    font-size: 26px;
+    letter-spacing: 3px;
+  }
+
+  .round-complete-card p{
+    font-size: 13px;
+  }
+
+  .round-complete-steps span{
+    min-height: 30px;
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+}
+
+
+/* =========================
+   Round 4 modal-style header
+   ========================= */
+body.round-4 .round4-header-panel {
+  display: block;
+  margin: 0 0 12px;
+  padding: 0;
+  overflow: hidden;
+  color: #111;
+  background: #eeeeee;
+  border: 1px solid #000;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.round-4 .round4-header-panel__bar {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 8px 12px;
+  background: var(--bg-header-blue, #6f9dca);
+  border-bottom: 1px solid #000;
+}
+
+body.round-4 .round4-header-panel .round-title {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font);
+  font-size: clamp(20px, 2.2vw, 30px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  text-shadow: none;
+}
+
+body.round-4 .round4-header-panel__body {
+  padding: 10px 12px 12px;
+  background: #eeeeee;
+}
+
+body.round-4 .round4-header-panel .round-subtitle {
+  margin: 0;
+  color: #111;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.45;
+  text-shadow: none;
+}
+
+body.round-4 .round4-header-panel .round-subtitle + .round-subtitle {
+  margin-top: 6px;
+}
+
+@media (max-width: 700px) {
+  body.round-4 .round4-header-panel__bar {
+    min-height: 42px;
+    padding: 8px 10px;
+  }
+
+  body.round-4 .round4-header-panel .round-title {
+    font-size: 20px;
+  }
+
+  body.round-4 .round4-header-panel__body {
+    padding: 9px 10px 10px;
+  }
 }

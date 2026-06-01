@@ -17,18 +17,23 @@ export function Topbar() {
       <div>
         <div className="title">GAME RATING GAME</div>
         <div className="subtitle">
-          Round {activeRound}: {activeRound === 1 ? 'rate 1–4 stars or eliminate. Click a game for details.' : 'continue selection'}
+          {activeRound === 1
+            ? 'Round 1: rate 1–4 stars or eliminate. Click a game for details.'
+            : activeRound === 4
+              ? 'Round 4'
+              : `Round ${activeRound}: continue selection`}
         </div>
       </div>
       <div className="topbar__actions">
-          <Button
-            type="button"
-            className={`topbar__mute ${muted ? 'is-muted' : ''}`}
-            onClick={toggleMuted}
-            aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
-          >
-            <img src={ASSET_PATHS.speakerPng} alt="" aria-hidden="true" />
-          </Button>
+        <Button
+          type="button"
+          className={`topbar__mute${muted ? ' is-muted' : ''}`}
+          onClick={toggleMuted}
+          aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+          title={muted ? 'Unmute sounds' : 'Mute sounds'}
+        >
+          <img src={ASSET_PATHS.speakerPng} alt="" aria-hidden="true" />
+        </Button>
         <Button className="topbar__reset" variant="danger" onClick={handleReset}>
           Reset
         </Button>

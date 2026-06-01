@@ -233,3 +233,53 @@
     max-height: none;
   }
 }
+
+
+/* Keep modal video uncropped and make long descriptions scroll inside the modal. */
+.modal .modal__content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.modal .video-frame {
+  flex: 0 0 auto;
+  width: min(100%, calc(52dvh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  max-height: none;
+}
+
+.modal .video-frame iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.modal .modal__details {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+}
+
+.modal .modal__details > .detail-block:first-child {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.modal .modal__details > .detail-block + .detail-block {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+  .modal .video-frame {
+    width: min(100%, calc(44dvh * 16 / 9));
+  }
+
+  .modal .modal__details {
+    margin-top: 8px;
+  }
+}

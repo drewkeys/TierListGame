@@ -104,7 +104,7 @@
 }
 
 .game-card:hover .cover{
-  opacity: 0.95;
+  opacity: 0.82;
 }
 
 @media (max-width: 479px){

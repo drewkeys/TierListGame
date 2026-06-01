@@ -172,8 +172,11 @@ export function Round2View() {
             );
           })
         ) : (
-          <div className="loading-card">
-            Round 2 complete. Use Back to review previous selections, or continue to Round 3.
+          <div className="round-complete-panel" role="status" aria-live="polite">
+            <div className="round-complete-card round-complete-card--minimal">
+              <p className="round-complete-eyebrow">Round 2 complete</p>
+              <h2>Ready for Round 3?</h2>
+            </div>
           </div>
         )}
       </section>

@@ -25,6 +25,7 @@ import {
   resetRoundUIState,
 } from '../utils/roundStorage';
 import { DATA_URL } from '../utils/constants';
+import { ASSET_PATHS, bannerPath, coverPath } from '../utils/paths';
 import { AppContext } from './useApp';
 
 const DEFAULT_R2: Round2State = {
@@ -46,6 +47,57 @@ const DEFAULT_R3: Round3State = {
   poolKey: '',
   shuffledIds: [],
 };
+
+
+function preloadImage(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => resolve();
+    img.onerror = () => resolve();
+    img.src = src;
+  });
+}
+
+function warmImageCache(games: Game[], consoles: Console[]): void {
+  const prioritySources = [
+    ASSET_PATHS.coverFallback,
+    ASSET_PATHS.explosionGif,
+    ASSET_PATHS.starPng,
+    ASSET_PATHS.gunPng,
+    ASSET_PATHS.speakerPng,
+    ASSET_PATHS.cookiePng,
+    ...consoles.map((console) => bannerPath(console)),
+    ...games.slice(0, 36).map((game) => coverPath(game)),
+  ];
+
+  // Start visible/near-visible assets immediately so cards do not pop in blank.
+  prioritySources.forEach((src) => void preloadImage(src));
+
+  const remainingCoverSources = games.slice(36).map((game) => coverPath(game));
+  let index = 0;
+
+  const loadNextBatch = () => {
+    const batch = remainingCoverSources.slice(index, index + 12);
+    index += batch.length;
+
+    batch.forEach((src) => void preloadImage(src));
+
+    if (index < remainingCoverSources.length) {
+      window.setTimeout(loadNextBatch, 120);
+    }
+  };
+
+  if (remainingCoverSources.length > 0) {
+    const requestIdle = (window as Window & { requestIdleCallback?: (callback: () => void) => number }).requestIdleCallback;
+
+    if (requestIdle) {
+      requestIdle(loadNextBatch);
+    } else {
+      window.setTimeout(loadNextBatch, 1);
+    }
+  }
+}
 
 const MUTE_STORAGE_KEY = 'grg_muted_v1';
 
@@ -89,11 +141,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
         // Build game index
         const index = new Map<string, GameIndexEntry>();
         const NEON_PALETTE = ['#00f6ff', '#ff2bd6', '#7c4dff', '#00ff9a', '#ffd84d', '#ff6a3d', '#3d8bff'];
+        const allGames: Game[] = [];
+
         data.consoles?.forEach((console: Console, idx: number) => {
           const consoleName = console.name || console.id || 'Console';
           const neon = NEON_PALETTE[idx % NEON_PALETTE.length];
           console.games?.forEach((game: Game) => {
             if (game?.id) {
+              allGames.push(game);
               index.set(game.id, {
                 consoleId: console.id,
                 consoleName,
@@ -103,6 +158,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
             }
           });
         });
+
+        warmImageCache(allGames, data.consoles ?? []);
         setGameIndex(index);
       })
       .catch((err) => {

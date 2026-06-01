@@ -26,7 +26,6 @@ function preloadExplosionAssets() {
 
   cachedExplosionAudio = new Audio(ASSET_PATHS.explodeMp3);
   cachedExplosionAudio.preload = 'auto';
-  cachedExplosionAudio.volume = 0.02;
   cachedExplosionAudio.load();
 }
 
@@ -37,7 +36,6 @@ function playExplosionSoundClientSide(muted: boolean) {
 
     // Clone so rapid eliminations can overlap instead of restarting one audio element.
     const audio = sourceAudio.cloneNode(true) as HTMLAudioElement;
-    audio.volume = 0.02;
     audio.currentTime = 0;
 
     // Never await audio. Browser/network audio behavior should not block UI feedback.
@@ -129,7 +127,8 @@ export function GameCard({ game, selected = false, onClick, onEliminate }: GameC
       <img
         className="cover"
         alt={game.title || game.id}
-        loading="lazy"
+        loading="eager"
+        decoding="async"
         src={imgError ? ASSET_PATHS.coverFallback : coverPath(game)}
         onError={() => setImgError(true)}
       />

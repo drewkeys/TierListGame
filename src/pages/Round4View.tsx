@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import {
   DndContext,
@@ -19,16 +19,29 @@ import { ASSET_PATHS, coverPath } from '../utils/paths';
 import { useRoundGames } from '../hooks/useRoundGames';
 
 // Round 4 is a TierMaker-style board.
-// Eligible games begin in the pool and can be dragged into S+, S, or S-.
-type TierId = 'S+' | 'S' | 'S-' | 'pool';
+// Eligible games begin in the pool and can be dragged into GOAT, S+, S, or S-.
+type TierId = 'GOAT' | 'S+' | 'S' | 'S-' | 'pool';
 
 type BoardTierId = Exclude<TierId, 'pool'>;
 
 type TierAssignments = Record<string, TierId>;
+type TierOrder = Record<TierId, string[]>;
 
-const TIERS: BoardTierId[] = ['S+', 'S', 'S-'];
-const VALID_TIER_IDS = new Set<TierId>(['S+', 'S', 'S-', 'pool']);
+const TIERS: BoardTierId[] = ['GOAT', 'S+', 'S', 'S-'];
+const ALL_TIER_IDS: TierId[] = ['GOAT', 'S+', 'S', 'S-', 'pool'];
+const VALID_TIER_IDS = new Set<TierId>(ALL_TIER_IDS);
 const STORAGE_KEY = 'grg_round4_tiers_v1';
+const ORDER_STORAGE_KEY = 'grg_round4_order_v1';
+
+function emptyTierOrder(): TierOrder {
+  return {
+    GOAT: [],
+    'S+': [],
+    S: [],
+    'S-': [],
+    pool: [],
+  };
+}
 
 function isTierId(value: unknown): value is TierId {
   return typeof value === 'string' && VALID_TIER_IDS.has(value as TierId);
@@ -61,6 +74,62 @@ function saveTierAssignments(assignments: TierAssignments) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
   } catch (error) {
     console.error('Failed to save Round 4 tier assignments:', error);
+  }
+}
+
+function loadTierOrder(): TierOrder {
+  const cleaned = emptyTierOrder();
+
+  try {
+    const raw = localStorage.getItem(ORDER_STORAGE_KEY);
+    if (!raw) return cleaned;
+
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== 'object') return cleaned;
+
+    for (const tier of ALL_TIER_IDS) {
+      const ids = (parsed as Partial<TierOrder>)[tier];
+      if (Array.isArray(ids)) {
+        cleaned[tier] = ids.filter((id): id is string => typeof id === 'string');
+      }
+    }
+  } catch {
+    return cleaned;
+  }
+
+  return cleaned;
+}
+
+function saveTierOrder(order: TierOrder) {
+  try {
+    localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(order));
+  } catch (error) {
+    console.error('Failed to save Round 4 tier order:', error);
+  }
+}
+
+function removeFromAllTiers(order: TierOrder, gameId: string): TierOrder {
+  const next = emptyTierOrder();
+
+  for (const tier of ALL_TIER_IDS) {
+    next[tier] = order[tier].filter((id) => id !== gameId);
+  }
+
+  return next;
+}
+
+function playWooshSound(muted: boolean) {
+  if (muted) return;
+
+  try {
+    const audio = new Audio(ASSET_PATHS.wooshMp3);
+    audio.currentTime = 0;
+
+    void audio.play().catch((error) => {
+      console.warn('Could not play Round 4 woosh sound:', error);
+    });
+  } catch (error) {
+    console.warn('Could not create Round 4 woosh sound:', error);
   }
 }
 
@@ -156,22 +225,37 @@ function DraggableGameIcon({
   onSelect,
   onOpen,
 }: DraggableGameIconProps) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef: setDraggableRef, transform, isDragging } = useDraggable({
     id: gameId,
     data: { type: 'round4-game', gameId },
   });
 
+  const { isOver, setNodeRef: setDroppableRef } = useDroppable({
+    id: `slot:${gameId}`,
+    data: { type: 'round4-slot', gameId },
+  });
+
+  const setNodeRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      setDraggableRef(node);
+      setDroppableRef(node);
+    },
+    [setDraggableRef, setDroppableRef]
+  );
+
   const style: CSSProperties = {
-    transform: CSS.Translate.toString(transform),
+    // DragOverlay renders the moving copy. Keep the source tile in the flex grid
+    // as an invisible placeholder so it does not visually stack on top of other games.
+    transform: isDragging ? undefined : CSS.Translate.toString(transform),
   };
 
   return (
     <button
       ref={setNodeRef}
       type="button"
-      className={`tier-icon${isDragging || isActive ? ' is-dragging' : ''}${isSelected ? ' is-selected' : ''}`}
+      className={`tier-icon${isDragging || isActive ? ' is-dragging' : ''}${isSelected ? ' is-selected' : ''}${isOver ? ' is-slot-over' : ''}`}
       style={style}
-      title={`${title} — drag to a tier, single-click to select, double-click to open details`}
+      title={`${title}. Drag to a tier, single-click to select, double-click to open details`}
       aria-label={`${title}. Drag to a tier. Single-click to select. Double-click to open details.`}
       onClick={(event) => {
         event.stopPropagation();
@@ -191,12 +275,18 @@ function DraggableGameIcon({
 
 export function Round4View() {
   const config = ROUND_CONFIG[4];
-  const { gameIndex, excludedGameIds, setModalGameId, getGameState } = useApp();
+  const { gameIndex, excludedGameIds, setModalGameId, getGameState, muted } = useApp();
   const gameEntries = useRoundGames(4);
 
   const [assignments, setAssignments] = useState<TierAssignments>(() => loadTierAssignments());
+  const [tierOrder, setTierOrder] = useState<TierOrder>(() => loadTierOrder());
   const [activeGameId, setActiveGameId] = useState<string | null>(null);
   const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio(ASSET_PATHS.wooshMp3);
+    audio.preload = 'auto';
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -272,50 +362,80 @@ export function Round4View() {
     return next;
   }, [assignments, eligibleIds]);
 
+  const normalizedTierOrder = useMemo(() => {
+    const next = emptyTierOrder();
+    const added = new Set<string>();
+
+    for (const tier of ALL_TIER_IDS) {
+      for (const gameId of tierOrder[tier] || []) {
+        const assignedTier = visibleAssignments[gameId] || 'pool';
+        if (!eligibleIds.has(gameId) || assignedTier !== tier || added.has(gameId)) continue;
+
+        next[tier].push(gameId);
+        added.add(gameId);
+      }
+    }
+
+    for (const entry of round4Games) {
+      if (!entry) continue;
+      const gameId = entry.game.id;
+      if (added.has(gameId)) continue;
+
+      const tier = visibleAssignments[gameId] || 'pool';
+      next[tier].push(gameId);
+      added.add(gameId);
+    }
+
+    return next;
+  }, [eligibleIds, round4Games, tierOrder, visibleAssignments]);
+
   useEffect(() => {
     saveTierAssignments(visibleAssignments);
   }, [visibleAssignments]);
 
-  const gamesByTier = useMemo(() => {
-    const grouped: Record<TierId, string[]> = {
-      'S+': [],
-      S: [],
-      'S-': [],
-      pool: [],
-    };
+  useEffect(() => {
+    saveTierOrder(normalizedTierOrder);
+  }, [normalizedTierOrder]);
 
-    for (const entry of round4Games) {
-      if (!entry) continue;
-
-      const id = entry.game.id;
-      const tier = visibleAssignments[id] || 'pool';
-
-      if (isTierId(tier)) {
-        grouped[tier].push(id);
-      } else {
-        grouped.pool.push(id);
-      }
-    }
-
-    return grouped;
-  }, [round4Games, visibleAssignments]);
+  const gamesByTier = normalizedTierOrder;
 
   const activeGame = activeGameId ? gameIndex.get(activeGameId)?.game : null;
   const activeGameStars = activeGameId ? getGameState(activeGameId).stars : 0;
 
-  function placeGameInTier(gameId: string, targetTier: TierId) {
+  function placeGameInTier(gameId: string, targetTier: TierId, playDropSound = false, beforeGameId?: string) {
     if (!eligibleIds.has(gameId)) return;
+    if (beforeGameId && (!eligibleIds.has(beforeGameId) || beforeGameId === gameId)) return;
+
+    const currentTier = visibleAssignments[gameId] || 'pool';
 
     setAssignments({
       ...visibleAssignments,
       [gameId]: targetTier,
     });
+
+    setTierOrder((prev) => {
+      const next = removeFromAllTiers(normalizedTierOrder || prev, gameId);
+      const targetList = next[targetTier];
+      const beforeIndex = beforeGameId ? targetList.indexOf(beforeGameId) : -1;
+
+      if (beforeIndex >= 0) {
+        targetList.splice(beforeIndex, 0, gameId);
+      } else {
+        targetList.push(gameId);
+      }
+
+      return next;
+    });
+
+    if (playDropSound && targetTier !== 'pool' && (targetTier !== currentTier || Boolean(beforeGameId))) {
+      playWooshSound(muted);
+    }
   }
 
   function handlePlaceSelected(targetTier: TierId) {
     if (!selectedGameId || !eligibleIds.has(selectedGameId)) return;
 
-    placeGameInTier(selectedGameId, targetTier);
+    placeGameInTier(selectedGameId, targetTier, true);
     setSelectedGameId(null);
   }
 
@@ -334,15 +454,29 @@ export function Round4View() {
 
   function handleDragEnd(event: DragEndEvent) {
     const gameId = String(event.active.id);
-    const targetTier = event.over?.id == null ? null : String(event.over.id);
+    const targetId = event.over?.id == null ? null : String(event.over.id);
 
     setActiveGameId(null);
 
-    if (!targetTier || !isTierId(targetTier) || !eligibleIds.has(gameId)) {
+    if (!targetId || !eligibleIds.has(gameId)) {
       return;
     }
 
-    placeGameInTier(gameId, targetTier);
+    if (targetId.startsWith('slot:')) {
+      const beforeGameId = targetId.slice('slot:'.length);
+      if (!eligibleIds.has(beforeGameId) || beforeGameId === gameId) return;
+
+      const targetTier = visibleAssignments[beforeGameId] || 'pool';
+      placeGameInTier(gameId, targetTier, true, beforeGameId);
+      setSelectedGameId(null);
+      return;
+    }
+
+    if (!isTierId(targetId)) {
+      return;
+    }
+
+    placeGameInTier(gameId, targetId, true);
     setSelectedGameId(null);
   }
 
@@ -367,12 +501,16 @@ export function Round4View() {
 
   return (
     <section className={config.containerClass} aria-label={config.title}>
-      <header className="round-header">
-        <h1 className="round-title">{config.title}</h1>
-        {config.subtitle && <p className="round-subtitle">{config.subtitle}</p>}
-        <p className="round-subtitle round4-touch-tip">
-          Tip: drag games into a tier, or tap a game once and then tap a tier to place it.
-        </p>
+      <header className="round-header round4-header-panel">
+        <div className="round4-header-panel__bar">
+          <h1 className="round-title">{config.title}</h1>
+        </div>
+        <div className="round4-header-panel__body">
+          {config.subtitle && <p className="round-subtitle">{config.subtitle}</p>}
+          <p className="round-subtitle round4-touch-tip">
+            Tip: drag games into a tier, or tap a game once and then tap a tier to place it.
+          </p>
+        </div>
       </header>
 
       <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

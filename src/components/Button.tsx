@@ -10,6 +10,7 @@ interface ButtonProps {
   className?: string;
   'aria-label'?: string;
   'aria-pressed'?: boolean;
+  title?: string;
 }
 
 export function Button({
@@ -21,6 +22,7 @@ export function Button({
   className = '',
   'aria-label': ariaLabel,
   'aria-pressed': ariaPressed,
+  title,
 }: ButtonProps) {
   const variantClass = variant !== 'default' ? `btn--${variant}` : '';
   return (
@@ -31,6 +33,7 @@ export function Button({
       className={`btn ${variantClass} ${className}`.trim()}
       aria-label={ariaLabel}
       aria-pressed={ariaPressed}
+      title={title}
     >
       {children}
     </button>

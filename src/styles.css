@@ -995,22 +995,47 @@ body.round-3 .overlay-counter {
   border-bottom: none !important;
 }
 
-.modal__content > .detail-block:first-of-type {
+.modal__details {
   flex: 1 1 auto;
-  min-height: 80px;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
   margin-top: 12px;
+}
+
+.modal__description-block {
+  flex: 1 1 auto;
+  min-height: 72px;
 
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .detail-block--spaced {
   flex: 0 0 auto;
 
   margin-top: 0;
-  padding-top: 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 
   border-top: none !important;
   border-bottom: 1px solid #000 !important;
+}
+
+.modal__controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal__rating-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .detail-block--spaced .detail-label {
@@ -1038,13 +1063,13 @@ body.round-3 .overlay-counter {
 }
 
 .detail-block--spaced .stars {
-  width: 100%;
+  width: auto;
 
   display: flex !important;
   justify-content: flex-end !important;
   gap: 8px !important;
 
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 /* Hide old numeric rating shortcut buttons:
@@ -1056,14 +1081,11 @@ body.round-3 .overlay-counter {
   justify-content: flex-end;
   gap: 8px;
 
-  margin-top: 8px;
+  margin-top: 0;
 }
 
-.modal__actions .btn:not(:last-child) {
-  display: none !important;
-}
-
-.modal__actions .btn:last-child {
+.modal__actions .btn,
+.modal__rating-controls .btn {
   min-width: 92px;
   padding: 8px 12px !important;
 }
@@ -1290,8 +1312,20 @@ select,
     max-height: 44vh;
   }
 
-  .modal__content > .detail-block:first-of-type {
+  .modal__description-block {
     min-height: 70px;
+  }
+
+  .modal__controls-row {
+    gap: 8px;
+  }
+
+  .modal__hint {
+    font-size: 11px;
+  }
+
+  .modal__rating-controls {
+    gap: 6px;
   }
 
   .hud {
@@ -1797,4 +1831,25 @@ body.round-4 .tier-icon-visual--overlay {
     width: 9px !important;
     height: 9px !important;
   }
+}
+
+/* Round 4 tier color updates: GOAT + darker S- for readability. */
+body.round-4 .tier-row[data-tier="GOAT"] .tier-label {
+  background: #9b5de5 !important;
+  color: #fff !important;
+}
+
+body.round-4 .tier-row[data-tier="S+"] .tier-label {
+  background: #ee7676 !important;
+  color: #fff !important;
+}
+
+body.round-4 .tier-row[data-tier="S"] .tier-label {
+  background: #ffd48a !important;
+  color: #111 !important;
+}
+
+body.round-4 .tier-row[data-tier="S-"] .tier-label {
+  background: #d8c84e !important;
+  color: #111 !important;
 }

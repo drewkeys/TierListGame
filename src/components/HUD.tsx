@@ -22,7 +22,11 @@ function sameIds(a: readonly (string | '')[], b: readonly (string | '')[]): bool
   return a.every((id, index) => id === b[index]);
 }
 
-export function HUD() {
+interface HUDProps {
+  onShowResults?: () => void;
+}
+
+export function HUD({ onShowResults }: HUDProps) {
   const {
     gameIndex,
     getGameState,
@@ -38,6 +42,31 @@ export function HUD() {
 
   const nextRound =
     activeRound < 4 ? ((activeRound + 1) as typeof activeRound) : null;
+
+  const confirmAdvanceToRound = useCallback(
+    (round: typeof activeRound) => {
+      const ok = window.confirm(
+        `Confirm going to Round ${round}? You cannot go back to change your previous round answers after this.`
+      );
+
+      if (ok) {
+        setActiveRound(round);
+      }
+    },
+    [setActiveRound]
+  );
+
+
+
+  const confirmShowResults = useCallback(() => {
+    const ok = window.confirm(
+      'Finish Round 4 and show results? You can use the Back to Tier List button on the results screen if you want to keep adjusting tiers.'
+    );
+
+    if (ok) {
+      onShowResults?.();
+    }
+  }, [onShowResults]);
 
   const r2 = state.r2;
   const r2Cursor = r2?.cursor ?? -1;
@@ -194,7 +223,10 @@ export function HUD() {
     for (const [gameId] of gameIndex) {
       total++;
       const gameState = getGameState(gameId);
-      if (gameState.eliminated) eliminated++;
+      if (gameState.eliminated) {
+        eliminated++;
+        continue;
+      }
       if (gameState.stars === 1) s1++;
       if (gameState.stars === 2) s2++;
       if (gameState.stars === 3) s3++;
@@ -269,9 +301,9 @@ export function HUD() {
               <Button
                 className="hud__btn hud__btn--next"
                 type="button"
-                onClick={() => setActiveRound(nextRound)}
+                onClick={() => confirmAdvanceToRound(nextRound)}
               >
-                Round 3 →
+                Round 3
               </Button>
             ) : (
               <Button
@@ -280,7 +312,7 @@ export function HUD() {
                 onClick={goRound2Next}
                 disabled={!r2CanGoNext}
               >
-                Next →
+                Next
               </Button>
             )}
           </>
@@ -301,9 +333,9 @@ export function HUD() {
               <Button
                 className="hud__btn hud__btn--next"
                 type="button"
-                onClick={() => setActiveRound(nextRound)}
+                onClick={() => confirmAdvanceToRound(nextRound)}
               >
-                Round 4 →
+                Round 4
               </Button>
             ) : (
               <Button
@@ -312,7 +344,7 @@ export function HUD() {
                 onClick={goRound3Next}
                 disabled={!r3CanGoNext}
               >
-                Next →
+                Next
               </Button>
             )}
           </>
@@ -326,19 +358,29 @@ export function HUD() {
             <Button
               className="hud__btn hud__btn--next"
               type="button"
-              onClick={() => setActiveRound(nextRound)}
+              onClick={() => confirmAdvanceToRound(nextRound)}
             >
               {config.nextButtonText}
             </Button>
           )}
 
+        {activeRound === 4 && (
+          <Button
+            className="hud__btn hud__btn--next hud__btn--finish"
+            type="button"
+            onClick={confirmShowResults}
+          >
+            Results
+          </Button>
+        )}
+
         {activeRound === 1 && nextRound && (
           <Button
             className="hud__btn hud__btn--next"
             type="button"
-            onClick={() => setActiveRound(nextRound)}
+            onClick={() => confirmAdvanceToRound(nextRound)}
           >
-            NEXT →
+            NEXT
           </Button>
         )}
 

@@ -49,6 +49,11 @@
   flex-wrap: wrap;
 }
 
+
+.topbar__help{
+  white-space: nowrap;
+}
+
 @media (max-width: 768px){
   .topbar__actions{
     gap: 8px;
