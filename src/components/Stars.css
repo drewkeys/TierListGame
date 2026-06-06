@@ -9,24 +9,31 @@
   border-radius: 9px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(0,246,255,0.20);
-  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(135,135,145,0.78);
+  background: rgba(255,255,255,0.03);
+  box-shadow: none;
   cursor: pointer;
   user-select: none;
   flex-shrink: 0;
 }
 .star-btn::before{
   content:"★";
-  color: rgba(255,255,255,0.28);
+  color: rgba(255,255,255,0.96);
   font-size: 14px;
+  -webkit-text-stroke: 1px rgba(120,120,130,0.95);
+  text-shadow: none;
 }
-.star-btn.is-on{
-  border-color: rgba(255,216,77,0.42);
-  box-shadow: 0 0 12px rgba(255,216,77,0.18);
+.star-btn.is-on,
+.star-btn.is-selected{
+  border-color: rgba(255,216,77,0.72);
+  background: rgba(255,216,77,0.12);
+  box-shadow: none;
 }
-.star-btn.is-on::before{
-  color: rgba(255,216,77,0.95);
-  text-shadow: 0 0 10px rgba(255,216,77,0.35);
+.star-btn.is-on::before,
+.star-btn.is-selected::before{
+  color: rgba(255,216,77,0.96);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
 }
 
 @media (max-width: 768px){
@@ -42,4 +49,45 @@
   .star-btn::before{
     font-size: 12px;
   }
+}
+
+
+.star-btn.is-selected{
+  background: rgba(255,216,77,0.12);
+  border-color: rgba(255,216,77,0.72);
+  box-shadow: none;
+  transform: none;
+}
+
+.star-btn.is-preview:not(.is-selected){
+  border-color: rgba(135,135,145,0.90);
+  background: rgba(135,135,145,0.58);
+  box-shadow: none;
+}
+
+.star-btn.is-preview:not(.is-selected)::before{
+  color: rgba(255,255,255,0.98);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+}
+
+.stars--disabled{
+  opacity: 0.48;
+  filter: grayscale(0.85);
+}
+
+.stars--disabled .star-btn,
+.star-btn:disabled{
+  cursor: not-allowed;
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(135,135,145,0.30);
+  box-shadow: none;
+  transform: none;
+}
+
+.stars--disabled .star-btn::before,
+.star-btn:disabled::before{
+  color: rgba(255,255,255,0.35);
+  -webkit-text-stroke: 1px rgba(110,110,118,0.60);
+  text-shadow: none;
 }

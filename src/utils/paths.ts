@@ -72,4 +72,5 @@ export const ASSET_PATHS = {
   celebrationMp3: `${BASE}assets/ui/celebration.mp3`,
   cookiePng: `${BASE}assets/ui/cookie.png`,
   speakerPng: `${BASE}assets/ui/speaker.png`,
+  mutedPng: `${BASE}assets/ui/muted.png`,
 } as const;

@@ -265,10 +265,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setMuted = useCallback((nextMuted: boolean) => {
     setMutedState(nextMuted);
+    saveMuted(nextMuted);
   }, []);
 
   const toggleMuted = useCallback(() => {
-    setMutedState((prev) => !prev);
+    setMutedState((prev) => {
+      const next = !prev;
+      saveMuted(next);
+      return next;
+    });
   }, []);
 
   const setModalGameIdCallback = useCallback((id: string | null) => {
@@ -284,7 +289,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setState((prev) => {
       const newState = { ...prev };
       const gameState = getGameState(gameId, newState);
-      gameState.stars = Math.max(0, Math.min(4, stars));
+      const nextStars = Math.max(0, Math.min(4, stars));
+
+      gameState.stars = nextStars;
+
+      // A game should never look both rated and eliminated.
+      // Rating it again brings it back into play automatically.
+      if (nextStars > 0) {
+        gameState.eliminated = false;
+      }
+
       return newState;
     });
   }, []);
@@ -294,6 +308,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const newState = { ...prev };
       const gameState = getGameState(gameId, newState);
       gameState.eliminated = eliminated;
+
+      // Eliminated games should not keep a visible star rating.
+      if (eliminated) {
+        gameState.stars = 0;
+      }
+
       return newState;
     });
   }, []);
@@ -303,6 +323,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const newState = { ...prev };
       const gameState = getGameState(gameId, newState);
       gameState.eliminated = !gameState.eliminated;
+
+      if (gameState.eliminated) {
+        gameState.stars = 0;
+      }
+
       return newState;
     });
   }, []);

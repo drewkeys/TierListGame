@@ -277,6 +277,17 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/3-dInCKXd5E?si=3eZrhZwa3u5QctSV&t=293"
+        },
+        {
+          "id": "sesame-street-abc-123",
+          "title": "Sesame Street: ABC & 123",
+          "description": "Sesame Street ABC & 123 was a video game compilation published by Hi Tech Expressions for the Nintendo Entertainment System in 1991. It contains two previously-released titles: Sesame Street ABC and Sesame Street 123 on a single cartridge. It included four games: Letter-Go-Round, a spelling and letter matching game; Ernie's Big Splash, a problem-solving and predicting game; Astro-Grover, a math game for beginners; Ernie's Magic Shapes, a shape and color matching game.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/UhSUnfmLsjU?si=9xhtewFhz2WsagTD&t=90"
         }
       ]
     },
@@ -658,7 +669,7 @@
           "youtube": "https://youtu.be/SzL0OgxoCGo?si=b5waHU2w4ES-anGM&t=818"
         },
         {
-          "id": "aladdin",
+          "id": "aladdin-snes",
           "title": "Aladdin",
           "description": "Aladdin is a 1993 platform game developed and published by Capcom for the Super Nintendo Entertainment System, based on the 1992 animated Disney film of the same name. Disney's Aladdin is a 2D side-scrolling video game in which the player controls Aladdin and his monkey Abu.",
           "stars": 0,
@@ -666,7 +677,8 @@
           "survived-1": false,
           "survived-2": false,
           "s-ranking": null,
-          "youtube": "https://youtu.be/G9m2gAuWkOY?si=JKRGb1Y0nzd2eGwF&t=2085"
+          "youtube": "https://youtu.be/G9m2gAuWkOY?si=JKRGb1Y0nzd2eGwF&t=2085",
+          "cover": "aladdin.png"
         },
         {
           "id": "mega-man-soccer",
@@ -822,7 +834,7 @@
           "youtube": "https://youtu.be/O4nQesRa-vM?si=V1sDWvgBqmBREmYI&t=14"
         },
         {
-          "id": "aladdin",
+          "id": "aladdin-sega-genesis",
           "title": "Aladdin",
           "description": "Aladdin is a 1993 platform game based on the 1992 Disney animated film of the same name. It's a side-scrolling platform game combining platforming and combat using scimitar for short range attacks and apples that can be pelted as rong range ammunition.",
           "stars": 0,
@@ -1121,6 +1133,17 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/tps8YqV5nCU?si=zwy_u6ijHQiiuozx&t=7796"
+        },
+        {
+          "id": "chibi-robo",
+          "title": "Chibi-Robo",
+          "description": "Chibi-Robo! Plug Into Adventure! is a platform-adventure video game developed by Skip Ltd. and published by Nintendo for the GameCube console. It was released in Japan in 2005, and in North America and Europe the following year. The player takes on the role of the eponymous Chibi-Robo, a 10-centimeter-tall robot owned by the Sanderson family. Gameplay revolves around navigating a household and collecting \"Happy Points\" by completing various tasks from housework to helping solve the dilemmas of the Sanderson family and the numerous living toys that inhabit their household. Every action consumes energy, requiring the player to recharge using electrical outlets.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/sWyrxEcyCN8?si=N8pZly1lIHQPpoqf&t=17608"
         }
       ]
     },
@@ -1258,6 +1281,17 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/NIpsiXNoz3I?si=D9qb06f4gB6yJ5Ln&t=113"
+        },
+        {
+          "id": "fast-draw-showdown",
+          "title": "Fast Draw: Showdown",
+          "description": "Fast Draw Showdown is a live-action laserdisc video game released by American Laser Games in 1994. It was also re-released for WiiWare in North America on January 4, 2010. The game consists of a series of showdowns. In each of the gunfights, the player must attempt to out-draw the villains, first by holstering the available light gun and proceeding to wait until a signal is given that lets him know he must draw, aim and fire at the enemy or enemies, as quickly as possible.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/zeOG8_1DZ4Q?si=eVJZKlpPFCFYRLbU&t=84"
         }
       ]
     },
@@ -1446,7 +1480,7 @@
           "youtube": "https://youtu.be/29nfs-yeucA?si=kbcZouoFt10jntJ7&t=1761"
         },
         {
-          "id": "point-blank",
+          "id": "point-blank-ps1",
           "title": "Point Blank",
           "description": "Point Blank is a series of light gun shooter games developed by Namco for the arcade, PlayStation and Nintendo DS; the trilogy was first released in arcade in 1994 and was later ported onto the PlayStation.. Players use two attached light guns to hit targets onscreen; missions require speed, quick judgment or pinpoint accuracy.",
           "stars": 0,
@@ -1454,7 +1488,8 @@
           "survived-1": false,
           "survived-2": false,
           "s-ranking": null,
-          "youtube": "https://youtu.be/K_bn5JUHV-E?si=ZJkgSeWbjFj8GDmP&t=213"
+          "youtube": "https://youtu.be/K_bn5JUHV-E?si=ZJkgSeWbjFj8GDmP&t=213",
+          "cover": "point-blank.png"
         },
         {
           "id": "point-blank-2",
@@ -2202,6 +2237,116 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/Vhi72H4ZdII?si=emKmOy4C66ZK8i49&t=2236"
+        },
+        {
+          "id": "toonstruck",
+          "title": "Toonstruck",
+          "description": "Toonstruck is a point-and-click graphic adventure video game developed by Burst Studios, published by Virgin Interactive Entertainment and released in 1996 for DOS. The game uses hand-drawn imagery and animated characters, but the protagonist Drew Blanc (played by Christopher Lloyd) is represented as a video-captured live action character interacting with the cartoon world around him.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/IqqF4UXB-Iw?si=8Mow2hQ7hChNyE4N&t=5896"
+        },
+        {
+          "id": "number-munchers",
+          "title": "Number Munchers",
+          "description": "Number Munchers is an educational video game and a spin-off of Word Munchers. It was released by MECC for Apple II in 1986, then MS-DOS and Mac in 1990. The concept of the game was designed by R. Philip Bouchard, who also designed The Oregon Trail. The player controls the muncher who must move around a grid and munch on numbers that match the logic rule above while avoiding the threatening troggles. As the player progresses the levels, the logic rules have bigger numbers, and harder difficulty and multiple troggles pursue the muncher.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/WjmC1UFr4nU?si=O7-DfJqKv0tSkWYb&t=31"
+        },
+        {
+          "id": "desktop-destroyer",
+          "title": "Desktop Destroyer",
+          "description": "Desktop Destroyer was a freeware videogame developed by Miroslav Nemecek. It allowed to use different tools like a hammer or screwdriver to simulate damaging your monitor, with the effects being overlayed on top of your desktop.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/U6NKouWa_o0?si=GP1L74UJ36MLuMEc&t=6"
+        },
+        {
+          "id": "gearheads",
+          "title": "Gearheads",
+          "description": "Gearheads is a strategy video game developed by R/GA Interactive and Philips Media, and published by Philips Media for Microsoft Windows and Mac OS in June 1996. The player deploys wind-up toys to get them across an arena while attempting to prevent toys from crossing from the other side. Players can play against the computer or another player.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/mGg8EMmIA_U?si=ITdDHlNAeSQATDCt&t=33"
+        },
+        {
+          "id": "jezzball",
+          "title": "Jezzball",
+          "description": "JezzBall is a video game originally published for Microsoft Windows in 1992, programmed by Dima Pavlovsky. The player must capture parts of a rectangular space by dividing it with horizontal or vertical lines. While each line is being drawn it must not be touched by bouncing balls. JezzBall has similarities with Qix, a 1981 arcade game.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://www.youtube.com/watch?v=6qHXaVSiP8U"
+        },
+        {
+          "id": "missle-command",
+          "title": "Missle Command",
+          "description": "Missile Command is a 1980 shoot 'em up video game developed and published by Atari, Inc. for arcades. The player uses a trackball to defend six cities from intercontinental ballistic missiles by launching anti-ballistic missiles from three bases.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/nokIGklnBGY?si=v0eln3BM4vVrqLbq&t=36"
+        },
+        {
+          "id": "purble-place",
+          "title": "Purble Place",
+          "description": "Purble Place is a suite of three educational computer games developed by Oberon Media that was included with all versions of Windows Vista and Windows 7. Purble Place was developed in 2005 by Oberon Media, who were contracted by Microsoft to remake its inbuilt game suite for Windows Vista with an original children's title. The collection has a single home screen that offers three packs of games: Purble Pairs (a pattern recognition and memory game), Comfy Cakes (hand-eye coordination game) and Purble Shop (a code-breaker game).",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/XrU2SHsBQNo?si=A0-zJJPvHhlZBGWD&t=936"
+        },
+        {
+          "id": "the-oregon-trail",
+          "title": "The Oregon Trail",
+          "description": "The Oregon Trail is an educational strategy video game developed and published by the Minnesota Educational Computing Consortium (MECC). It was first released in 1985 for the Apple II, with later ports to MS-DOS in 1990, Mac in 1991, and Microsoft Windows in 1993. In the game, the player assumes the role of a wagon leader guiding a party of settlers from Independence, Missouri, to Oregon's Willamette Valley via a covered wagon on the Oregon Trail in 1848. Along the trail, the player makes choices about supplies, resource management, and the route, and deals with hunting for food, crossing rivers, and random events such as storms and disease.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/DwHee12Z_Dg?si=D5k0nqnmT-5C841P&t=262"
+        },
+        {
+          "id": "the-impossible-quiz",
+          "title": "The Impossible Quiz",
+          "description": "The Impossible Quiz is a 2007 point-and-click quiz video game created by a DeviantArt user known as Splapp-me-do. Noted for its difficulty, the game consists of various trick questions among irreverent humor and references to popular culture.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/7m6KpaaS71w?si=kNdSGPgt-dcJaqi4&t=9"
+        },
+        {
+          "id": "yeti-sports",
+          "title": "Yeti Sports",
+          "description": "Yetisports is a series of online Flash games created by Austrian studio Edelweiss Medienwerkst and later by ROOT9 Medialab. The first Yetisports game, Pingu Throw, released in 2004. In this game, the player must click the mouse to hit the penguin with a baseball bat. Depending on when the player clicks the mouse, the yeti will hit the penguin a long distance, a short distance, or not hit the penguin at all. The goal is to hit the penguin as far as you can.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/4iC4kEaILW0?si=NhkzvLni1pFMyKe-&t=47"
         }
       ]
     },
@@ -2823,6 +2968,204 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/G2VQnEBwjMQ?si=WycIJUf5uCBUv6uy&t=1326"
+        },
+        {
+          "id": "tactical-intervention",
+          "title": "Tactical Intervention",
+          "description": "Tactical Intervention was a multiplayer first-person shooter in which a team of counter-terrorists face off against a team of terrorists, much like Counter-Strike. The game featured dogs, riot shields and the ability to rappel.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/AztlIe8S-jc?si=XeGWcL3rDI9MZb-f&t=150"
+        },
+        {
+          "id": "shootmania-storm",
+          "title": "Shootmania Storm",
+          "description": "ShootMania Storm is a first-person shooter video game by Ubisoft and Ubisoft Nadeo as a spin-off title of the TrackMania series. Like the TrackMania games, ShootMania features simplified controls and an in-game level editor that uses building blocks for easy level building. It was heavily inspired by classic arena shooters, including moves like rocket jump.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://www.youtube.com/watch?v=IwsppTK59nk"
+        },
+        {
+          "id": "viscera-cleanup-detail",
+          "title": "Viscera Cleanup Detail",
+          "description": "Viscera Cleanup Detail is a science fiction simulation video game developed by RuneStorn where players are tasked to clean up the bloody aftermath of a successfully repelled alien invasion, zombie outbreak and other types of disasters.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/XhcASVcmM6M?si=ozGdX0Ah4zc1Aa6v&t=473"
+        },
+        {
+          "id": "700-000-games",
+          "title": "700,000 Games",
+          "description": "700,000 Games is a compilation of videogames released in 2013 for PC by Viva Media and Selectsoft Publishing. It features a variety of small games spanning many popular categories and genres, such as mahjongg, hidden object, chess, poker and other card games, pinball, match 3 games, point and click, simple platforming and racing games. Despite its name, it only features 145 games (according to Jerma).",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/u3JlXhXXA-Q?si=DCmh9vLoCGIAbn2T&t=332"
+        },
+        {
+          "id": "the-coin-game",
+          "title": "The Coin Game",
+          "description": "The Coin Game is a sandbox life sim videogame developed by devotid and released on February 22, 2019. The game's core is an arcade letting you play a variety of arcade machines, win tickets and exchange them for prizes. In order to afford the visits at the arcade, player has to explore the open world and take up part time jobs such as newspaper delivery, babysitting or mowing the lawn.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/4rkrBlFjghE?si=jMp6SD90-sPRtEt1&t=93"
+        },
+        {
+          "id": "ravens-cry",
+          "title": "Raven's Cry",
+          "description": "Raven's Cry is a 2015 action-adventure video game that interweaves fictional events and characters with historical ones from the 17th-century Caribbean. The game features historically accurate architecture and pirates. The game  features role-playing game elements, including morality system, side-quests, and magic items, which can increase character attributes, including \"being brave\", \"fear\" and \"notoriety\". Upon release, the game was panned by critics, and considered one of the worst video games of 2015.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/-0SO07l_EaE?si=bII1X1qqKYsx-vfo&t=514"
+        },
+        {
+          "id": "jump-king",
+          "title": "Jump King",
+          "description": "Jump King is a 2019 platform game developed by Nexile. Jump King was released on Steam for Microsoft Windows on May 3, 2019. In the game, players must ascend a vertical map and avoid falling down by making careful jumps.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/qL2cQ0JAb4M?si=sXilpmoJOd3ZIPxM&t=148"
+        },
+        {
+          "id": "red-dead-redemption-2",
+          "title": "Red Dead Redemption 2",
+          "description": "Red Dead Redemption 2 is a 2018 action-adventure game developed and published by Rockstar Games. The game is the third entry in the Red Dead series and a prequel to the 2010 game Red Dead Redemption. The story is set in a fictionalized representation of the United States in 1899 and follows the exploits of Arthur Morgan, an outlaw and member of the Van der Linde gang, who must face the challenges of a declining Wild West, while attempting to survive against government forces, rival gangs, and other adversaries.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/AcOpiWppO3k?si=HsF3LVJxatF2Nxtb&t=39124"
+        },
+        {
+          "id": "darkest-dungeon",
+          "title": "Darkest Dungeon",
+          "description": "Darkest Dungeon is a roguelike role-playing video game developed and published by Red Hook Studios. The player manages a roster of heroes to explore dungeons below a gothic mansion. Played out in a mix of real-time movement and turn-based combat, a core feature of Darkest Dungeon is the stress level of each hero that increases with further exploration and combat; a character sustaining a high-stress level may gain afflictions that will hamper, or possibly enhance, their performance as an explorer.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/HjgWR3cq3OQ?si=vxccdfhMc98sOc9r&t=3455"
+        },
+        {
+          "id": "enshrouded",
+          "title": "Enshrouded",
+          "description": "Enshrouded is a survival and action role-playing game by Keen Games for Microsoft Windows. It launched in early access in January 2024 exclusive for PC and scheduled to be released in 2026. The game is set in an open world where players can build their bases, gather resources, and craft new equipment and gear.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/OBF6HjVZny0?si=FUKNcm6m1o1EICH0&t=6571"
+        },
+        {
+          "id": "dark-and-darker",
+          "title": "Dark and Darker",
+          "description": "Dark and Darker is a multiplayer action role-playing game developed by Ironmace. It was released into early access on August 7, 2023. The game features PvPvE (player versus player versus environment) extraction type gameplay, where players engage in combat against monsters to obtain valuable items while remaining vigilant against potential threats from other players. Surviving a match allows players to extract loot for use in future matches. If the player is killed, they lose all of their possessions and equipment. If the player successfully navigates through the dungeon and survives, they can store their acquired loot in a designated storage area for future use or potential sale.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/IZDXDayU0xU?si=qgTKCMAysQRDJx6r&t=394"
+        },
+        {
+          "id": "clair-obscur-expedition-33",
+          "title": "Clair Obscur: Expedition 33",
+          "description": "Clair Obscur: Expedition 33 is a 2025 role-playing video game developed by French studio Sandfall Interactive and published by Kepler Interactive. Set in a dark fantasy Belle Époque setting, the game follows the members of Expedition 33 as they set out to destroy the Paintress, a being causing the yearly Gommage, where those at or above an ever-decreasing age are erased from existence. In the game, the player controls a party of characters from a third-person perspective, exploring areas and engaging in combat. Its turn-based mechanics feature real-time aspects such as quick time events and timed actions in combat.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/uw3y0BCC6BE?si=ySB42CtG5PQfDda6&t=32245"
+        },
+        {
+          "id": "white-knuckle",
+          "title": "White Knuckle",
+          "description": "White Knuckle is a first person roguelite speed-climbing game, developed by Dark Machine Games and released on April 17, 2025. In the game, the player must ascend a megastructure SUB-STRUCTURE 17, using precision movement mechanics and managing resources that help with the climb, such as pitons, rebars, or food that restores your stamina.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/4GkWk5vDgZg?si=oTlNs5y1g0KfgnzI&t=246"
+        },
+        {
+          "id": "overwatch",
+          "title": "Overwatch",
+          "description": "Overwatch (retroactively referred to as Overwatch 1 & Overwatch Classic) was a 2016 live service multiplayer first-person shooter video game by Blizzard Entertainment. The game was first released for PlayStation 4, Windows, and Xbox One in May 2016. It's an online team-based hero shooter allowing players to choose from a roster of characters across different classes.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/eye7f8NR7w8?si=bgUB895YzA7mO5b6&t=300"
+        },
+        {
+          "id": "portal",
+          "title": "Portal",
+          "description": "Portal is a 2007 puzzle-platform game developed and published by Valve. It was originally released in a bundle, The Orange Box, for Windows, Xbox 360 and PlayStation 3. Portal consists primarily of a series of puzzles that must be solved by teleporting the player's character and simple objects using the \"Aperture Science Handheld Portal Device\", also referred to as the \"portal gun\", a device that can create intra-dimensional portals between two flat planes.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/wA82CD9YFG0?si=xHqBIMWIV8sjhAdr&t=2424"
+        },
+        {
+          "id": "portal-2",
+          "title": "Portal 2",
+          "description": "Portal 2 is a 2011 puzzle-platform game developed by Valve for Windows, macOS, Linux, PlayStation 3, and Xbox 360. Like the original Portal, players solve puzzles by placing portals and teleporting between them. Portal 2 adds features including excursion funnels, lasers, light bridges, and paint-like gels that alter player movement or allow portals to be placed on any surface. The biggest addition in the sequel was a co-op campaign featuring brand new characters.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/HqmOpoT6e3I?si=oisUWTvyFsoe1RNq&t=4368"
+        },
+        {
+          "id": "game-dev-tycoon",
+          "title": "Game Dev Tycoon",
+          "description": "Game Dev Tycoon is a business simulation video game developed by Greenheart Games released on 10 December 2012. The game's goal is to design, develop and sell games, building your business starting out in a garage in the early 1980s, allowing to develop more technologically complex games with the progress of technology.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/8LyONG30KJM?si=1qvliL2iwH2Utj_E&t=3110"
+        },
+        {
+          "id": "a-dark-room",
+          "title": "A Dark Room",
+          "description": "A Dark Room is an open-source text-based role-playing game. It was originally published for web browsers by Doublespeak Games on June 10, 2013. The game begins with the player awakening in a cold, dark room after a mysterious event. Initially, the player can only light and tend a fire in the room. As the game progresses, the player gains the abilities to collect resources, interact with strangers, start a village, and explore the world. As the game progresses, the type and quantity of resources and exploration available increases.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/D8tX4h_-VY8?si=3GioVKkVIbmkqbF3&t=387"
         }
       ]
     },
@@ -2905,6 +3248,61 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/OJA-LqTRoZM?si=VVvZ-42cjz7iTNYz&t=12636"
+        },
+        {
+          "id": "yoostar-2-in-the-movies",
+          "title": "Yoostar 2: In The Movies",
+          "description": "Yoostar 2 released in North America on March 8, 2011 for Xbox 360 Kinect and PlayStation Move. The game allows users to insert themselves into movie or television scenes to perform with the films' original actors and post the resultant video on the Yoostar web site, as well as third-party social media services. The game is a video karaoke, judging individuals performances.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/_7PwTQvMPco?si=U6cJkPEc3QmaNPI7&t=2962"
+        },
+        {
+          "id": "nintendo-labo",
+          "title": "Nintendo LABO",
+          "description": "Nintendo Labo is a series of toys-to-life video games developed and published by Nintendo for the Nintendo Switch. Gameplay consists of players constructing Toy-Cons from kits that include cardboard cut-outs and other materials in combination with the console and Joy-Con controllers, which can interact with the included game software and vice versa. Labo was designed to teach children principles of engineering and basic programming.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/nZxyw0mVBn4?si=FRzqL0ATQHF45cPl&t=1681"
+        },
+        {
+          "id": "blitz-the-league-2",
+          "title": "Blitz The League 2",
+          "description": "Blitz: The League II is 2008 an American football video game developed and published by Midway as part of its NFL Blitz series. The game also alludes to real-life scandals involving NFL players and teams, such as Michael Vick's \"Ron Mexico\" controversy, the New England Patriots' \"Spygate\" scandal, and the Minnesota Vikings' boat scandal.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/quXrPx7AOt0?si=1yf3pPaj2uJtKJca&t=2653"
+        },
+        {
+          "id": "youre-in-the-movies",
+          "title": "You're in The Movies",
+          "description": "You're in the Movies is a party video game for Xbox 360, developed by Zoë Mode and published by Codemasters in North America in 2008. Players perform actions such as applying make-up, jogging in place, driving a car and playing volleyball, which are filmed using the Xbox Live Vision camera and assembled into a movie. The game includes 30 movie scenarios that can involve up to four people.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/dQ1qtDAwdz8?si=U9tS5IsavLjBO7fs&t=6045"
+        },
+        {
+          "id": "wonderbook-walking-with-dinosaurs",
+          "title": "Wonderbook: Walking With Dinosaurs",
+          "description": "Walking with Dinosaurs is an augmented reality video game developed by Supermassive Games in collaboration with the BBC, released in North America on 12 November 2013. It features multiple activities across five chapters, each of which is split into two sections, with each section involving a full \"read\" of the Wonderbook. Each chapter takes place at a different dig site, and begins with the player using the PlayStation Move controller to simulate different tools, with the goal of excavating the skeletal remains of a dinosaur, then using them to reconstruct the beast. From there, activities include battles between dinosaurs and mating rituals, where the Move controller is used to simulate movement and actions; using the Move controller as an X-ray torch to scan dinosaurs and explore their skeletons and organs, and balancing the weight of dinosaurs using different vehicles, among other activities.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/BZfmz1ClzUg?si=HKUeoJRcTBb7zv-v&t=186"
         }
       ]
     },
@@ -2987,6 +3385,116 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/Z1YT2vM67BM?si=D1Our-8W6Xlg457U&t=604"
+        },
+        {
+          "id": "slither-io",
+          "title": "Slither io",
+          "description": "Slither.io is a multiplayer online video game available for iOS, Android, and web browsers, developed by Steve Howse. Players control an avatar resembling a snake, which consumes multi-colored pellets, both from other players and ones that naturally spawn on the map in the game, to grow in size. The objective of the game is to grow the longest snake in the server. Slither.io is similar in concept to the popular 2015 web game Agar.io and is reminiscent of the classic arcade game Snake.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/8gPA-V3NDPE?si=tk6WCGRGTgJnddUi&t=55"
+        },
+        {
+          "id": "tentacle-wars",
+          "title": "Tentacle Wars",
+          "description": "Tentacle Wars is a mobile strategy game released for iOS and Android in 2016. You take control of antibody cells of an alien to save its entire race. To do this, player must use DNA tentacle attacks to overtake enemy cells and secure the zone, while keeping an eye on their energy supply.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/nYTcV9I-KFM?si=bSrqM0CVU_FzGp26&t=737"
+        },
+        {
+          "id": "card-crawl",
+          "title": "Card Crawl",
+          "description": "Card Crawl is a solitaire-style dungeon crawler game developed by Arnold Rauers for iOS, Android and PC, released on 2015. The player has to clear the dungeon of 54 cards by using items, slaying monsters and managing the limited inventory. On each run, you can use five ability cards to gain unique skills.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/jbah86uVjfA?si=-aCizPaRPp-i8GHz&t=329"
+        },
+        {
+          "id": "tower-of-fortune-2",
+          "title": "Tower of Fortune 2",
+          "description": "Tower of Fortune 2 is a mobile game developed by Game Stew for the iOS in 2013. It's a hybrid of roguelike and a slot machine game with GameBoy inspired visuals. The player has to reach the end of the tower by fighting their way through each floor. Before facing the boss on each floor, you have to explore the area by playing slots. Depending on your luck, you receive items, meet NPCs or encounter enemies. Battles are also played using the slot machine, this time with the outcomes being a physical attack that damages the enemy, an enemy attack that damages you, a magic attack that stuns them, and a charge-up move that eventually culminates in you turning into a powered up rage-beast.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/4_7iyAbeJJY?si=6rH8ZhMHK7USNzqv&t=63"
+        },
+        {
+          "id": "tower-of-fortune-3",
+          "title": "Tower of Fortune 3",
+          "description": "Tower of Fortune 3 is a mobile game developed by Game Stew for the iOS in 2016. It's a hybrid of roguelike and a slot machine game. The player has to reach the end of the tower by fighting their way through each floor. Before facing the boss on each floor, you have to explore the area by playing slots. Depending on your luck, you receive items, meet NPCs or encounter enemies. Battles are also played using the slot machine, this time with the outcomes being different types of attacks dealt to either the boss or the player.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/fEyR9mAqIEo?si=hGDXfUSzJ-08r9gf&t=98"
+        },
+        {
+          "id": "ancient-legacy",
+          "title": "Ancient Legacy",
+          "description": "Ancient Legacy is a 2014 table-top style RPG with roguelike elements. You play as a hero who must explore a dark world while fighting monsters, building their base and solving quests.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://www.youtube.com/watch?v=NDtIZ9N0q30"
+        },
+        {
+          "id": "the-room-2",
+          "title": "The Room 2",
+          "description": "The Room Two is a puzzle video game developed by British-based Fireproof Games as a sequel to The Room. The game was originally developed for the iPad and released in December 2013. The Room Two is a three-dimensional puzzle game. Each level is in a single room and tasks the player with solving a series of connected puzzles, typically involving collecting clues and parts of mechanisms to unlock complex puzzle boxes and collect new clues and components they contain.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/MOzi8AY6Bh4?si=dLDlAqawb4oDY-Lf&t=301"
+        },
+        {
+          "id": "cube-escape-collection-rusty-lake",
+          "title": "Cube Escape Collection (Rusty Lake)",
+          "description": "Cube Escape was Rusty Lake's first series of games, releasing from 2015 to 2017, then released as a bundle in 2020. The Cube Escape Collection contains all 9 chapters: Seasons, The Lake, Arles, Harvey's Box, Case 23, The Mill, Birthday, Theatre and The Cave. It's an antology of point-and-click adventure games, following the story of Dale Vandermeer, a detective investigating death of a woman.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/qXP5lAWFLsE?si=DQhcQyGRMGRDble4&t=53"
+        },
+        {
+          "id": "battleheart-legacy",
+          "title": "Battleheart Legacy",
+          "description": "Battleheart Legacy is an action RPG developed by Mika Mobile, Inc. and released on May 28, 2014 for iOS and Android. It is the follow-up to the 2011 game Battleheart. It features a real time action combat with 150 different skills to choose from across 12 classes.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/bLj57bmhFyM?si=npubzEnHQemJb_sa&t=4464"
+        },
+        {
+          "id": "puzzle-craft",
+          "title": "Puzzle Craft",
+          "description": "Puzzle Craft is a match-3 mobile game developed by ATGames for iOS, Android and PC in 2013. In the game you become a mayor of a small village and you're tasked with collecting resources in order to build infrastructure and expand your settlement.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/hotm6m8a-Ps?si=eM48zIloGRAxRX1P&t=484"
         }
       ]
     },
@@ -3060,7 +3568,7 @@
           "youtube": "https://youtu.be/VgF_VMQ19aA?si=Eg-2S5rr_xgUsqZ9&t=1109"
         },
         {
-          "id": "point-blank",
+          "id": "point-blank-arcade",
           "title": "Point Blank",
           "description": "Point Blank, known as Gun Bullet, or Gunvari in Japan, is a series of light gun shooter games developed by Namco for the arcade, PlayStation and Nintendo DS. It is a light gun arcade game that features a variety of missions and levels catering to all ages with mascots Dr Dan and Dr Don making an appearance throughout the stages.",
           "stars": 0,

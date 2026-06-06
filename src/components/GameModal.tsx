@@ -5,6 +5,7 @@ import { youtubeToEmbed } from '../utils/youtube';
 import { ASSET_PATHS } from '../utils/paths';
 import { Button } from './Button';
 import './GameModal.css';
+import './Stars.css';
 
 function makeTrio(ids: string[], startIndex: number): (string | '')[] {
   const trio = ids.slice(startIndex, startIndex + 3);
@@ -66,7 +67,7 @@ function playRatingSound(stars: number, muted: boolean) {
   }
 }
 
-function withYoutubeApiParams(url: string): string {
+function withYoutubeApiParams(url: string, muted: boolean): string {
   if (!url) return url;
 
   try {
@@ -74,6 +75,8 @@ function withYoutubeApiParams(url: string): string {
 
     parsed.searchParams.set('enablejsapi', '1');
     parsed.searchParams.set('origin', window.location.origin);
+    parsed.searchParams.set('mute', muted ? '1' : '0');
+    parsed.searchParams.set('playsinline', '1');
 
     return parsed.toString();
   } catch {
@@ -84,10 +87,10 @@ function withYoutubeApiParams(url: string): string {
         : '';
 
     if (url.includes('enablejsapi=1')) {
-      return url;
+      return `${url}${url.includes('?') ? '&' : '?'}mute=${muted ? '1' : '0'}&playsinline=1`;
     }
 
-    return `${url}${separator}enablejsapi=1&origin=${origin}`;
+    return `${url}${separator}enablejsapi=1&origin=${origin}&mute=${muted ? '1' : '0'}&playsinline=1`;
   }
 }
 
@@ -140,6 +143,11 @@ export function GameModal() {
         return;
       }
 
+      const keyboardGameState = getGameState(modalGameId);
+      if (keyboardGameState.eliminated) {
+        return;
+      }
+
       if (e.key >= '1' && e.key <= '4') {
         e.preventDefault();
 
@@ -151,7 +159,7 @@ export function GameModal() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeRound, modalGameId, muted, setGameStars, setModalGameId]);
+  }, [activeRound, modalGameId, muted, getGameState, setGameStars, setModalGameId]);
 
   const info = modalGameId ? gameIndex.get(modalGameId) : null;
   const game = info?.game ?? null;
@@ -160,8 +168,8 @@ export function GameModal() {
 
   const embed = useMemo(() => {
     if (!youtubeUrl) return '';
-    return withYoutubeApiParams(youtubeToEmbed(youtubeUrl));
-  }, [youtubeUrl]);
+    return withYoutubeApiParams(youtubeToEmbed(youtubeUrl), muted);
+  }, [youtubeUrl, muted]);
 
   useEffect(() => {
     const iframe = videoRef.current;
@@ -208,6 +216,7 @@ export function GameModal() {
 
   const { consoleName } = info;
   const gameState = getGameState(modalGameId);
+  const starsDisabled = activeRound === 1 && gameState.eliminated;
 
   const handlePickWinnerRound2 = () => {
     if (activeRound !== 2 || !modalGameId) return;
@@ -406,32 +415,43 @@ export function GameModal() {
                     </Button>
 
                     <div
-                      className="stars stars--spaced"
+                      className={`stars stars--spaced ${starsDisabled ? 'stars--disabled' : ''}`.trim()}
                       onMouseLeave={() => setHoverStars(0)}
+                      aria-label={
+                        starsDisabled
+                          ? 'Star rating disabled while this game is eliminated'
+                          : 'Star rating'
+                      }
                     >
                       {[1, 2, 3, 4].map((i) => {
-                        const previewStars = hoverStars || gameState.stars;
+                        const selectedStars = gameState.stars;
+                        const isSelected = !starsDisabled && i <= selectedStars;
+                        const isPreview = !starsDisabled && hoverStars > 0 && i <= hoverStars && hoverStars !== selectedStars;
 
                         return (
-                          <div
+                          <button
                             key={i}
-                            className={`star-btn ${i <= previewStars ? 'is-on' : ''}`}
-                            role="button"
-                            tabIndex={0}
+                            type="button"
+                            className={`star-btn ${isSelected ? 'is-selected' : ''} ${isPreview ? 'is-preview' : ''}`.trim()}
+                            disabled={starsDisabled}
+                            aria-pressed={isSelected}
                             aria-label={`Set ${i} star rating`}
-                            onMouseEnter={() => setHoverStars(i)}
-                            onFocus={() => setHoverStars(i)}
+                            title={
+                              starsDisabled
+                                ? 'Un-eliminate this game before rating it'
+                                : `Set ${i} star rating`
+                            }
+                            onMouseEnter={() => {
+                              if (!starsDisabled) setHoverStars(i);
+                            }}
+                            onFocus={() => {
+                              if (!starsDisabled) setHoverStars(i);
+                            }}
                             onBlur={() => setHoverStars(0)}
                             onClick={() => {
+                              if (starsDisabled) return;
                               playRatingSound(i, muted);
                               setGameStars(modalGameId, i);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                playRatingSound(i, muted);
-                                setGameStars(modalGameId, i);
-                              }
                             }}
                           />
                         );

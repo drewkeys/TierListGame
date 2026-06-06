@@ -122,3 +122,32 @@ body.round-3 .overlay-counter{
     height: 35px;
   }
 }
+
+
+.gun-icon,
+.gun-icon:hover,
+.gun-icon:focus,
+.gun-icon:active{
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.gun-icon:not(.is-on),
+.gun-icon:not(.is-on):hover,
+.gun-icon:not(.is-on):focus,
+.gun-icon:not(.is-on):active{
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+.gun-icon.is-on,
+.gun-icon.is-on:hover,
+.gun-icon.is-on:focus,
+.gun-icon.is-on:active{
+  background: rgba(28, 28, 34, 0.82);
+  border: 1px solid rgba(120, 120, 130, 0.65);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35);
+  transform: none;
+}

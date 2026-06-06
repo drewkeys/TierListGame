@@ -215,6 +215,7 @@ export function HUD({ onShowResults }: HUDProps) {
   const stats = useMemo(() => {
     let total = 0,
       eliminated = 0,
+      unrated = 0,
       s1 = 0,
       s2 = 0,
       s3 = 0,
@@ -231,12 +232,60 @@ export function HUD({ onShowResults }: HUDProps) {
       if (gameState.stars === 2) s2++;
       if (gameState.stars === 3) s3++;
       if (gameState.stars === 4) s4++;
+      if (!gameState.stars) unrated++;
     }
 
-    const remaining = Math.max(0, total - eliminated);
+    const inPlay = Math.max(0, total - eliminated);
+    const decided = Math.max(0, total - unrated);
 
-    return { total, eliminated, s1, s2, s3, s4, remaining };
+    return { total, eliminated, unrated, decided, s1, s2, s3, s4, inPlay };
   }, [gameIndex, getGameState]);
+
+
+  const roundProgress = useMemo(() => {
+    if (activeRound === 1) {
+      return `${stats.decided}/${stats.total}`;
+    }
+
+    if (activeRound === 2) {
+      const totalSteps = Math.ceil(r2ShuffledIds.length / 3);
+      const currentStep = r2IsComplete
+        ? totalSteps
+        : r2Cursor >= 0
+          ? r2Cursor + 1
+          : Math.min(totalSteps, (r2?.steps.length ?? 0) + 1);
+
+      return totalSteps > 0 ? `${currentStep}/${totalSteps}` : '0/0';
+    }
+
+    if (activeRound === 3) {
+      const totalSteps = Math.ceil(r3ShuffledIds.length / 2);
+      const currentStep = r3IsComplete
+        ? totalSteps
+        : r3Cursor >= 0
+          ? r3Cursor + 1
+          : Math.min(totalSteps, (r3?.steps.length ?? 0) + 1);
+
+      return totalSteps > 0 ? `${currentStep}/${totalSteps}` : '0/0';
+    }
+
+    return `${stats.s3 + stats.s4}/${stats.inPlay}`;
+  }, [
+    activeRound,
+    r2,
+    r2Cursor,
+    r2IsComplete,
+    r2ShuffledIds.length,
+    r3,
+    r3Cursor,
+    r3IsComplete,
+    r3ShuffledIds.length,
+    stats.decided,
+    stats.inPlay,
+    stats.s3,
+    stats.s4,
+    stats.total,
+  ]);
 
   const hint = useMemo(() => {
     if (activeRound === 1) {
@@ -281,9 +330,17 @@ export function HUD({ onShowResults }: HUDProps) {
           <div className="hud__value">{stats.s4}</div>
         </div>
 
-        <div className="hud__pill hud__pill--wide">
-          <div className="hud__label">Remaining</div>
-          <div className="hud__value">{stats.remaining}</div>
+        {activeRound === 1 && (
+          <div className="hud__pill hud__pill--wide hud__pill--attention">
+            <div className="hud__label">Need rating</div>
+            <div className="hud__value">{stats.unrated}</div>
+          </div>
+        )}
+
+
+        <div className="hud__pill hud__pill--wide hud__pill--progress">
+          <div className="hud__label">Progress</div>
+          <div className="hud__value">{roundProgress}</div>
         </div>
 
         {activeRound === 2 && (

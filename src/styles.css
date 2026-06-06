@@ -313,13 +313,10 @@ body.round-3 .app-viewport {
   background-color: transparent !important;
 }
 
-.topbar__actions .btn:hover {
-  filter: brightness(1.08);
-}
-
+.topbar__actions .btn:hover,
 .topbar__actions .btn:active {
-  transform: translateY(1px) !important;
-  filter: brightness(0.95);
+  filter: none !important;
+  transform: none !important;
 }
 
 /* -------------------------
@@ -1426,13 +1423,19 @@ select,
 }
 
 .topbar__actions .topbar__mute.btn:hover {
-  background: #fff6c9 !important;
+  background: #f4f4f4 !important;
   filter: none !important;
 }
 
 .topbar__actions .topbar__mute.btn:active {
-  background: #ddd !important;
-  transform: translateY(1px) !important;
+  background: #f4f4f4 !important;
+  transform: none !important;
+}
+
+.topbar__actions .topbar__mute.btn.is-muted:hover,
+.topbar__actions .topbar__mute.btn.is-muted:active {
+  background: #d7193f !important;
+  transform: none !important;
 }
 
 .topbar__actions .topbar__mute img {
@@ -1449,12 +1452,13 @@ select,
 }
 
 .topbar__actions .topbar__mute.is-muted img {
-  opacity: 0.45;
-  filter: grayscale(1);
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 .topbar__actions .topbar__reset.btn,
 .topbar__actions .topbar__reset.btn:hover,
+.topbar__actions .topbar__reset.btn:focus,
 .topbar__actions .topbar__reset.btn:active {
   width: 126px !important;
   height: 46px !important;
@@ -1473,8 +1477,11 @@ select,
   overflow: hidden !important;
 }
 
-.topbar__actions .topbar__reset.btn:hover {
-  filter: brightness(1.08);
+.topbar__actions .topbar__reset.btn:hover,
+.topbar__actions .topbar__reset.btn:focus,
+.topbar__actions .topbar__reset.btn:active {
+  filter: none !important;
+  transform: none !important;
 }
 
 @media (max-width: 768px) {
@@ -1852,4 +1859,236 @@ body.round-4 .tier-row[data-tier="S"] .tier-label {
 body.round-4 .tier-row[data-tier="S-"] .tier-label {
   background: #d8c84e !important;
   color: #111 !important;
+}
+
+
+/* 1.0 tester-polish overrides: keep image toggles and stars from inheriting generic button hover colors. */
+.topbar__actions .topbar__mute,
+.topbar__actions .topbar__mute:hover,
+.topbar__actions .topbar__mute:focus,
+.topbar__actions .topbar__mute:active{
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  border: 1px solid #333 !important;
+  border-radius: 4px !important;
+  background: #f4f4f4 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  color: transparent !important;
+  text-indent: 0 !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+}
+
+.topbar__actions .topbar__mute.is-muted,
+.topbar__actions .topbar__mute.is-muted:hover,
+.topbar__actions .topbar__mute.is-muted:focus,
+.topbar__actions .topbar__mute.is-muted:active{
+  border-color: #7f0d25 !important;
+  background: #d7193f !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.topbar__actions .topbar__mute img,
+.topbar__actions .topbar__mute:hover img,
+.topbar__actions .topbar__mute:focus img,
+.topbar__actions .topbar__mute:active img{
+  width: 26px !important;
+  height: 26px !important;
+  display: block !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.topbar__actions .topbar__mute::after,
+.topbar__actions .topbar__mute.is-muted::after{
+  content: none !important;
+}
+
+.gun-icon,
+.gun-icon:hover,
+.gun-icon:focus,
+.gun-icon:active{
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  transform: none !important;
+}
+
+.gun-icon:not(.is-on),
+.gun-icon:not(.is-on):hover,
+.gun-icon:not(.is-on):focus,
+.gun-icon:not(.is-on):active{
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.gun-icon.is-on,
+.gun-icon.is-on:hover,
+.gun-icon.is-on:focus,
+.gun-icon.is-on:active{
+  background: rgba(28, 28, 34, 0.82) !important;
+  border: 1px solid rgba(120, 120, 130, 0.65) !important;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.35) !important;
+}
+
+.star-btn,
+.star-btn:hover,
+.star-btn:focus,
+.star-btn:active{
+  border-radius: 9px !important;
+  transform: none !important;
+}
+
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled),
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled):hover,
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled):focus{
+  border-color: rgba(135,135,145,0.78) !important;
+  background: rgba(255,255,255,0.03) !important;
+  box-shadow: none !important;
+}
+
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled)::before,
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled):hover::before,
+.star-btn:not(.is-selected):not(.is-preview):not(:disabled):focus::before{
+  color: rgba(255,255,255,0.96) !important;
+  -webkit-text-stroke: 1px rgba(120,120,130,0.95) !important;
+  text-shadow: none !important;
+}
+
+.star-btn.is-selected,
+.star-btn.is-selected:hover,
+.star-btn.is-selected:focus{
+  background: rgba(255,216,77,0.12) !important;
+  border-color: rgba(255,216,77,0.72) !important;
+  box-shadow: none !important;
+}
+
+.star-btn.is-selected::before,
+.star-btn.is-selected:hover::before,
+.star-btn.is-selected:focus::before{
+  color: rgba(255,216,77,0.96) !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+
+.star-btn.is-preview:not(.is-selected),
+.star-btn.is-preview:not(.is-selected):hover,
+.star-btn.is-preview:not(.is-selected):focus{
+  border-color: rgba(135,135,145,0.90) !important;
+  background: rgba(135,135,145,0.58) !important;
+  box-shadow: none !important;
+}
+
+.star-btn.is-preview:not(.is-selected)::before,
+.star-btn.is-preview:not(.is-selected):hover::before,
+.star-btn.is-preview:not(.is-selected):focus::before{
+  color: rgba(255,255,255,0.98) !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+
+.star-btn:disabled,
+.star-btn:disabled:hover,
+.star-btn:disabled:focus{
+  cursor: not-allowed !important;
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(135,135,145,0.30) !important;
+  box-shadow: none !important;
+}
+
+.hud__pill--attention,
+.hud__pill--progress{
+  border-color: #999 !important;
+  background: #f8f8f8 !important;
+}
+
+/* v8: keep the top-bar Reset image button static at every viewport size. */
+.topbar__actions .topbar__reset.btn,
+.topbar__actions .topbar__reset.btn:link,
+.topbar__actions .topbar__reset.btn:visited,
+.topbar__actions .topbar__reset.btn:hover,
+.topbar__actions .topbar__reset.btn:focus,
+.topbar__actions .topbar__reset.btn:focus-visible,
+.topbar__actions .topbar__reset.btn:active {
+  width: 126px !important;
+  min-width: 126px !important;
+  max-width: 126px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  flex: 0 0 126px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+
+  background: url('/assets/ui/play-now.png') center center / contain no-repeat !important;
+  background-color: transparent !important;
+
+  transform: none !important;
+  -webkit-transform: none !important;
+  translate: none !important;
+  scale: 1 !important;
+  rotate: none !important;
+  transition: none !important;
+  animation: none !important;
+  transform-origin: center center !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+}
+
+.topbar__actions .topbar__reset.btn::before,
+.topbar__actions .topbar__reset.btn::after,
+.topbar__actions .topbar__reset.btn:hover::before,
+.topbar__actions .topbar__reset.btn:hover::after,
+.topbar__actions .topbar__reset.btn:focus::before,
+.topbar__actions .topbar__reset.btn:focus::after,
+.topbar__actions .topbar__reset.btn:active::before,
+.topbar__actions .topbar__reset.btn:active::after {
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .topbar__actions .topbar__reset.btn,
+  .topbar__actions .topbar__reset.btn:hover,
+  .topbar__actions .topbar__reset.btn:focus,
+  .topbar__actions .topbar__reset.btn:focus-visible,
+  .topbar__actions .topbar__reset.btn:active {
+    width: 112px !important;
+    min-width: 112px !important;
+    max-width: 112px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    flex: 0 0 112px !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    translate: none !important;
+    scale: 1 !important;
+    transition: none !important;
+    animation: none !important;
+  }
 }

@@ -27,7 +27,10 @@ export function ElimCounter() {
           type="button"
           aria-pressed={shootMode}
           aria-label="Toggle elimination mode"
-          onClick={() => setShootMode(!shootMode)}
+          onClick={(event) => {
+            setShootMode(!shootMode);
+            event.currentTarget.blur();
+          }}
         >
           <img src={ASSET_PATHS.gunPng} alt="Elimination mode" />
         </button>

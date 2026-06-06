@@ -49,7 +49,6 @@
   flex-wrap: wrap;
 }
 
-
 .topbar__help{
   white-space: nowrap;
 }
@@ -65,5 +64,149 @@
   
   .subtitle{
     font-size: 11px;
+  }
+}
+
+.topbar__mute,
+.topbar__mute:hover,
+.topbar__mute:focus,
+.topbar__mute:active{
+  width: 46px !important;
+  min-width: 46px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  background: #f4f4f4 !important;
+  border: 1px solid #333 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: 0 !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+.topbar__mute.is-muted,
+.topbar__mute.is-muted:hover,
+.topbar__mute.is-muted:focus,
+.topbar__mute.is-muted:active{
+  background: #d7193f !important;
+  border-color: #7f0d25 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.topbar__mute img,
+.topbar__mute:hover img,
+.topbar__mute:focus img,
+.topbar__mute:active img{
+  width: 26px !important;
+  height: 26px !important;
+  display: block !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.topbar__mute::after,
+.topbar__mute.is-muted::after{
+  content: none !important;
+}
+
+@media (max-width: 768px){
+  .topbar__mute,
+  .topbar__mute:hover,
+  .topbar__mute:focus,
+  .topbar__mute:active{
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 36px !important;
+  }
+
+  .topbar__mute img,
+  .topbar__mute:hover img,
+  .topbar__mute:focus img,
+  .topbar__mute:active img{
+    width: 22px !important;
+    height: 22px !important;
+  }
+}
+
+/* v8: top-bar Reset must not grow, glow, move, or animate on hover/focus at any viewport. */
+.topbar__actions .topbar__reset.btn,
+.topbar__actions .topbar__reset.btn:hover,
+.topbar__actions .topbar__reset.btn:focus,
+.topbar__actions .topbar__reset.btn:focus-visible,
+.topbar__actions .topbar__reset.btn:active{
+  width: 126px !important;
+  min-width: 126px !important;
+  max-width: 126px !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  flex: 0 0 126px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: url('/assets/ui/play-now.png') center center / contain no-repeat !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  translate: none !important;
+  scale: 1 !important;
+  rotate: none !important;
+  transition: none !important;
+  animation: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+}
+
+.topbar__actions .topbar__reset.btn::before,
+.topbar__actions .topbar__reset.btn::after,
+.topbar__actions .topbar__reset.btn:hover::before,
+.topbar__actions .topbar__reset.btn:hover::after,
+.topbar__actions .topbar__reset.btn:focus::before,
+.topbar__actions .topbar__reset.btn:focus::after,
+.topbar__actions .topbar__reset.btn:active::before,
+.topbar__actions .topbar__reset.btn:active::after{
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 768px){
+  .topbar__actions .topbar__reset.btn,
+  .topbar__actions .topbar__reset.btn:hover,
+  .topbar__actions .topbar__reset.btn:focus,
+  .topbar__actions .topbar__reset.btn:focus-visible,
+  .topbar__actions .topbar__reset.btn:active{
+    width: 112px !important;
+    min-width: 112px !important;
+    max-width: 112px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    flex: 0 0 112px !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    translate: none !important;
+    scale: 1 !important;
+    transition: none !important;
+    animation: none !important;
   }
 }

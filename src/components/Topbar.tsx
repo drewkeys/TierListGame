@@ -32,7 +32,7 @@ export function Topbar() {
           aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
           title={muted ? 'Unmute sounds' : 'Mute sounds'}
         >
-          <img src={ASSET_PATHS.speakerPng} alt="" aria-hidden="true" />
+          <img src={muted ? ASSET_PATHS.mutedPng : ASSET_PATHS.speakerPng} alt="" aria-hidden="true" />
         </Button>
         <Button className="topbar__reset" variant="danger" onClick={handleReset}>
           Reset
