@@ -9,9 +9,7 @@ const CONSOLE_BANNER_MAP: Record<string, string> = {
   NES: 'Banner_NES_NoBG.png',
   SNES: 'Banner_SNES_NoBG.png',
 
-  'SEGA Master System': 'Banner_GenesisMS_NoBG.png',
-  'SEGA Genesis': 'Banner_GenesisMS_NoBG.png',
-  'SEGA CD': 'Banner_GenesisMS_NoBG.png',
+  SEGA: 'Banner_GenesisMS_NoBG.png',
 
   'Nintendo Gameboy/DS': 'Banner_Handhelds_NoBG.png',
   'Nintendo 64': 'Banner_N64_NoBG.png',

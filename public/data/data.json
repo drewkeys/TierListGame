@@ -961,7 +961,7 @@
       ]
     },
     {
-      "id": "SEGA Master System",
+      "id": "SEGA",
       "games": [
         {
           "id": "wonder-boy-3-the-dragons-trap",
@@ -984,12 +984,7 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/N4LyIKU2qmM?si=OJsb8tsDgXVUiZI0&t=734"
-        }
-      ]
-    },
-    {
-      "id": "SEGA Genesis",
-      "games": [
+        },
         {
           "id": "sonic-the-hedgehog",
           "title": "Sonic The Hedgehog",
@@ -1055,12 +1050,7 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/wVT1hwu26fo?si=NFv8Jb3GZyW_7x3p&t=830"
-        }
-      ]
-    },
-    {
-      "id": "SEGA CD",
-      "games": [
+        },
         {
           "id": "wirehead",
           "title": "Wirehead",
