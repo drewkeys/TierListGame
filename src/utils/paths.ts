@@ -11,6 +11,7 @@ const CONSOLE_BANNER_MAP: Record<string, string> = {
 
   'SEGA Master System': 'Banner_GenesisMS_NoBG.png',
   'SEGA Genesis': 'Banner_GenesisMS_NoBG.png',
+  'SEGA CD': 'Banner_GenesisMS_NoBG.png',
 
   'Nintendo Gameboy/DS': 'Banner_Handhelds_NoBG.png',
   'Nintendo 64': 'Banner_N64_NoBG.png',
@@ -70,6 +71,7 @@ export const ASSET_PATHS = {
   yayMp3: `${BASE}assets/ui/yay.mp3`,
   wooshMp3: `${BASE}assets/ui/woosh.mp3`,
   celebrationMp3: `${BASE}assets/ui/celebration.mp3`,
+  yummyMp3: `${BASE}assets/ui/yummy.mp3`,
   cookiePng: `${BASE}assets/ui/cookie.png`,
   speakerPng: `${BASE}assets/ui/speaker.png`,
   mutedPng: `${BASE}assets/ui/muted.png`,

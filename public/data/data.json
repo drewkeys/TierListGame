@@ -288,6 +288,114 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/UhSUnfmLsjU?si=9xhtewFhz2WsagTD&t=90"
+        },
+        {
+          "id": "track-and-field",
+          "title": "Track and Field",
+          "description": "Track and Field is a 1983 sports video game developed and published by Konami, initially released on arcades. Players compete in a series of events, most involving alternately pressing two buttons as quickly as possible to make the onscreen character run faster. The events include 100 meter dash, long jump, javelin throw, 110 meter hurdles, skeet shooting, archery and triple jump.",
+          "youtube": "https://youtu.be/tIjDpOFensY?si=hCIWp-hy_fbyBE86&t=21",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "track-and-field.png"
+        },
+        {
+          "id": "duck-hunt",
+          "title": "Duck Hunt",
+          "description": "Duck Hunt is a 1984 light gun shooter video game developed by Nintendo for the NES. It's a first-person shooter game with moving on-screen targets, firing the NES Zapper light gun at a CRT television screen. The player must hit a minimum number of targets to advance to the next round or else get a game over.",
+          "youtube": "https://youtu.be/J3sfsP9W048?si=sxQuAPf9ZQRqKzPp&t=963",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "duck-hunt.png"
+        },
+        {
+          "id": "arkanoid",
+          "title": "Arkanoid",
+          "description": "Arkanoid is a 1986 block breaker video game developed by Taito. Controlling a paddle-like craft known as the Vaus, the player is tasked with clearing a formation of colorful blocks by deflecting a ball towards it without letting the ball leave the bottom edge of the playfield. Some blocks contain power-ups that have various effects, such as increasing the length of the Vaus, creating several additional balls, or equipping the Vaus with cannons. Other blocks may be indestructible or require multiple hits to break.",
+          "youtube": "https://youtu.be/ckyQe_EBJG4?si=e1sEn2sqS3lDBK69&t=608",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "arkanoid.png"
+        },
+        {
+          "id": "the-legend-of-zelda",
+          "title": "The Legend of Zelda",
+          "description": "The Legend of Zelda is a 1986 action-adventure game developed by Nintendo. It is set in the fantasy land of Hyrule and centers on an elf-like boy named Link, who aims to collect the eight fragments of the Triforce of Wisdom to rescue Princess Zelda from Ganon. The player controls Link from a top-down perspective and navigates the overworld and dungeons, collecting weapons, defeating enemies and uncovering secrets.",
+          "youtube": "https://youtu.be/6g2vk8Gudqs?si=QES-QJ15T5p_-5tK&t=3159",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "the-legend-of-zelda.png"
+        },
+        {
+          "id": "punch-out",
+          "title": "Punch-Out!!",
+          "description": "Punch-Out!!, originally titled Mike Tyson's Punch-Out!!, is a 1987 boxing video game developed by Nintendo for the NES. It features Little Mac, a young boxer fighting his way up through ranks of the World Video Boxing Association. His punches are limited to left and right jabs, left and right body blows, and a powerful uppercut. To defend, Mac can dodge left or right, duck, and block punches by putting up his guard.",
+          "youtube": "https://youtu.be/RNmCWIbmWBU?si=vAGucRwP0xD3EY8J&t=337",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "punch-out.png"
+        },
+        {
+          "id": "star-tropics",
+          "title": "StarTropics",
+          "description": "StarTropics is a 1990 NES action-adventure video game developed by Nintendo. The story follows teenager Mike Jones as he embarks on a quest to rescue his uncle. StarTropics is played from a 2D, top-down perspective, similar to role-playing games of the time. The game is divided into several chapters; in each chapter, players take control of the protagonist, Mike Jones, exploring various settlements and other areas of interest and interacting with non-player characters to obtain more information. The player is then usually tasked with locating the source of a local calamity or disturbance. In dungeons, the game switches to a closer view and introduces various obstacles and enemies, which the player must either navigate or destroy to progress.",
+          "youtube": "https://youtu.be/Oa_5wTppDvo?si=sCBdgE1OKnT3LU-O&t=1640",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "star-tropics.png"
+        },
+        {
+          "id": "3d-world-runner",
+          "title": "3-D WorldRunner",
+          "description": "3-D WorldRunner is a 1987 third-person rail shooter platform video game developed by Square. The game featured technically advanced for its times three-dimensional scrolling effect similar to the one used in racing games of the era. 3-D WorldRunner was an early forward-scrolling pseudo-3D third-person platform-action game where players were free to move in any forward-scrolling direction and had to leap over obstacles and chasms. It was also one of the first stereoscopic 3-D games.",
+          "youtube": "https://youtu.be/SbC5Wo2eXsk?si=N3GjPgjSf0kC8Duu&t=569",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "3d-world-runner.png"
+        },
+        {
+          "id": "friday-the-13th",
+          "title": "Friday the 13th",
+          "description": "Friday the 13th is a 1989 survival horror NES game developed by Atlus Co., Ltd. and published by LJN Toys Ltd. The player controls counselors at Camp Crystal Lake as they try to defeat the infamous killer Jason Vorhees, facing various enemies and challenges.",
+          "youtube": "https://youtu.be/SowADOuv7N8?si=dy6PjK3ianrAornE&t=1708",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "friday-the-13th.png"
+        },
+        {
+          "id": "cyber-stadium-series-base-wars",
+          "title": "Cyber Stadium Series: Base Wars",
+          "description": "Cyber Stadium Series - Base Wars is a 1991 baseball game for the NES, developed by Konami and published by Ultra Games. It takes place in a futuristic setting where robots replace human characters and incorporates combat mechanics during gameplay.",
+          "youtube": "https://youtu.be/w7-6yxL05Js?si=YzR2_Gsrsw-O2FCf&t=346",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "cyber-stadium-series-base-wars.png"
         }
       ]
     },
@@ -789,6 +897,66 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/c9-QuHNA0oU?si=6YaefvgZFv-jMxVR&t=164"
+        },
+        {
+          "id": "super-adventure-island",
+          "title": "Super Adventure Island",
+          "description": "Super Adventure Island is a 1992 singleplayer platformer game developed by Produce! and published by Hudson Soft. You play as Master Higgins on his quest to rescue his girlfriend, Tina, who has been turned into stone by an evil sourcerer, Dark Cloak.",
+          "youtube": "https://youtu.be/rJXyhLoJBNo?si=KM66_L8L_dN0oabm&t=622",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "super-adventure-island.png"
+        },
+        {
+          "id": "super-star-wars",
+          "title": "Super Star Wars",
+          "description": "Super Star Wars is a 1992 run & gun singleplayer game based on the 1977 film Star Wars. It consists of side-scrolling gameplay, where the player can control characters like Luke Skywalker, Han Solo and Chewbacca through various challenges.",
+          "youtube": "https://youtu.be/NnsGbd8WMNg?si=Jo8My4cHqO4OyT8q&t=778",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "super-star-wars.png"
+        },
+        {
+          "id": "claymates",
+          "title": "Claymates",
+          "description": "Claymates is a 1994 singleplayer SNES game developed by Visual Concepts and published by Interplay Productions. The player controls Clay, a boy who has been transformed into clay by a witch doctor who kidnapped his father, a professor, and his serum which can transform people into animals when combined with clay.",
+          "youtube": "https://youtu.be/9UWlVQ1i9Ag?si=137toT8x7qrVnkZv&t=1542",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "claymates.png"
+        },
+        {
+          "id": "xmen-mutant-apocalypse",
+          "title": "X-Men: Mutant Apocalypse",
+          "description": "X-Men: Mutant Apocalypse is a 1994 singleplayer action game for the SNES, developed and published by Capcom. The player can control 5 different X-Men characters as they navigate various levels and challenges to defeat Magneto and save mutants.",
+          "youtube": "https://youtu.be/UAFuBJtSy9A?si=Ycj-JR8yYRvVLzv6&t=822",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "xmen-mutant-apocalypse.png"
+        },
+        {
+          "id": "uniracers",
+          "title": "Uniracers",
+          "description": "Uniracers, released as Unirally in Europe, is a 1994 singleplayer & multiplayer SNES racing game developed by DMA Design and published by Nintendo. Players control unicycles as they race through 2D tracks, while focusing on performing stunts and tricks.",
+          "youtube": "https://youtu.be/UygvjaPzOpI?si=DXbxRvwQZNqnwmmf&t=92",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "uniracers.png"
         }
       ]
     },
@@ -887,6 +1055,23 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/wVT1hwu26fo?si=NFv8Jb3GZyW_7x3p&t=830"
+        }
+      ]
+    },
+    {
+      "id": "SEGA CD",
+      "games": [
+        {
+          "id": "wirehead",
+          "title": "Wirehead",
+          "description": "Wirehead is a 1995 interactive film developed by The Code Monkeys and published by Sega for the Sega CD. Wirehead was one of the last games released for the Sega CD, and one of the platform's most ambitious full-motion video productions. Ned Hubbard (Steve Witting) is a mild-mannered family man who has a wireless device implanted into his brain. When strange men attempt to kidnap Ned from his home, he flees for his life. The player guides Ned by manipulating his brain–computer interface. Every few seconds, the player must react quickly to an audiovisual prompt, and guide Ned in one of three or four possible directions. In most cases, one option advances the game, and the others lead to Ned's downfall. Although Ned's evasive maneuvers are almost invariably non-violent, a few circumstances instigate \"combat mode\", in which the player has two attack options: punch or kick.",
+          "youtube": "https://youtu.be/CI3nk_RjdsQ?si=VD1JD215AXFlCJ04&t=1037",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "wirehead.png"
         }
       ]
     },
@@ -1084,6 +1269,54 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/EBoyNHJfJyo?si=U09t75ovm0Ua5xWa&t=227"
+        },
+        {
+          "id": "clayfighter-63-1-3",
+          "title": "ClayFighter 63⅓",
+          "description": "Clayfighter 63⅓ is a 1997 single & multiplayer game for the Nintendo 64. It is the third installment to the Clayfighter series. Like its predecessors, it features stop motion animation and claymation. It parodies other fighting games like Street Fighter, and the player(s) can control one of 12 characters.",
+          "youtube": "https://youtu.be/3RlO43uU2ak?si=gSYMsCBG3nxl41Yh&t=360",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "clayfighter-63-1-3.png"
+        },
+        {
+          "id": "killer-instinct",
+          "title": "Killer Instinct",
+          "description": "Killer Instinct Gold is a 1996 fighting game developed by Rare and published by Nintendo for the Nintendo 64. Players control characters who fight on a 2D plane set against a 3D background. Players press buttons to punch and kick their opponent in chains of successive hits, known as combos. Large combo successions lead to stronger attacks and brutal, stylistic finisher moves underscored by an announcer. Killer Instinct Gold includes the arcade release's characters, combos, and 3D, pre-rendered environments, but excludes its full-motion video sequences and some voice-overs due to restrictions of the cartridge media format. The Gold release adds a training mode, camera views, and improved audiovisuals.",
+          "youtube": "https://youtu.be/0-7sNrbvstk?si=hpIUQzUio_3pVGRA&t=320",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "killer-instinct.png"
+        },
+        {
+          "id": "super-smash-bros",
+          "title": "Super Smash Bros.",
+          "description": "Super Smash Bros. is a 1999 crossover fighting game developed by HAL Laboratory for Nintendo 64. The game is a crossover between different Nintendo franchises, including Mario, The Legend of Zelda, Star Fox, Yoshi, Donkey Kong, Metroid, F-Zero, Mother, Kirby and Pokémon. It presents a cast of characters and locations from these franchises and allows players to use each character's unique skills and the stage's hazards to inflict damage, recover health, and ultimately knock opponents off the stage.",
+          "youtube": "https://youtu.be/A6vORGHJWiM?si=6rR6wUspyVKpvNly&t=1240",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "super-smash-bros.png"
+        },
+        {
+          "id": "turok-dinosaur-hunter",
+          "title": "Turok: Dinosaur Hunter",
+          "description": "Turok: Dinosaur Hunter is a first-person shooter video game developed by Iguana Entertainment. It was released in 1997 in North America for the Nintendo 64 and Microsoft Windows. The player controls Turok, a Native American warrior who must stop the evil Campaigner from conquering the universe with an ancient and powerful weapon.",
+          "youtube": "https://youtu.be/TrTkfr5xQP4?si=bCCevcPm4iam9FVH&t=7338",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "turok-dinosaur-hunter.png"
         }
       ]
     },
@@ -1292,6 +1525,18 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/zeOG8_1DZ4Q?si=eVJZKlpPFCFYRLbU&t=84"
+        },
+        {
+          "id": "trauma-center-2nd-opinion",
+          "title": "Trauma Center: Second Opinion",
+          "description": "Trauma Center: Second Opinion is a simulation video game developed by Atlus for the Wii. Set in a near future where medical science can cure previously incurable diseases, the story follows young surgeon Derek Stiles as he uses his mystical \"Healing Touch\" to treat a new disease dubbed GUILT. Trauma Center: Second Opinion is a video game that combines surgical simulation gameplay with storytelling using non-interactive visual novel segments using static scenes, character portraits, text boxes, and rare voice clips during gameplay segments.",
+          "youtube": "https://youtu.be/g5WlhqxOmsE?si=WORjApkQXICRROz7&t=1867",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "trauma-center-2nd-opinion.png"
         }
       ]
     },
@@ -1655,6 +1900,18 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/GHauKasmgIk?si=AqEIaK5PTkP1wvuw&t=1479"
+        },
+        {
+          "id": "family-feud-louie-anderson",
+          "title": "Family Feud (Louie Anderson)",
+          "description": "In 2000, Family Feud was released for the PlayStation by Hasbro Interactive to accompany the show's 1999 revival helmed by comedian Louie Anderson. Anderson is included in the game as host and appears as a full-motion video character. The game focuses on faithfully reproducing the production and rules of the actual game show.",
+          "youtube": "https://youtu.be/im3Q3x4Tw4E?si=Y0qBZig_dSvy5AIi&t=304",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "family-feud-louie-anderson.png"
         }
       ]
     },
@@ -2347,6 +2604,30 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/4iC4kEaILW0?si=NhkzvLni1pFMyKe-&t=47"
+        },
+        {
+          "id": "candystand-bullpen-blast",
+          "title": "Candystand Bullpen Blast",
+          "description": "Bullpen Blast was a 1990s-2000s Adobe Shockwave baseball game on Candystand. To win the game, the player had to pitch a perfect game by using perfectly timed mouse controls for the pitches. There were different pitch types such as a fastball, curve, slider, knuckle, and sinker.",
+          "youtube": "https://youtu.be/xADsz-uKAvc?si=dXUF_U7jkJYJj4c5&t=12",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "candystand-bullpen-blast.png"
+        },
+        {
+          "id": "exmortis",
+          "title": "Exmortis",
+          "description": "Exmortis is an adventure/horror point-and-click flash game created by Ben Leffler. Exmortis follows a man who wakes up in the woods with no recollection of his past or how he got there. He seeks shelter in a creepy and unknown abandoned house with a dark past, learning of ancient entities of immense power and the tragic fate of Xavier Rehayem and his daughter Gwen Rehayem, as well as his own dark destiny.",
+          "youtube": "https://youtu.be/Ts3_G_nzIJs?si=3uk-zBXEsb5BEY0S&t=1224",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "exmortis.png"
         }
       ]
     },
@@ -3166,6 +3447,85 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://youtu.be/D8tX4h_-VY8?si=3GioVKkVIbmkqbF3&t=387"
+        },
+        {
+          "id": "cuphead",
+          "title": "Cuphead",
+          "description": "Cuphead is a 2017 indie run and gun game developed and published by Studio MDHR. The game follows its titular cup-head character and his brother Mugman, as they make a deal with the Devil to pay casino losses by repossessing the souls of runaway debtors. In the game, up to two players control Cuphead and/or Mugman to fight through several levels and boss fights; the game does not have a rigid narrative structure. As the game progresses, the protagonist acquires more power and abilities, eventually facing the Devil. Players, however, can only equip a limited number of these abilities at a given time. The game's creators, brothers Chad and Jared Moldenhauer, took inspiration from the rubber hose animation style from the golden age of American animation.",
+          "youtube": "https://youtu.be/kgi8s-vKndM?si=vXFtQ3Fn4eV18xER&t=3490",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "cuphead.png"
+        },
+        {
+          "id": "harvester",
+          "title": "Harvester",
+          "description": "Harvester is a point-and-click adventure game written and directed by Gilbert P. Austin and developed by DigiFX Interactive. Players take the role of Steve Mason, an 18-year-old man who awakens in the fictional Texas town of Harvest in 1953, with amnesia. Over the next week, he is coerced or manipulated into performing a series of tasks with increasingly violent consequences at the behest of The Order of the Harvest Moon, a cult-like organization which seems to dominate the town and which promises to reveal the truth about Steve and how he found himself in Harvest. The game is known for its violent content and its meta-commentary examination of violence, and has garnered a cult following.",
+          "youtube": "https://youtu.be/SufyLSOGMJA?si=iU7vEYYyNTXDQwG1&t=14244",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "harvester.png"
+        },
+        {
+          "id": "leisure-suit-larry-love-for-sail",
+          "title": "Leisure Suit Larry: Love for Sail!",
+          "description": "Leisure Suit Larry: Love for Sail! is an adventure game originally developed and published by Sierra On-Line in 1996.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/2ckecZAY7I4?si=sn0jFQmiyTSUNFh-&t=9037"
+        },
+        {
+          "id": "leisure-suit-larry-magna-cum-laude",
+          "title": "Leisure Suit Larry: Magna Cum Laude",
+          "description": "Leisure Suit Larry: Magna Cum Laude is a 2004 adventure video game developed by High Voltage Software and published by Vivendi Universal Games and their subsidiary Sierra Entertainment.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/m15m-W_7mQ8?si=WjbG44d4k4UaCVaa&t=187"
+        },
+        {
+          "id": "leisure-suit-larry-6-shape-up-or-slip-out",
+          "title": "Leisure Suit Larry 6: Shape Up or Slip Out!",
+          "description": "Leisure Suit Larry 6: Shape Up or Slip Out! is the fifth entry in the Leisure Suit Larry series of graphical adventure games published by Sierra On-Line and is a sequel to the 1991 video game, Leisure Suit Larry 5: Passionate Patti Does a Little Undercover Work.",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/-t2y2a5uLPo?si=k3FycmkQS1VZnLym&t=1399"
+        },
+        {
+          "id": "leisure-suit-larry-box-office-bust",
+          "title": "Leisure Suit Larry: Box Office Bust",
+          "description": "Leisure Suit Larry: Box Office Bust is an action-adventure video game developed by Team17 and published by Codemasters for Microsoft Windows, Xbox 360 and PlayStation 3",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/k6Bmx5QKJSI?si=Ds8vVJ9_VuFeNAwD&t=6863"
+        },
+        {
+          "id": "leisure-suit-larry-5-passionate-patti-does-a-little-undercover-work",
+          "title": "Leisure Suit Larry 5: Passionate Patti Does a Little Undercover Work",
+          "description": "Leisure Suit Larry 5: Passionate Patti Does a Little Undercover Work is a graphical adventure game developed and published by Sierra On-Line for the Amiga, DOS and Macintosh computers in 1991",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "youtube": "https://youtu.be/Hz-DQsS25zU?si=gOdlu228U5WYeDvn&t=1737"
         }
       ]
     },
@@ -3698,6 +4058,66 @@
           "survived-2": false,
           "s-ranking": null,
           "youtube": "https://www.youtube.com/watch?v=hRvlGRnOSMc"
+        },
+        {
+          "id": "virtua-cop",
+          "title": "Virtua Cop",
+          "description": "Virtua Cop is a 1994 light gun shooter video game developed by Sega for arcades. Virtua Cop was notable for its use of real-time 3D polygon graphics with texture mapping, with Sega advertising it as \"the world's first texture mapped, polygon action game\". Emphasizing the real-time nature of the game, enemies would react differently depending on where they were shot. It was one of the first games to allow the player to shoot through glass.",
+          "youtube": "https://youtu.be/c8ghk7i1sFU?si=W4EIjo6SKQVuXRS4&t=272",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "virtua-cop.png"
+        },
+        {
+          "id": "the-lost-world-jurassic-park",
+          "title": "The Lost World: Jurassic Park",
+          "description": "The Lost World: Jurassic Park is a 1997 rail shooter video game developed and published by Sega for arcades, based on the film of the same name. Ian Malcolm and Sarah Harding go missing after landing on Isla Sorna to conduct an investigation. A rescue team is sent to the island. The player controls one of two rangers, whose goal is to find Dr. Malcolm and Dr. Harding. Players battle dinosaurs by disabling them with tranquilizer darts.",
+          "youtube": "https://youtu.be/fuTI9wCdVEk?si=1Gw2VwIj1V9N34qv&t=489",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "the-lost-world-jurassic-park.png"
+        },
+        {
+          "id": "wwf-wrestlefest",
+          "title": "WWF WrestleFest",
+          "description": "WWF WrestleFest is a wrestling video game developed by Technōs Japan for arcades in 1991. Just like its predecessor, WrestleFest simulates professional wrestling matches. The game adds support for up to four simultaneous players and the ability to insert more credits into the machine to buy energy. The game features ten selectable wrestlers. Hulk Hogan, Ultimate Warrior, Ted DiBiase and Big Boss Man return from WWF Superstars. Jake \"The Snake\" Roberts, Earthquake, Mr. Perfect, Sgt. Slaughter, Demolition Smash, and Demolition Crush, are available as new superstars, with The Legion of Doom (Hawk and Animal) making an appearance as a non-selectable boss tag team champions. Each wrestler has their own signature maneuvers.",
+          "youtube": "https://youtu.be/-2ak_BjxKZo?si=LNsypR78IhZfoy87&t=672",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "wwf-wrestlefest.png"
+        },
+        {
+          "id": "raiden",
+          "title": "Raiden",
+          "description": "Raiden is a 1990 vertically scrolling shooter video game developed by Seibu Kaihatsu and published by Tecmo for arcades. The game's story takes place in the year 2090, when an alien species known as the Crystals invaded Earth. Players assume the roles of the Vanquish Crystal Defense pilot duo, taking control of two state of the art Fighting Thunders aircraft to defeat the Crystals and save the Earth.",
+          "youtube": "https://youtu.be/KeajSN7g9ro?si=WkernlVXhU5qAHaR&t=499",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "raiden.png"
+        },
+        {
+          "id": "house-of-the-dead-2",
+          "title": "The House of the Dead 2",
+          "description": "The House of the Dead 2 is a 1998 shooter video game developed by Sega AM1 for arcades. It's a rail shooter light gun game with an auto-reload feature that allows players to point their guns off-screen to reload their weapons without pulling the trigger. Players must shoot their way through hordes of zombies and other monsters while attempting to rescue civilians being attacked. Health is represented by torches at the bottom of the screen and are lost when the player is hit by an enemy or shoots a civilian. Bonus health can be awarded by rescuing civilians and finding first aid kits hidden in crates and barrels.",
+          "youtube": "https://youtu.be/KzhW2YGidSk?si=Y7dIbfoyt9b7TEkS&t=555",
+          "stars": 0,
+          "eliminated": false,
+          "survived-1": false,
+          "survived-2": false,
+          "s-ranking": null,
+          "cover": "house-of-the-dead-2.png"
         }
       ]
     }

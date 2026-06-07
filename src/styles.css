@@ -104,6 +104,36 @@ body.shoot-mode * {
   cursor: url("/assets/ui/crosshair.png") 16 16, crosshair;
 }
 
+
+/* Custom default cursor.
+   Put cursor.png in public/assets/ui/cursor.png.
+   The 4 4 hotspot matches the arrow tip area on the resized cursor. */
+body:not(.shoot-mode),
+body:not(.shoot-mode) * {
+  cursor: url("/assets/ui/cursor.png") 4 4, auto;
+}
+
+body:not(.shoot-mode) button,
+body:not(.shoot-mode) a,
+body:not(.shoot-mode) [role="button"],
+body:not(.shoot-mode) input,
+body:not(.shoot-mode) select,
+body:not(.shoot-mode) textarea,
+body:not(.shoot-mode) summary,
+body:not(.shoot-mode) .clickable,
+body:not(.shoot-mode) .game-card,
+body:not(.shoot-mode) .game-icon,
+body:not(.shoot-mode) .star-btn,
+body:not(.shoot-mode) .gun-icon {
+  cursor: url("/assets/ui/cursor.png") 4 4, pointer;
+}
+
+/* Keep the elimination crosshair stronger than the custom cursor. */
+body.shoot-mode,
+body.shoot-mode * {
+  cursor: url("/assets/ui/crosshair.png") 16 16, crosshair !important;
+}
+
 /* -------------------------
    Main layout
    ------------------------- */
@@ -173,7 +203,7 @@ body.round-3 .app-viewport {
   backdrop-filter: none !important;
 }
 
-.topbar > div:first-child {
+.topbar__titleBlock {
   min-height: 78px;
   padding: 10px 160px 8px;
 
@@ -1224,7 +1254,7 @@ select,
     display: block;
   }
 
-  .topbar > div:first-child {
+  .topbar__titleBlock {
     min-height: 0;
     padding: 10px 12px 8px;
     border-right: none !important;
@@ -2090,5 +2120,129 @@ body.round-4 .tier-row[data-tier="S-"] .tier-label {
     scale: 1 !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+
+
+/* v10: credits cookie lives at the far-left edge of the top banner, separate from Reset. */
+.topbar{
+  position: relative !important;
+}
+
+.topbar__titleBlock{
+  min-height: 78px;
+  padding: 10px 160px 8px 62px !important;
+  background: transparent !important;
+  border-right: none !important;
+  text-align: center;
+}
+
+.topbar > .topbar__cookie,
+.topbar > .topbar__cookie:focus,
+.topbar > .topbar__cookie:focus-visible,
+.topbar > .topbar__cookie:active{
+  position: absolute !important;
+  left: 8px !important;
+  top: 50% !important;
+  z-index: 3 !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: 0 !important;
+  overflow: visible !important;
+  cursor: pointer !important;
+  transform: translateY(-50%) scale(1) !important;
+  transition: transform 120ms ease !important;
+}
+
+.topbar > .topbar__cookie:hover{
+  position: absolute !important;
+  left: 8px !important;
+  top: 50% !important;
+  width: 44px !important;
+  min-width: 44px !important;
+  max-width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  text-indent: 0 !important;
+  overflow: visible !important;
+  transform: translateY(-50%) scale(1.08) !important;
+}
+
+.topbar > .topbar__cookie img,
+.topbar > .topbar__cookie:hover img,
+.topbar > .topbar__cookie:focus img,
+.topbar > .topbar__cookie:active img{
+  width: 34px !important;
+  height: 34px !important;
+  display: block !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.topbar > .topbar__cookie::before,
+.topbar > .topbar__cookie::after,
+.topbar > .topbar__cookie:hover::before,
+.topbar > .topbar__cookie:hover::after{
+  content: none !important;
+  display: none !important;
+}
+
+@media (max-width: 768px){
+  .topbar__titleBlock{
+    min-height: 70px;
+    padding: 8px 122px 7px 50px !important;
+  }
+
+  .topbar > .topbar__cookie,
+  .topbar > .topbar__cookie:hover,
+  .topbar > .topbar__cookie:focus,
+  .topbar > .topbar__cookie:focus-visible,
+  .topbar > .topbar__cookie:active{
+    left: 5px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+  }
+
+  .topbar > .topbar__cookie img,
+  .topbar > .topbar__cookie:hover img,
+  .topbar > .topbar__cookie:focus img,
+  .topbar > .topbar__cookie:active img{
+    width: 30px !important;
+    height: 30px !important;
   }
 }
